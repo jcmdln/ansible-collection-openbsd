@@ -9,4 +9,4 @@
     # - role: openbsd.mirror
     #   tags: [ mirror ]
     - role: openbsd.vmm
-      tags: [ update ]
+      tags: [ vmm ]

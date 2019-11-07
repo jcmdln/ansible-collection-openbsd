@@ -10,10 +10,9 @@ from __future__ import (absolute_import)
 from ansible.module_utils.basic import AnsibleModule
 
 
-def syspatch_apply(r, module, choice):
+def syspatch_apply(r, module):
     r['rc'], r['stdout'], r['stderr'] = module.run_command(
-        r['command'],
-        check_rc=False
+        r['command'], check_rc=False
     )
 
     if r['rc'] != 0:
@@ -31,10 +30,11 @@ def syspatch_apply(r, module, choice):
     return r
 
 
-def syspatch_list(r, module, choice):
-    if choice == 'available':
+def syspatch_list(r, module, List):
+    if List == 'available':
         r['command'] = "%s -c" % (r['command'])
-    if choice == 'installed':
+
+    if List == 'installed':
         r['command'] = "%s -l" % (r['command'])
 
     r['rc'], r['stdout'], r['stderr'] = module.run_command(
@@ -53,10 +53,11 @@ def syspatch_list(r, module, choice):
     return r
 
 
-def syspatch_revert(r, module, choice):
-    if choice == 'all':
+def syspatch_revert(r, module, Revert):
+    if Revert == 'all':
         r['command'] = "%s -R" % (r['command'])
-    if choice == 'latest':
+
+    if Revert == 'latest':
         r['command'] = "%s -r" % (r['command'])
 
     r['rc'], r['stdout'], r['stderr'] = module.run_command(
@@ -80,48 +81,25 @@ def syspatch_revert(r, module, choice):
 
 
 def main():
-    module = AnsibleModule(
-        argument_spec={
-            'apply': {
-                'type': 'bool',
-                'default': False,
-                'required': False
-            },
-
-            'list': {
-                'type': 'str',
-                'choices': [
-                    'available',
-                    'installed'
-                ],
-                'required': False
-            },
-
-            'revert': {
-                'type': 'bool',
-                'default': False,
-                'required': False
-            },
-
-            'state': {
-                'type': 'str',
-                'choices': [
-                    'absent',
-                    'latest',
-                    'present'
-                ],
-            },
+    module_args = {
+        'apply': {
+            'type': 'bool',
+            'default': False,
         },
+        'list': {
+            'type': 'str',
+            'choices': ['available', 'installed']
+        },
+        'revert': {
+            'type': 'str',
+            'choices': ['all', 'latest']
+        },
+    }
 
-        required_one_of=[
-            ['apply', 'list', 'revert']
-        ],
-
-        mutually_exclusive=[
-            ['apply', 'list', 'revert'],
-            ['list', 'state'],
-        ],
-
+    module = AnsibleModule(
+        argument_spec=module_args,
+        required_one_of=[['apply', 'list', 'revert']],
+        mutually_exclusive=[['apply', 'list', 'revert']],
         supports_check_mode=False
     )
 
@@ -138,18 +116,15 @@ def main():
     Apply = module.params['apply']
     List = module.params['list']
     Revert = module.params['revert']
-    State = module.params['state']
 
     if Apply in ['yes', True]:
-        Apply = True
-        result = syspatch_apply(result, module, Apply, State)
+        result = syspatch_apply(result, module)
 
     if List in ['available', 'installed']:
         result = syspatch_list(result, module, List)
 
     if Revert in ['yes', True]:
-        Revert = True
-        result = syspatch_revert(result, module, Revert, State)
+        result = syspatch_revert(result, module, Revert)
 
     if result['rc'] > 0:
         module.fail_json(**result)
