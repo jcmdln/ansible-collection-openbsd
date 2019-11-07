@@ -1,0 +1,12 @@
+---
+# main.yml
+
+- name: Deploy to a single host
+  hosts: all
+  roles:
+    # - role: openbsd.router
+    #   tags: [ router ]
+    # - role: openbsd.mirror
+    #   tags: [ mirror ]
+    - role: openbsd.vmm
+      tags: [ update ]

@@ -1,0 +1,53 @@
+---
+# openbsd.update/tasks/main.yml
+
+# While sysupgrade(8) was provided to OpenBSD 6.5 users, it is not
+# by default included in base unless all available patches have been
+# applied using syspatch(8).  For the sake of simplicity in this play
+# we'll only attempt to use sysupgrade(8) in OpenBSD 6.6 or later since
+# it is included by default.
+#
+# I suppose this could be expanded to simply check if the binary is
+# present, but we should deal with absolute known quantities whenever
+# possible to reduce mental complexity.
+- name: (sysupgrade) upgrade to latest release or snapshot
+  when: ansible_distribution_version >= '6.6'
+  sysupgrade:
+    upgrade: yes
+  notify:
+    - restart host
+    - reinstall packages
+    - delete unused packages
+
+
+# In cases where a user may upgrade to a new release and it has been
+# some time since last updating, there may also be patches to apply
+# after the upgrade.  Here we will force the previously notified
+# handlers to run before continuing, so that tasks run in the order
+# required to ensure no issues arise.
+- name: (sysupgrade) run handlers now if upgrade completed
+  meta: flush_handlers
+
+
+# For OpenBSD hosts running 6.1 or later and _NOT_ running current, we
+# can patch the base system using syspatch(8).
+- name: (syspatch) apply all available patches
+  when:
+    - ansible_distribution_version >= '6.1'
+    - ansible_distribution_release != 'current'
+  syspatch:
+    apply: true
+  notify:
+    - restart host
+
+
+# Regardless of any above actions, we should update any installed
+# packages.  One missing condition is that if our `reinstall packages`
+# handler runs, this is pointless.
+- name: update packages
+  when: packages_reinstalled is undefined
+  package:
+    name: '*'
+    state: latest
+  notify:
+    - delete unused packages

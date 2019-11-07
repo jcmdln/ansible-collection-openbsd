@@ -1,0 +1,22 @@
+---
+# openbsd.vmm/vars/main.yml
+
+#
+# System
+#
+
+#
+system_hostname: '{{ domain_name }}'
+
+
+#
+# Network
+#
+
+#
+domain_name: 'openbsd.local'
+
+#
+domain_name_servers:
+  - '1.1.1.1'
+  - '1.0.0.1'

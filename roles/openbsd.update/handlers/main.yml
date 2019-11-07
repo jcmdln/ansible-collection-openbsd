@@ -1,0 +1,28 @@
+---
+# openbsd.update/handlers/main.yml
+
+- name: restart host
+  reboot:
+    connect_timeout: 600
+    reboot_timeout: 600
+
+
+# Upgrades between OpenBSD-current snapshots require an aggressive
+# replacement of packages which is not currently possible.
+- name: reinstall packages
+  when: ansible_distribution_release == 'current'
+  command: >-
+    pkg_add -ru -Dsnap
+  notify:
+    - packages have been reinstalled
+
+
+- name: packages have been reinstalled
+  set_fact:
+    packages_reinstalled: true
+
+
+# TODO: implement via custom pkg_add module
+- name: delete unused packages
+  command: >-
+    pkg_delete -a

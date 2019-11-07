@@ -1,0 +1,31 @@
+---
+# openbsd.vmm/handlers/main.yml
+
+#
+# Actions
+#
+
+- name: (vmm) create default disk
+  shell: >
+    vmctl create -s 20G /home/vm/default/disk.qcow2
+  register: result
+  changed_when: ('imagefile created' in result.stdout)
+
+
+#
+# Errors
+#
+
+- name: (prereq) host missing nested paging support
+  fail:
+    msg: >
+      This host does not appear to support vmm(4).  Please see
+      https://www.openbsd.org/faq/faq16.html#Prerequisites for
+      additional clarification.
+
+
+- name: (vmm) failed to start vmd
+  fail:
+    msg: >
+      vmd(4) failed to start, most likely to a configuration error in
+      /etc/vm.conf.
