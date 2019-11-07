@@ -17,7 +17,7 @@
 - name: (sysupgrade) upgrade to latest release or snapshot
   when: ansible_distribution_version >= '6.6'
   sysupgrade:
-    upgrade: yes
+    branch: 'auto'
   notify:
     - restart host
     - (pkg_add) reinstall snapshot packages
