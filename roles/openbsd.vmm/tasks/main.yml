@@ -37,6 +37,8 @@
     owner: root
     group: wheel
     mode: '0644'
+  notify:
+    - restart httpd
 
 
 - name: (httpd) create directories
@@ -72,7 +74,7 @@
     src: etc/vm.conf.j2
     dest: /etc/vm.conf
   notify:
-    - reload vmd
+    - (vmm) reload vmd
 
 
 - name: (vmm) create directories
@@ -97,7 +99,7 @@
 
 # TODO: move to vmctl module
 - name: (vmm) check vmd
-  shell: >
+  command: >-
     rcctl check vmd
   changed_when: (vmd_check.stdout != 'vmd(ok)')
   notify:

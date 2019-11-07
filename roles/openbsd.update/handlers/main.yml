@@ -7,22 +7,26 @@
     reboot_timeout: 600
 
 
+#
+# pkg_add
+#
+
 # Upgrades between OpenBSD-current snapshots require an aggressive
 # replacement of packages which is not currently possible.
-- name: reinstall packages
+- name: (pkg_add) reinstall snapshot packages
   when: ansible_distribution_release == 'current'
   command: >-
     pkg_add -ru -Dsnap
   notify:
-    - packages have been reinstalled
+    - (pkg_add) packages reinstalled
 
 
-- name: packages have been reinstalled
+- name: (pkg_add) packages reinstalled
   set_fact:
     packages_reinstalled: true
 
 
 # TODO: implement via custom pkg_add module
-- name: delete unused packages
+- name: (pkg_delete) delete unused packages
   command: >-
     pkg_delete -a
