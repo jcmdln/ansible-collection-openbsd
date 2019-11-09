@@ -1,14 +1,4 @@
 ---
-- name: adjust httpd.conf
-  template:
-    src: etc/httpd.conf.j2
-    dest: /etc/httpd.conf
-    owner: root
-    group: wheel
-    mode: '0644'
-  notify:
-    - reload httpd
-
 - name: create directories
   with_items:
     - /etc/httpd
@@ -20,10 +10,31 @@
     group: wheel
     mode: '0755'
 
-- name: add server httpd configuration
+- name: adjust httpd.conf
   template:
-    src: etc/httpd/includes/default.conf.j2
-    dest: '/etc/httpd/includes/{{ server_domain }}.conf'
+    src: etc/httpd.conf.j2
+    dest: /etc/httpd.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload httpd
+
+- name: adjust httpd includes.conf
+  template:
+    src: etc/httpd/includes.conf.j2
+    dest: /etc/httpd/includes.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload httpd
+
+- name: add httpd includes
+  with_items: '{{ httpd_includes }}'
+  template:
+    src: 'etc/httpd/includes/{{ item }}.j2'
+    dest: '/etc/httpd/includes/{{ item }}'
     owner: root
     group: wheel
     mode: '0644'

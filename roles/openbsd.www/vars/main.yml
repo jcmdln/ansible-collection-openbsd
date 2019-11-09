@@ -3,18 +3,22 @@
 # Global
 #
 
-www_head: |
+www_head: |-
   <meta charset="utf-8">
   <meta name="description" content="An OpenBSD-based Cloud Provider">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OpenBSD.Local</title>
   <link rel="canonical" href="https://{{ server_domain }}/">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="//jcmdln.org/yttrium/yttrium.css">
 
-www_header: |
+www_nav: |-
+  This is the navbar.
+
+www_header: |-
   This is the header.
 
-www_footer: |
+www_footer: |-
   This is the footer.
 
 
@@ -22,5 +26,5 @@ www_footer: |
 # Pages
 #
 
-index_body: |
+index_body: |-
   This is the homepage.

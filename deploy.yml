@@ -21,6 +21,7 @@
   hosts: testing
   roles:
     - role: openbsd.httpd
+    - role: openbsd.pf
     - role: openbsd.www
 
 

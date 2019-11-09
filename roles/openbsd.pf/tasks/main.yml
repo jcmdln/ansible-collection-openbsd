@@ -1,0 +1,42 @@
+---
+- name: create directories
+  with_items:
+    - /etc/pf
+    - /etc/pf/includes
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: root
+    group: wheel
+    mode: '0755'
+
+- name: adjust pf.conf
+  template:
+    src: etc/pf.conf.j2
+    dest: /etc/pf.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload pf
+
+- name: adjust pf includes.conf
+  template:
+    src: etc/pf/includes.conf.j2
+    dest: /etc/pf/includes.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload pf
+
+- name: add pf includes
+  with_items: '{{ pf_includes }}'
+  template:
+    src: 'etc/pf/includes/{{ item }}.j2'
+    dest: '/etc/pf/includes/{{ item }}'
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload pf
