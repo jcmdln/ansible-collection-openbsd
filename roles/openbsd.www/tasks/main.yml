@@ -1,0 +1,18 @@
+---
+- name: create directories
+  with_items:
+    - '{{ server_domain }}'
+  file:
+    path: '/var/www/htdocs/{{ item }}'
+    state: directory
+    owner: root
+    group: daemon
+    mode: '0755'
+
+- name: create default landing page
+  template:
+    src: var/www/htdocs/index.html.j2
+    dest: '/var/www/htdocs/{{ server_domain }}/index.html'
+    owner: root
+    group: daemon
+    mode: '0644'

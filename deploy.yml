@@ -1,12 +1,88 @@
 ---
-# main.yml
+# deploy.yml
 
-- name: Deploy to a single host
-  hosts: all
+#
+# all
+#
+
+# - name: Deploy core services to all hosts
+#   hosts: all
+#   roles:
+#     - role: openbsd.httpd
+#     - role: openbsd.pf
+#     - role: openbsd.prometheus
+
+
+#
+# testing
+#
+
+- name: Deploy core services to all hosts
+  hosts: testing
   roles:
-    # - role: openbsd.router
-    #   tags: [ router ]
-    # - role: openbsd.mirror
-    #   tags: [ mirror ]
-    - role: openbsd.vmm
-      tags: [ vmm ]
+    - role: openbsd.httpd
+    - role: openbsd.www
+
+
+#
+# hyperconverged
+#
+
+- name: Deploy all services to hyperconverged host
+  hosts: hyperconverged
+  roles:
+    - role: openbsd.compute
+    - role: openbsd.mirror
+    - role: openbsd.grafana
+    - role: openbsd.nameserver
+    - role: openbsd.router
+
+
+#
+# openbsd.compute
+#
+
+- name: Deploy compute node(s)
+  hosts: compute
+  roles:
+    - role: openbsd.compute
+
+
+#
+# openbsd.grafana
+#
+
+- name: Deploy grafana node(s)
+  hosts: grafana
+  roles:
+    - role: openbsd.grafana
+
+
+#
+# openbsd.mirror
+#
+
+- name: Deploy mirror node(s)
+  hosts: mirror
+  roles:
+    - role: openbsd.mirror
+
+
+#
+# openbsd.nameserver
+#
+
+- name: Deploy nameserver node(s)
+  hosts: nameserver
+  roles:
+    - role: openbsd.nameserver
+
+
+#
+# openbsd.router
+#
+
+- name: Deploy router nodes(s)
+  hosts: router
+  roles:
+    - role: openbsd.router

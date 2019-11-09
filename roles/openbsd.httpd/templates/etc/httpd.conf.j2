@@ -1,0 +1,15 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+#
+# settings
+#
+
+prefork 2
+
+
+#
+# includes
+#
+
+include "/etc/httpd/includes/{{ server_domain }}.conf"

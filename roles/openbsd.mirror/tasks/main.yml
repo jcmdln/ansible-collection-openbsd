@@ -1,0 +1,31 @@
+---
+# openbsd.mirror/tasks/main.yml
+#
+#
+#
+##
+
+#
+# prerequisites
+#
+
+# - name: ensure host meets storage requirements
+
+#
+# storage
+#
+
+
+#
+# networking
+#
+
+
+#
+# httpd
+#
+
+
+#
+# cron
+#

@@ -1,0 +1,41 @@
+---
+- name: adjust httpd.conf
+  template:
+    src: etc/httpd.conf.j2
+    dest: /etc/httpd.conf
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload httpd
+
+- name: create directories
+  with_items:
+    - /etc/httpd
+    - /etc/httpd/includes
+  file:
+    path: '{{ item }}'
+    state: directory
+    owner: root
+    group: wheel
+    mode: '0755'
+
+- name: add server httpd configuration
+  template:
+    src: etc/httpd/includes/default.conf.j2
+    dest: '/etc/httpd/includes/{{ server_domain }}.conf'
+    owner: root
+    group: wheel
+    mode: '0644'
+  notify:
+    - reload httpd
+
+- name: enable httpd at boot
+  service:
+    name: 'httpd'
+    enabled: true
+
+- name: start httpd
+  service:
+    name: 'httpd'
+    state: started

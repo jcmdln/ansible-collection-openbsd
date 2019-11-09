@@ -29,14 +29,8 @@ all:
     #ansible_become_user: root
 
 
-# In order to distinguish between a server and the virtual machines it
-# will run, we'll need a group to perform host-level changes.  For this
-# purpose, we'll use the 'server' group to indicate a host is an actual
-# server (or some kind of real hardware).
-servers:
+testing:
   hosts:
-    jcmdln.net:
     openbsd.local:
       ansible_host: 192.168.1.210
-    # localhost:
-    #   ansible_connection: local
+      server_domain: openbsd.local

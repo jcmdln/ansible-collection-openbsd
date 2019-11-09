@@ -1,0 +1,26 @@
+---
+#
+# Global
+#
+
+www_head: |
+  <meta charset="utf-8">
+  <meta name="description" content="An OpenBSD-based Cloud Provider">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenBSD.Local</title>
+  <link rel="canonical" href="https://{{ server_domain }}/">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+www_header: |
+  This is the header.
+
+www_footer: |
+  This is the footer.
+
+
+#
+# Pages
+#
+
+index_body: |
+  This is the homepage.
