@@ -10,8 +10,8 @@ from __future__ import (absolute_import)
 from ansible.module_utils.basic import AnsibleModule
 
 
-# https://man.openbsd.org/pfctl.8
-def pfctl(module, result):
+# https://man.openbsd.org/pfsync.4
+def pfsync(module, result):
     return result
 
 
