@@ -1,28 +1,23 @@
 ---
 # deploy.yml
 
-#
-# all
-#
-
-- name: Deploy core services to all hosts
-  hosts: testing
+- name: Deploy core services
+  hosts: all
   roles:
     - role: openbsd.httpd
     - role: openbsd.pf
     - role: openbsd.prometheus
+    # - role: openbsd.vmm
 
 
-#
-# hyperconverged
-#
-
-# - name: Deploy all services to hyperconverged host
-#   hosts: hyperconverged
-#   roles:
-#     - role: openbsd.compute
-#     - role: openbsd.mirror
-#     - role: openbsd.grafana
-#     - role: openbsd.nameserver
-#     - role: openbsd.router
-#     - role: openbsd.www
+- name: Deploy virtualized services
+  hosts: virtual
+  roles:
+    - role: openbsd.compute
+    - role: openbsd.grafana
+    - role: openbsd.iked
+    - role: openbsd.ldapd
+    - role: openbsd.mirror
+    - role: openbsd.nameserver
+    - role: openbsd.router
+    - role: openbsd.www
