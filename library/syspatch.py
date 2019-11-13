@@ -24,9 +24,6 @@ def syspatch_apply(r, module):
         r['msg'] = 'patches applied, probably'
         r['changed'] = True
 
-        if 'reboot to load the new kernel' in r['stdout']:
-            r['restart'] = True
-
     return r
 
 
@@ -74,9 +71,6 @@ def syspatch_revert(r, module, Revert):
         r['msg'] = 'patches reverted, probably'
         r['changed'] = True
 
-        if 'reboot to load the new kernel' in r['stdout']:
-            r['restart'] = True
-
     return r
 
 
@@ -107,7 +101,6 @@ def main():
         'changed': False,
         'command': '/usr/sbin/syspatch',
         'msg': 'no action performed',
-        'restart': False,
         'rc': 0,
         'stdout': '',
         'stderr': '',

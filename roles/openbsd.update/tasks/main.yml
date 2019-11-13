@@ -5,61 +5,49 @@
 # sysupgrade
 #
 
-# While sysupgrade(8) was provided to OpenBSD 6.5 users, it is not
-# by default included in base unless all available patches have been
-# applied using syspatch(8).  For the sake of simplicity in this play
-# we'll only attempt to use sysupgrade(8) in OpenBSD 6.6 or later since
-# it is included by default.
-#
-# I suppose this could be expanded to simply check if the binary is
-# present, but we should deal with absolute known quantities whenever
-# possible to reduce mental complexity.
-- name: (sysupgrade) upgrade to latest release or snapshot
-  when: ansible_distribution_version >= '6.6'
+- name: upgrade to latest release or snapshot
   sysupgrade:
     branch: 'auto'
-  notify:
-    - restart host
-    - (pkg_add) reinstall snapshot packages
-    - (pkg_delete) delete unused packages
+  register: upgraded
+  when: ansible_distribution_version >= '6.6'
 
+- name: reboot host if upgraded
+  reboot:
+    connect_timeout: 600
+    reboot_timeout: 600
+  when: upgraded.changed
 
-# In cases where a user may upgrade to a new release and it has been
-# some time since last updating, there may also be patches to apply
-# after the upgrade.  Here we will force the previously notified
-# handlers to run before continuing, so that tasks run in the order
-# required to ensure no issues arise.
-- name: (sysupgrade) run handlers now if upgrade completed
-  meta: flush_handlers
+- name: reinstall snapshot packages if host rebooted
+  command: pkg_add -ru -Dsnap
+  register: packages_reinstalled
+  when:
+    - ansible_distribution_release == 'current'
+    - upgraded.changed
 
 
 #
 # syspatch
 #
 
-# For OpenBSD hosts running 6.1 or later and _NOT_ running current, we
-# can patch the base system using syspatch(8).
-- name: (syspatch) apply all available patches
+- name: apply all available patches
+  syspatch:
+    apply: true
+  register: patched
   when:
     - ansible_distribution_version >= '6.1'
     - ansible_distribution_release != 'current'
-  syspatch:
-    apply: true
-  notify:
-    - restart host
 
+- name: reboot host if patched
+  reboot:
+    connect_timeout: 600
+    reboot_timeout: 600
+  when: patched.changed
 
-#
-# pkg_add
-#
-
-# Regardless of any above actions, we should update any installed
-# packages.  One missing condition is that if our `reinstall packages`
-# handler runs, this is pointless.
-- name: (pkg_add) update packages
-  when: packages_reinstalled is undefined
+- name: update packages
   package:
     name: '*'
     state: latest
-  notify:
-    - (pkg_add) delete unused packages
+  when: not packages_reinstalled.changed
+
+- name: delete unused packages
+  command: pkg_delete -a

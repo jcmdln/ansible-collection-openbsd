@@ -36,11 +36,11 @@ def upgrade(r, module, Branch, Force):
         r['msg'] = 'no action required'
     elif 'Will upgrade on next reboot' in r['stdout']:
         r['changed'] = True
-        r['reboot'] = True
         r['msg'] = 'Upgrade prepared successfully'
     else:
         r['changed'] = True
         r['msg'] = "something isn't right"
+        r['rc'] = 1
 
     return r
 
@@ -67,7 +67,6 @@ def main():
         'changed': False,
         'command': '/usr/sbin/sysupgrade -n',
         'msg': 'no action performed',
-        'restart': False,
         'rc': 0,
         'stderr': '',
         'stdout': '',
