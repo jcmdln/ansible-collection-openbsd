@@ -1,0 +1,6 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+{% for include in httpd_includes %}
+include "/etc/httpd/includes/{{ include }}"
+{% endfor %}

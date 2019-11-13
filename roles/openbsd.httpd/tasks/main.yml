@@ -20,21 +20,21 @@
   notify:
     - reload httpd
 
-- name: adjust httpd includes.conf
+- name: add httpd includes
+  with_items: '{{ httpd_includes }}'
   template:
-    src: etc/httpd/includes.conf.j2
-    dest: /etc/httpd/includes.conf
+    src: 'etc/httpd/includes/{{ item }}.j2'
+    dest: '/etc/httpd/includes/{{ item }}'
     owner: root
     group: wheel
     mode: '0644'
   notify:
     - reload httpd
 
-- name: add httpd includes
-  with_items: '{{ httpd_includes }}'
+- name: adjust httpd includes.conf
   template:
-    src: 'etc/httpd/includes/{{ item }}.j2'
-    dest: '/etc/httpd/includes/{{ item }}'
+    src: etc/httpd/includes.conf.j2
+    dest: /etc/httpd/includes.conf
     owner: root
     group: wheel
     mode: '0644'
@@ -50,3 +50,7 @@
   service:
     name: 'httpd'
     state: started
+
+- name: set httpd facts
+  set_fact:
+    httpd_includes: '{{ httpd_includes }}'

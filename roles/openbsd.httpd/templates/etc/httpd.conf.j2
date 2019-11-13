@@ -2,14 +2,25 @@
 # {{ ansible_managed }}
 
 #
-# settings
+# Settings
 #
 
 prefork 2
 
 
 #
-# includes
+# Defaults
 #
 
-include "/etc/httpd/includes.conf"
+server "default" {
+    listen on {{ ansible_host }} port 80
+    root "/htdocs/default"
+
+{% for item in httpd_default_includes %}
+    include "/etc/httpd/default/{{ item }}"
+{% endfor %}
+}
+
+types {
+    include "/usr/share/misc/mime.types"
+}
