@@ -1,35 +1,16 @@
 ---
 # inventory.yml
 
-# The 'all' group is an implicit group that refers to any host defined
-# in any group.  If we later define a group, which we will, it will be
-# considered a child of the 'all' group.
 all:
-  # By defining 'vars' in the 'all' group, these are effectively global
-  # variables.  They are mutable, should we need to manipulate them.
   vars:
-    # Ansible tries to be smart and find our python interpreter, but
-    # may not be able to locate it.  Python 2.7.x is EOL'd, so point to
-    # Python 3.x instead.
-    ansible_python_interpreter: /usr/local/bin/python3
-
-    # Ansible may attempt to set the connection type to a fallback like
-    # paramiko, but we'll specifically state we want to use ssh(1).
+    ansible_become_method: doas
+    ansible_become_user: root
     ansible_connection: ssh
-
-    # Define the user to log in as via ssh(1).
+    ansible_python_interpreter: /usr/local/bin/python3
     ansible_user: root
 
-    # When elevating privilege, use doas(1).
-    ansible_become_method: doas
 
-    # When elevating privilege, specify the target user that has
-    # sufficient permissions to perform changes.  We'll keep this
-    # commented for now, since we intend to ssh(1) as root via key(s).
-    #ansible_become_user: root
-
-
-testing:
+servers:
   hosts:
     openbsd.local:
       ansible_host: 192.168.1.210

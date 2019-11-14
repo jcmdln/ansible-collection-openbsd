@@ -1,18 +1,5 @@
 ---
 # update.yml
-#
-# This file exists to isolate the process of updating hosts, which may
-# be volatile.  Separating the process of pushing new configuration
-# files vs updating packages and whatnot should prevent a late night of
-# debugging under fire, probably.
-#
-# As an extra precaution, should you run this play by mistake, it
-# requires explicitly specifying the 'update' tag as follows before
-# performing any meaningful action:
-#
-#     ansible-playbook update.yml --tags update
-#
-##
 
 - hosts: all
   roles:
