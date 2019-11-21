@@ -1,0 +1,52 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+#
+# Networking
+#
+
+# switch "backlan" {}
+# switch "frontlan" {}
+
+
+#
+# Virtual Machines
+#
+
+# Plan:    Quark
+# vCPU:    1
+# Memory:  512M
+# Disk:    10G
+
+vm "quark" {
+    disable
+    disk "/home/vm/default/quark.qcow2"
+    memory 512M
+    local interface
+}
+
+
+# Plan:    electron
+# vCPU:    1
+# Memory:  1G
+# Disk:    20G
+
+vm "electron" {
+    disable
+    disk "/home/vm/default/electron.qcow2"
+    memory 1G
+    local interface
+}
+
+
+# Plan:    proton
+# vCPU:    1
+# Memory:  2G
+# Disk:    40G
+
+vm "proton" {
+    disable
+    disk "/home/vm/default/proton.qcow2"
+    memory 2G
+    local interface
+}

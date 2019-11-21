@@ -58,9 +58,9 @@ def main():
     }
 
     module = AnsibleModule(
-        argument_spec = module_args,
+        argument_spec=module_args,
         required_one_of=[['branch']],
-        supports_check_mode = True,
+        supports_check_mode=True,
     )
 
     result = {

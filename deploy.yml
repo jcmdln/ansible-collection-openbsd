@@ -7,16 +7,16 @@
     # - role: openbsd.ansible
     # - role: openbsd.bgpd
     # - role: openbsd.grafana
-    - role: openbsd.httpd
+    # - role: openbsd.httpd
     # - role: openbsd.iked
     # - role: openbsd.ldapd
     # - role: openbsd.mail
     # - role: openbsd.mirror
     # - role: openbsd.nameserver
-    - role: openbsd.pf
+    # - role: openbsd.pf
     # - role: openbsd.prometheus
     # - role: openbsd.relayd
     # - role: openbsd.router
     # - role: openbsd.switch
-    # - role: openbsd.vmm
+    - role: openbsd.vmm
     # - role: openbsd.www

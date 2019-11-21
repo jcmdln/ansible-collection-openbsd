@@ -1,41 +1,13 @@
 ---
 # openbsd.vmm/handlers/main.yml
 
-#
-# prereq - Errors
-#
+- name: reload pf
+  shell: >-
+    pfctl -f /etc/pf.conf
+  register: pf_reloaded
+  changed_when: (pf_reloaded.stdout_lines | length) > 0
 
-- name: (prereq) host missing nested paging support
-  fail:
-    msg: >
-      This host does not appear to support vmm(4).  Please see
-      https://www.openbsd.org/faq/faq16.html#Prerequisites for
-      additional clarification.
-
-
-#
-# vmm - Actions
-#
-
-- name: (vmm) create default disk
-  shell: >
-    vmctl create -s 20G /home/vm/default/disk.qcow2
-  register: result
-  changed_when: ('imagefile created' in result.stdout)
-
-
-- name: (vmm) reload vmd
+- name: reload vmd
   service:
-    name: 'vmd'
+    name: "vmd"
     state: reloaded
-
-
-#
-# vmm - Errors
-#
-
-- name: (vmm) failed to start vmd
-  fail:
-    msg: >
-      vmd(4) failed to start, most likely to a configuration error in
-      /etc/vm.conf.

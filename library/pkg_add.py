@@ -9,6 +9,7 @@
 from __future__ import (absolute_import)
 from ansible.module_utils.basic import AnsibleModule
 
+
 # https://man.openbsd.org/pkg_add.1
 # def pkg_add():
 

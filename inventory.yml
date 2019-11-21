@@ -9,7 +9,6 @@ all:
     ansible_python_interpreter: /usr/local/bin/python3
     ansible_user: root
 
-
 servers:
   hosts:
     openbsd.local:
