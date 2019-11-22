@@ -2,51 +2,22 @@
 # {{ ansible_managed }}
 
 #
-# Networking
+# VM Templates
 #
 
-# switch "backlan" {}
-# switch "frontlan" {}
-
-
-#
-# Virtual Machines
-#
-
-# Plan:    Quark
+{% for plan in vmm_plans %}
+# name:    {{ plan.name }}
 # vCPU:    1
-# Memory:  512M
-# Disk:    10G
-
-vm "quark" {
+# disk:    {{ plan.disk }}
+# memory:  {{ plan.memory }}
+vm "{{ plan.name }}" {
     disable
-    disk "/home/vm/default/quark.qcow2"
-    memory 512M
+    disk "/home/vm/default/{{ plan.name }}.qcow2"
+    memory {{ plan.memory }}
     local interface
 }
+{% if not loop.last %}
+{# add a newline between plans #}
 
-
-# Plan:    electron
-# vCPU:    1
-# Memory:  1G
-# Disk:    20G
-
-vm "electron" {
-    disable
-    disk "/home/vm/default/electron.qcow2"
-    memory 1G
-    local interface
-}
-
-
-# Plan:    proton
-# vCPU:    1
-# Memory:  2G
-# Disk:    40G
-
-vm "proton" {
-    disable
-    disk "/home/vm/default/proton.qcow2"
-    memory 2G
-    local interface
-}
+{% endif %}
+{% endfor %}

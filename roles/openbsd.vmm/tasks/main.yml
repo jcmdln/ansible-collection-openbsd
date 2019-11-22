@@ -57,19 +57,14 @@
   notify:
     - reload vmd
 
-- name: (vmm) check if default vmm disk exists
-  stat:
-    path: "/home/vm/default/quark.qcow2"
-  register: disk
-  changed_when: not disk.stat.exists
-
+# TODO: move to vmctl module
 - name: (vmm) create default disk(s)
+  with_items: "{{ vmm_plans }}"
   shell: >-
-    vmctl create -s 20G /home/vm/default/quark.qcow2
-  when: disk.changed
+    vmctl create -s {{ item.disk }} /home/vm/default/{{ item.name }}.qcow2
   register: result
-  changed_when: ('imagefile created' in result.stdout)
   failed_when: false
+  changed_when: ('imagefile created' in result.stdout)
 
 - name: (vmm) enable and start vmd service
   service:

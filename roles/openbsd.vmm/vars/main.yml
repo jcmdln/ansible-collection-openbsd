@@ -1,22 +1,13 @@
 ---
 # openbsd.vmm/vars/main.yml
 
-#
-# System
-#
-
-#
-system_hostname: '{{ domain_name }}'
-
-
-#
-# Network
-#
-
-#
-domain_name: 'openbsd.local'
-
-#
-domain_name_servers:
-  - '1.1.1.1'
-  - '1.0.0.1'
+vmm_plans:
+  - name: quark
+    memory: 512M
+    disk: 10G
+  - name: electron
+    memory: 1G
+    disk: 20G
+  - name: proton
+    memory: 2G
+    disk: 40G
