@@ -1,7 +1,0 @@
----
-# update.yml
-
-- hosts: all
-  roles:
-    - role: openbsd.update
-      tags: [ never, update ]

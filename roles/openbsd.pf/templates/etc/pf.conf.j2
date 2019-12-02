@@ -3,8 +3,11 @@
 
 set skip on lo
 
-block return    # block stateless traffic
-pass            # establish keep-state
+# block stateless traffic
+block return
+
+# establish keep-state
+pass
 
 # By default, do not permit remote connections to X11
 block return in on ! lo0 proto tcp to port 6000:6010

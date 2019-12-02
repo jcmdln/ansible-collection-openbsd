@@ -9,8 +9,7 @@ all:
     ansible_python_interpreter: /usr/local/bin/python3
     ansible_user: root
 
-servers:
+monoliths:
   hosts:
-    openbsd.local:
-      ansible_host: 192.168.1.210
-      server_domain: openbsd.local
+    jcmdln.local:
+      server_domain: jcmdln.local

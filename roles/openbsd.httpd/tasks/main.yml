@@ -1,56 +1,47 @@
 ---
-- name: create directories
-  with_items:
-    - /etc/httpd
-    - /etc/httpd/includes
+- name: create httpd(8) configuration dir(s)
   file:
-    path: '{{ item }}'
+    path: "{{ item }}"
     state: directory
     owner: root
     group: wheel
-    mode: '0755'
+    mode: "0755"
+  with_items:
+    - /etc/httpd
+    - /etc/httpd/includes
 
-- name: adjust httpd.conf
+- name: add httpd(8) includes
   template:
-    src: etc/httpd.conf.j2
-    dest: /etc/httpd.conf
+    src: "etc/httpd/includes/{{ item }}.j2"
+    dest: "/etc/httpd/includes/{{ item }}"
     owner: root
     group: wheel
-    mode: '0644'
-  notify:
-    - reload httpd
+    mode: "0644"
+  with_items: "{{ httpd_includes }}"
 
-- name: add httpd includes
-  with_items: '{{ httpd_includes }}'
+- name: configure httpd(8)
   template:
-    src: 'etc/httpd/includes/{{ item }}.j2'
-    dest: '/etc/httpd/includes/{{ item }}'
+    src: etc/{{ item }}.j2
+    dest: /etc/{{ item }}
     owner: root
     group: wheel
-    mode: '0644'
+    mode: "0644"
   notify:
     - reload httpd
+  with_items:
+    - httpd.conf
+    - httpd/includes.conf
 
-- name: adjust httpd includes.conf
-  template:
-    src: etc/httpd/includes.conf.j2
-    dest: /etc/httpd/includes.conf
-    owner: root
-    group: wheel
-    mode: '0644'
-  notify:
-    - reload httpd
-
-- name: enable httpd at boot
+- name: enable httpd(8) at boot
   service:
-    name: 'httpd'
+    name: "httpd"
     enabled: true
 
-- name: start httpd
+- name: start httpd(8)
   service:
-    name: 'httpd'
+    name: "httpd"
     state: started
 
-- name: set httpd facts
+- name: set httpd(8) facts
   set_fact:
-    httpd_includes: '{{ httpd_includes }}'
+    httpd_includes: "{{ httpd_includes }}"

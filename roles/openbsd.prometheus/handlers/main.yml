@@ -3,3 +3,6 @@
   service:
     name: httpd
     state: reloaded
+
+- name: reload pf
+  command: "pfctl -f /etc/pf.conf"

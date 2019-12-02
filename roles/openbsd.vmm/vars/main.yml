@@ -1,6 +1,9 @@
 ---
 # openbsd.vmm/vars/main.yml
 
+vmm_pf_includes:
+  - "vmm.conf"
+
 vmm_plans:
   - name: quark
     memory: 512M

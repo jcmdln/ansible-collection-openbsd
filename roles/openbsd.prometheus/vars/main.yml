@@ -1,6 +1,9 @@
 ---
 prometheus_httpd_includes:
-  - 'prometheus.conf'
+  - "prometheus.conf"
+
+prometheus_pf_includes:
+  - "prometheus.conf"
 
 prometheus_packages:
   - node_exporter

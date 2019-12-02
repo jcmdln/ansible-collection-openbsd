@@ -1,22 +1,25 @@
 ---
 # deploy.yml
 
-- name: Deploy bare metal services
+- name: Update/Upgrade all hosts if "--tags update" passed
   hosts: all
   roles:
-    # - role: openbsd.ansible
-    # - role: openbsd.bgpd
-    # - role: openbsd.grafana
-    # - role: openbsd.httpd
-    # - role: openbsd.iked
-    # - role: openbsd.ldapd
-    # - role: openbsd.mail
-    # - role: openbsd.mirror
-    # - role: openbsd.nameserver
-    # - role: openbsd.pf
-    # - role: openbsd.prometheus
-    # - role: openbsd.relayd
-    # - role: openbsd.router
-    # - role: openbsd.switch
+    - role: openbsd.update
+      tags: [never, update]
+
+- name: Deploy core configuration(s) to all hosts
+  hosts: all
+  roles:
+    - role: openbsd.httpd
+    - role: openbsd.pf
+
+- name: Deploy core services to all hosts
+  hosts: all
+  roles:
+    - role: openbsd.prometheus
+
+- name: Deploy all services to monolith(s)
+  hosts: monoliths
+  roles:
     - role: openbsd.vmm
-    # - role: openbsd.www
+    - role: openbsd.www
