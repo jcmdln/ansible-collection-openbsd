@@ -1,23 +1,21 @@
 # {{ template_destpath }}
 # {{ ansible_managed }}
 
-#
-# VM Templates
-#
-
-{% for plan in vmm_plans %}
-# name:    {{ plan.name }}
-# vCPU:    1
-# disk:    {{ plan.disk }}
-# memory:  {{ plan.memory }}
-vm "{{ plan.name }}" {
-    disable
-    disk "/home/vm/default/{{ plan.name }}.qcow2"
-    memory {{ plan.memory }}
+{% for customer in customers %}
+# name:    {{ customer.name }}
+# email:   {{ customer.email }}
+# plan:    {{ customer.plan }}
+# disk:    {{ vmm_plans[customer.plan].disk }}
+# memory:  {{ vmm_plans[customer.plan].memory }}
+vm "vm{{ loop.index }}" {
+    {{ customer.state }}
+    owner {{ customer.name }}
+    disk "/home/vm/default/{{ customer.name }}.qcow2"
+    memory {{ vmm_plans[customer.plan].memory }}
     local interface
 }
 {% if not loop.last %}
-{# add a newline between plans #}
+{# add a newline between customers #}
 
 {% endif %}
 {% endfor %}

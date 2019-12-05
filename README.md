@@ -28,20 +28,20 @@ Update hosts using
 
 
 # Roles
-openbsd.ansible
-openbsd.bgpd
-openbsd.grafana
-openbsd.httpd
-openbsd.iked
-openbsd.ldapd
-openbsd.mail
-openbsd.mirror
-openbsd.nameserver
-openbsd.pf
-openbsd.prometheus
-openbsd.relayd
-openbsd.router
-openbsd.switch
-openbsd.update
-openbsd.vmm
-openbsd.www
+* openbsd.ansible
+* openbsd.bgpd
+* openbsd.grafana
+* openbsd.httpd
+* openbsd.iked
+* openbsd.ldapd
+* openbsd.mail
+* openbsd.mirror
+* openbsd.nameserver
+* openbsd.pf
+* openbsd.prometheus
+* openbsd.relayd
+* openbsd.router
+* openbsd.switch
+* openbsd.update
+* openbsd.vmm
+* openbsd.www
