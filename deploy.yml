@@ -1,7 +1,7 @@
 ---
 # deploy.yml
 
-- name: Update/Upgrade all hosts if "--tags update" passed
+- name: Upgrade/Update all hosts if "--tags update" passed
   hosts: all
   roles:
     - role: openbsd.update
