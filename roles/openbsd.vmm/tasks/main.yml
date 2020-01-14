@@ -6,24 +6,23 @@
 #
 
 - name: check dmesg for nested paging support
-  register: vmm_supported
-  shell: >-
-    dmesg | egrep "(VMX/EPT|SVM/RVI)"
+  shell: dmesg | egrep "(VMX/EPT|SVM/RVI)"
   failed_when: (vmm_supported.stdout_lines | length) == 0
+  register: vmm_supported
 
 #
 # Setup
 #
 
 - name: create directories
-  with_items:
-    - "/home/vm"
-    - "/home/vm/default"
   file:
     path: "{{ item }}"
     state: directory
     owner: root
     group: wheel
+  with_items:
+    - "/home/vm"
+    - "/home/vm/default"
 
 - name: configure vmm
   template:
@@ -34,12 +33,13 @@
 
 # TODO: move to vmctl module
 - name: create default disk(s)
-  with_items: "{{ vmm_plans }}"
   shell: >-
-    vmctl create -s {{ item.disk }} /home/vm/default/{{ item.name }}.qcow2
-  register: result
+    vmctl create -s {{ item.disk }}
+    /home/vm/default/{{ item.name }}.qcow2
+  changed_when: ("imagefile created" in result.stdout)
   failed_when: false
-  changed_when: ('imagefile created' in result.stdout)
+  register: result
+  with_items: "{{ vmm_plans }}"
 
 - name: enable and start vmd service
   service:
@@ -49,10 +49,9 @@
 
 # TODO: move to vmctl module
 - name: check vmd
-  shell: >-
-    rcctl check vmd
+  shell: rcctl check vmd
+  changed_when: vmd_check.stdout != "vmd(ok)"
   register: vmd_check
-  changed_when: vmd_check.stdout != 'vmd(ok)'
 
 #
 # Quirks

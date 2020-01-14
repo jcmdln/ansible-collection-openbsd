@@ -1,11 +1,5 @@
 ---
-# deploy.yml
-
-- name: Upgrade/Update all hosts if "--tags update" passed
-  hosts: all
-  roles:
-    - role: openbsd.update
-      tags: [never, update]
+# site-multi.yml
 
 - name: Deploy core configuration(s) to all hosts
   hosts: all

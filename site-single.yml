@@ -1,0 +1,20 @@
+---
+# site-single.yml
+#
+# This file deploys all VMs to a single host.  This may be ideal if
+# you have only a single host, or want to deploy this playbook locally
+# for testing purposes.
+#
+##
+
+- name: Prepare host
+  hosts: single
+  roles:
+    - role: openbsd.pf
+    - role: openbsd.vmm
+
+- name: Deploy VMs
+  hosts: single
+  roles:
+    - role: openbsd.httpd
+    - role: openbsd.pf

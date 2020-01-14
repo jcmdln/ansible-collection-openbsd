@@ -9,7 +9,6 @@ all:
     ansible_python_interpreter: /usr/local/bin/python3
     ansible_user: root
 
-monoliths:
+single:
   hosts:
-    jcmdln.local:
-      server_domain: jcmdln.local
+    local.jcmdln.net:
