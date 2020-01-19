@@ -9,6 +9,14 @@ all:
     ansible_python_interpreter: /usr/local/bin/python3
     ansible_user: root
 
-single:
+compute:
   hosts:
-    local.jcmdln.net:
+    us-east-[1:3].jcmdln.net:
+
+network:
+  hosts:
+    us-east-[1:3].jcmdln.net:
+
+storage:
+  hosts:
+    us-east-[1:3].jcmdln.net:
