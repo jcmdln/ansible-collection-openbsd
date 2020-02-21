@@ -39,7 +39,7 @@ def upgrade(r, module, Branch, Force):
         r['msg'] = 'Upgrade prepared successfully'
     else:
         r['changed'] = True
-        r['msg'] = "something isn't right"
+        r['msg'] = "something unexpected happened"
         r['rc'] = 1
 
     return r

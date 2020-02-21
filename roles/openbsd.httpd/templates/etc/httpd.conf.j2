@@ -1,15 +1,8 @@
 # {{ template_destpath }}
 # {{ ansible_managed }}
 
-#
-# Global Settings
-#
-
 prefork 2
 
-
-#
-# Includes
-#
-
-include "/etc/httpd/includes.conf"
+{% for item in httpd_includes %}
+include "/etc/httpd/conf.d/{{ item }}"
+{% endfor %}

@@ -1,0 +1,8 @@
+---
+- name: set httpd(8) facts
+  set_fact:
+    httpd_includes: >-
+      {{ httpd_includes
+      if httpd_includes is defined
+      and httpd_includes|length > 0
+      else omit }}

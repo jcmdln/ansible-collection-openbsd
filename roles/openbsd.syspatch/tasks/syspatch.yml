@@ -1,0 +1,12 @@
+---
+- name: apply all available patches
+  syspatch:
+    apply: true
+  register: syspatch_results
+
+- name: reboot host if patched
+  reboot:
+    connect_timeout: 600
+    reboot_timeout: 600
+  when:
+    - syspatch_results.changed

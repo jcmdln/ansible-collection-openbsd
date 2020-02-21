@@ -1,5 +1,8 @@
 ---
-- name: create httpd(8) configuration dir(s)
+- name: Include and set facts
+  include: facts.yml
+
+- name: create httpd(8) directories
   file:
     path: "{{ item }}"
     state: directory
@@ -8,12 +11,11 @@
     mode: "0755"
   with_items:
     - /etc/httpd
-    - /etc/httpd/includes
 
-- name: add httpd(8) includes
+- name: add httpd(8) configs
   template:
-    src: "etc/httpd/includes/{{ item }}.j2"
-    dest: "/etc/httpd/includes/{{ item }}"
+    src: "etc/httpd/{{ item }}.j2"
+    dest: "/etc/httpd/{{ item }}"
     owner: root
     group: wheel
     mode: "0644"
@@ -21,16 +23,13 @@
 
 - name: configure httpd(8)
   template:
-    src: etc/{{ item }}.j2
-    dest: /etc/{{ item }}
+    src: etc/httpd.conf.j2
+    dest: /etc/httpd.conf
     owner: root
     group: wheel
     mode: "0644"
   notify:
     - reload httpd
-  with_items:
-    - httpd.conf
-    - httpd/includes.conf
 
 - name: enable httpd(8) at boot
   service:
@@ -41,7 +40,3 @@
   service:
     name: "httpd"
     state: started
-
-- name: set httpd(8) facts
-  set_fact:
-    httpd_includes: "{{ httpd_includes }}"

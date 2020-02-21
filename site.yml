@@ -1,65 +1,29 @@
 ---
 # site.yml
 
-#
-# Prerequisites
-#
-
 - name: Prepare hosts
-  hosts: all
+  any_errors_fatal: true
   gather_facts: false
+  hosts: all
 
   pre_tasks:
     - name: Check if Python 3 is installed
-      raw: command -v python3
-      register: python_exists
+      raw: >-
+        command -v python3 || command -v python
+      changed_when: false
+      register: python_installed
 
-    - name: Install Python 3 if missing
-      raw: pkg_add python3
-      when: not python_exists
+    - name: Install Python if missing
+      raw: >-
+        pkg_add python3
+      changed_when: false
+      when: not python_installed
+
+    - name: Gather facts
+      setup:
 
   roles:
     - role: openbsd.syspatch
     - role: openbsd.sysupgrade
-
-#
-# Core
-#
-
-- name: Deploy core configuration(s) to all hosts
-  hosts: all
-  roles:
     - role: openbsd.httpd
     - role: openbsd.pf
-
-#
-# Network
-#
-
-- name: Configure network hosts
-  hosts: network
-  pre_tasks:
-    - name: Do some vxlan shit
-  roles:
-    - role: openbsd.router
-    - role: openbsd.switch
-
-#
-# Storage
-#
-
-- name: Prepare storage hosts
-  hosts: storage
-  pre_tasks:
-    - name: Probably have to do stuff first
-  roles:
-    - role: openbsd.nfs
-
-#
-# Compute
-#
-
-- name: Prepare compute hosts to run vmm(4)
-  hosts: compute
-  roles:
-    - role: openbsd.vmm
