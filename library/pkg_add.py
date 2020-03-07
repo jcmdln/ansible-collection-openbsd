@@ -44,7 +44,7 @@ def main():
 
     result = {
         'changed': False,
-        'command': '/usr/sbin/syspatch',
+        'command': '/usr/sbin/pkg_add',
         'msg': 'no action performed',
         'rc': 0,
         'stdout': '',

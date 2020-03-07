@@ -15,7 +15,7 @@
     - upgraded.changed
     - sysupgrade_reboot
 
-- name: reinstall snapshot packages if rebooted and running "-current"
+- name: reinstall snapshot packages if rebooted and running *-current
   command: pkg_add -ruD snap
   when:
     - ansible_distribution_release == "current"
