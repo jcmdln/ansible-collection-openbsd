@@ -1,4 +1,0 @@
----
-# defaults file for openbsd.syspatch
-
-syspatch_reboot: true

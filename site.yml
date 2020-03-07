@@ -1,10 +1,6 @@
 ---
 # site.yml
 
-#
-# Prerequisites
-#
-
 - name: Prepare hosts
   any_errors_fatal: true
   gather_facts: false
@@ -33,22 +29,22 @@
 # DNS
 #
 
-- name: Setup NSD servers
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: dns
+# - name: Setup NSD servers
+#   any_errors_fatal: true
+#   gather_facts: false
+#   hosts: dns
 
-  roles:
-    - role: openbsd.nsd
+#   roles:
+#     - role: openbsd.nsd
 
 #
 # Mail
 #
 
-- name: Setup mail servers
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: mail
+# - name: Setup mail servers
+#   any_errors_fatal: true
+#   gather_facts: false
+#   hosts: mail
 
-  roles:
-    - role: openbsd.mail
+#   roles:
+#     - role: openbsd.mail

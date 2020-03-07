@@ -1,26 +1,8 @@
 ---
 # tasks file for openbsd.syspatch
 
-- name: apply all available patches
-  syspatch:
-    apply: true
-  register: patched
+- name: Proceed if host is eligible
+  include: syspatch.yml
   when:
     - ansible_distribution_version >= "6.1"
     - ansible_distribution_release != "current"
-
-- name: reboot host if patched
-  reboot:
-    connect_timeout: 600
-    reboot_timeout: 600
-  when:
-    - patched.changed
-    - syspatch_reboot
-
-- name: update packages
-  package:
-    name: '*'
-    state: latest
-
-- name: delete unused packages
-  command: pkg_delete -a

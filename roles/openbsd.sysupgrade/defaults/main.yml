@@ -2,4 +2,3 @@
 # defaults file for openbsd.sysupgrade
 
 sysupgrade_branch: "auto"
-sysupgrade_reboot: true

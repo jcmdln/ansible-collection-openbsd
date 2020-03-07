@@ -1,22 +1,6 @@
 ---
 # tasks file for openbsd.sysupgrade
 
-- name: upgrade to latest release or snapshot
-  sysupgrade:
-    branch: "{{ sysupgrade_branch }}"
-  register: upgraded
+- name: Proceed if host is eligible
+  include: sysupgrade.yml
   when: ansible_distribution_version >= "6.6"
-
-- name: reboot if upgraded
-  reboot:
-    connect_timeout: 600
-    reboot_timeout: 600
-  when:
-    - upgraded.changed
-    - sysupgrade_reboot
-
-- name: reinstall snapshot packages if rebooted and running *-current
-  command: pkg_add -ruD snap
-  when:
-    - ansible_distribution_release == "current"
-    - upgraded.changed
