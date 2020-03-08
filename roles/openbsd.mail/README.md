@@ -1,14 +1,27 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+* smtpd.8
+* spamd.8
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+### DNS Records
+* https://tools.ietf.org/html/rfc3501
+
+| Host              | Type  | TTL  | Value |
+| ----------------- | ----- | ---- | ----- |
+| domain.tld        | A     | 3600 | <IPv4 Address>
+| domain.tld        | AAAA  | 3600 | <IPv4 Address>
+| domain.tld        | MX    | 3600 | 10 mail.domain.tld
+| domain.tld        | TXT   | 3600 | "v=spf1 mx:mail.domain.tld -all"
+| mail.domain.tld   | CNAME | 3600 | domain.tld
+| _dmarc.domain.tld | TXT   | 3600 | "v=DMARC1; p=reject; pct=100; rua=mailto:reports@domain.tld"
+| _imap.domain.tld  | SRV   | 3600 | 0 0 0 .
+| _imaps.domain.tld | SRV   | 3600 | 0 1 993 mail.domain.tld
+| _pop3.domain.tld  | SRV   | 3600 | 0 0 0 .
+| _pop3s.domain.tld | SRV   | 3600 | 0 0 0 .
 
 Role Variables
 --------------
