@@ -1,26 +1,28 @@
 ---
+# sysupgrade.yml
+
 - name: upgrade to latest release or snapshot
   sysupgrade:
     branch: "{{ sysupgrade_branch }}"
-  register: sysupgrade_results
+  register: sysupgrade
 
 - name: reboot if upgraded
   reboot:
     connect_timeout: 600
     reboot_timeout: 600
   when:
-    - sysupgrade_results.changed
+    - sysupgrade.changed
 
 - name: (release) update packages
   command: >-
     pkg_add -u
   when:
-    - sysupgrade_results.changed
+    - sysupgrade.changed
     - ansible_distribution_release != "current"
 
 - name: (current) reinstall snapshot packages
   command: >-
     pkg_add -ruD snap
   when:
-    - sysupgrade_results.changed
+    - sysupgrade.changed
     - ansible_distribution_release == "current"

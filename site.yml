@@ -9,25 +9,35 @@
   any_errors_fatal: true
   gather_facts: false
   hosts: all
+  tags: [ prepare ]
 
   pre_tasks:
-    - name: Check if Python is present
+    - name: Confirm the host is running OpenBSD
+      raw: >-
+        uname
+      changed_when: false
+      failed_when: ("OpenBSD" not in uname.stdout)
+      register: uname
+
+    - name: Check if Python 3.x is present
       raw: >-
         command -v python3
-      changed_when: not python_exists
-      register: python_exists
+      changed_when: not python
+      register: python
 
-    - name: Install Python if missing
+    - name: Install Python 3.x if missing
       raw: >-
         pkg_add python3
-      when: not python_exists
+      when: not python
 
-    - name: Gather facts for future tasks
+    - name: Gather facts
       setup:
 
   roles:
     - role: openbsd.syspatch
+      tags: [ update, syspatch ]
     - role: openbsd.sysupgrade
+      tags: [ update, sysupgrade ]
 
 #
 # Core
@@ -37,6 +47,7 @@
   any_errors_fatal: true
   gather_facts: false
   hosts: all
+  tags: [ core ]
 
   roles:
     - role: openbsd.unwind
@@ -49,6 +60,7 @@
 #   any_errors_fatal: true
 #   gather_facts: false
 #   hosts: dns
+#   tags: [ dns ]
 
 #   roles:
 #     - openbsd.nsd
@@ -61,6 +73,7 @@
 #   any_errors_fatal: true
 #   gather_facts: false
 #   hosts: mail
+#   tags: [ mail ]
 
 #   roles:
 #     - role: openbsd.mail

@@ -1,12 +1,14 @@
 ---
+# syspatch.yml
+
 - name: apply all available patches
   syspatch:
     apply: true
-  register: syspatch_results
+  register: syspatch
 
 - name: reboot host if patched
   reboot:
     connect_timeout: 600
     reboot_timeout: 600
   when:
-    - syspatch_results.changed
+    - syspatch.changed
