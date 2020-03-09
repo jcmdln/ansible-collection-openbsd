@@ -85,7 +85,8 @@
 #   tags: [ dns ]
 
 #   roles:
-#     - openbsd.nsd
+#     - role: openbsd.nsd
+#       tags: [ nsd ]
 
 #
 # Mail
