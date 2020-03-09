@@ -2,10 +2,10 @@
 # site.yml
 
 #
-# Prepare
+# Check
 #
 
-- name: Prepare hosts
+- name: Check hosts
   any_errors_fatal: true
   gather_facts: false
   hosts: all
@@ -30,14 +30,35 @@
         pkg_add python3
       when: not python
 
+#
+# Facts
+#
+
+- name: Gather host facts
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: all
+  tags: [ facts ]
+
+  tasks:
     - name: Gather facts
       setup:
 
+#
+# Update
+#
+
+- name: Update hosts
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: all
+  tags: [ never, update ]
+
   roles:
     - role: openbsd.syspatch
-      tags: [ update, syspatch ]
+      tags: [ syspatch ]
     - role: openbsd.sysupgrade
-      tags: [ update, sysupgrade ]
+      tags: [ sysupgrade ]
 
 #
 # Core
@@ -51,6 +72,7 @@
 
   roles:
     - role: openbsd.unwind
+      tags: [ unwind ]
 
 #
 # DNS
