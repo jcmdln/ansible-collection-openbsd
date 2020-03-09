@@ -12,7 +12,7 @@
   tags: [ prepare ]
 
   pre_tasks:
-    - name: Confirm the host is running OpenBSD
+    - name: Confirm host is running OpenBSD
       raw: >-
         uname
       changed_when: false

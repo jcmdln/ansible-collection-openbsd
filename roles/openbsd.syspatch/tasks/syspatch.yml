@@ -8,7 +8,7 @@
 
 - name: reboot host if patched
   reboot:
-    connect_timeout: 600
-    reboot_timeout: 600
+    connect_timeout: "{{ connect_timeout }}"
+    reboot_timeout: "{{ reboot_timeout }}"
   when:
     - syspatch.changed
