@@ -38,7 +38,7 @@
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [ facts ]
+  tags: [ always, facts ]
 
   tasks:
     - name: Gather facts
