@@ -1,12 +1,2 @@
 ---
 # tasks file for openbsd.nsd
-
-- name: Enable ipv4 packet forwarding
-  sysctl:
-    name: net.inet.ip.forwarding
-    value: 1
-
-- name: Enable ipv6 packet forwarding
-  sysctl:
-    name: net.inet6.ip6.forwarding
-    value: 1

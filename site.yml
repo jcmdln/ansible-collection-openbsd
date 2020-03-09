@@ -1,6 +1,10 @@
 ---
 # site.yml
 
+#
+# Prepare
+#
+
 - name: Prepare hosts
   any_errors_fatal: true
   gather_facts: false
@@ -26,16 +30,28 @@
     - role: openbsd.sysupgrade
 
 #
+# Core
+#
+
+- name: Setup core
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: all
+
+  roles:
+    - role: openbsd.unwind
+
+#
 # DNS
 #
 
-# - name: Setup NSD servers
+# - name: Setup nameservers
 #   any_errors_fatal: true
 #   gather_facts: false
 #   hosts: dns
 
 #   roles:
-#     - role: openbsd.nsd
+#     - openbsd.nsd
 
 #
 # Mail
