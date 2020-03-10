@@ -1,0 +1,9 @@
+---
+# tasks file for openbsd.doas
+
+- name: Copy /etc/examples/doas.conf to /etc/doas.conf
+  copy:
+    src: /etc/examples/doas.conf
+    dest: /etc/doas.conf
+    remote_src: true
+    mode: preserve

@@ -38,7 +38,7 @@
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [ always, facts ]
+  tags: [ always ]
 
   tasks:
     - name: Gather facts
@@ -71,6 +71,8 @@
   tags: [ core ]
 
   roles:
+    - role: openbsd.doas
+      tags: [ doas ]
     - role: openbsd.unwind
       tags: [ unwind ]
 

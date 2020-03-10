@@ -3,8 +3,5 @@
 
 dns:
   hosts:
-    jcmdln.net:
-
-mail:
-  hosts:
-    jcmdln.net:
+    eu-central-nl-1.jcmdln.net:
+    us-east-ny-1.jcmdln.net:
