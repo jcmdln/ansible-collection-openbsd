@@ -1,7 +1,7 @@
 ---
 # tasks file for openbsd.dns
 
-- name: Configure dhclient.conf
+- name: configure dhclient.conf
   template:
     src: etc/dhclient.conf.j2
     dest: /etc/dhclient.conf
@@ -9,8 +9,8 @@
     group: wheel
     mode: 0644
 
-- name: Start and enable unwind
+- name: start and enable unwind
   service:
-    name: "unwind"
+    name: unwind
     state: started
     enabled: true

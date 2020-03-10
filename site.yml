@@ -73,6 +73,8 @@
   roles:
     - role: openbsd.doas
       tags: [ doas ]
+    - role: openbsd.ntpd
+      tags: [ ntpd ]
     - role: openbsd.unwind
       tags: [ unwind ]
 

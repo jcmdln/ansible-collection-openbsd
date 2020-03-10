@@ -1,9 +1,10 @@
 ---
 # tasks file for openbsd.doas
 
-- name: Copy /etc/examples/doas.conf to /etc/doas.conf
-  copy:
-    src: /etc/examples/doas.conf
+- name: Configure doas
+  template:
+    src: etc/doas.conf.j2
     dest: /etc/doas.conf
-    remote_src: true
-    mode: preserve
+    owner: root
+    group: wheel
+    mode: 0600

@@ -1,0 +1,16 @@
+---
+# tasks file for openbsd.ntpd
+
+- name: configure ntpd
+  template:
+    src: etc/ntpd.conf.j2
+    dest: /etc/ntpd.conf
+    owner: root
+    group: wheel
+    mode: 0600
+
+- name: start and enable ntpd
+  service:
+    name: ntpd
+    state: started
+    enabled: true
