@@ -1,4 +1,0 @@
-# requirements.python.txt
-
-ansible
-molecule

@@ -3,7 +3,6 @@
 
 - name: upgrade to latest release or snapshot
   sysupgrade:
-    branch: "{{ sysupgrade_branch }}"
   register: sysupgrade
 
 - name: reboot if upgraded

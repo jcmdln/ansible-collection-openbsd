@@ -5,11 +5,11 @@
 # Check
 #
 
-- name: Check hosts
+- name: Check
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [ prepare ]
+  tags: [always]
 
   pre_tasks:
     - name: Confirm host is running OpenBSD
@@ -30,16 +30,6 @@
         pkg_add python3
       when: not python
 
-#
-# Facts
-#
-
-- name: Gather host facts
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: all
-  tags: [ always ]
-
   tasks:
     - name: Gather facts
       setup:
@@ -48,59 +38,62 @@
 # Update
 #
 
-- name: Update hosts
+- name: Update
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [ never, update ]
+  tags: [never, update]
 
   roles:
     - role: openbsd.syspatch
-      tags: [ syspatch ]
+      tags: [update-syspatch]
+
     - role: openbsd.sysupgrade
-      tags: [ sysupgrade ]
+      tags: [update-sysupgrade]
 
 #
-# Core
+# Setup
 #
 
-- name: Setup core
+- name: Setup
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [ core ]
+  tags: [setup]
 
   roles:
     - role: openbsd.doas
-      tags: [ doas ]
+      tags: [setup-doas]
+
     - role: openbsd.ntpd
-      tags: [ ntpd ]
+      tags: [setup-ntpd]
+
     - role: openbsd.unwind
-      tags: [ unwind ]
+      tags: [setup-unwind]
 
 #
 # DNS
 #
 
-# - name: Setup nameservers
-#   any_errors_fatal: true
-#   gather_facts: false
-#   hosts: dns
-#   tags: [ dns ]
+- name: DNS
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: dns
+  tags: [never, dns]
 
-#   roles:
-#     - role: openbsd.nsd
-#       tags: [ nsd ]
+  roles:
+    - role: openbsd.nsd
+      tags: [dns-nsd]
 
 #
 # Mail
 #
 
-# - name: Setup mail servers
-#   any_errors_fatal: true
-#   gather_facts: false
-#   hosts: mail
-#   tags: [ mail ]
+- name: Setup mail servers
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: mail
+  tags: [never, mail]
 
-#   roles:
-#     - role: openbsd.mail
+  roles:
+    - role: openbsd.mail

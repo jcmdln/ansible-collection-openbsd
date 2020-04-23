@@ -1,0 +1,6 @@
+---
+# inventory.sample.yml
+
+dns:
+  hosts:
+    jcmdln.net:
