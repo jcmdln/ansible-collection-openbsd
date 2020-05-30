@@ -1,8 +1,15 @@
 ---
-# tasks file for openbsd.syspatch
-
-- name: Proceed if host is eligible
-  include: syspatch.yml
+- name: apply all available patches
+  openbsd_syspatch:
+    apply: true
+  register: syspatch
   when:
-    - ansible_distribution_version >= "6.1"
+    - ansible_distribution_version is version("6.1", ">=")
     - ansible_distribution_release not in ["current", "beta"]
+
+- name: reboot host if patched
+  reboot:
+    connect_timeout: "{{ connect_timeout }}"
+    reboot_timeout: "{{ reboot_timeout }}"
+  when:
+    - syspatch.changed

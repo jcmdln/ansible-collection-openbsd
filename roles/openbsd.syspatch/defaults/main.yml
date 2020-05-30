@@ -1,4 +1,3 @@
----
 # defaults/main.yml
 
 connect_timeout: 600

@@ -20,8 +20,7 @@ def upgrade(r, m):
     if m.params["force"]:
         r["command"] = "%s -f" % (r["command"])
 
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(
-        r["command"], check_rc=False)
+    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
 
     if "ftp: Error retrieving file: 404 Not Found" in r["stderr"]:
         # This signifies that no later release is available, which
@@ -46,14 +45,16 @@ def upgrade(r, m):
 
 
 def main():
-    module_args = {
-        "branch": {"type": "str", "choices": ["auto", "release", "snapshot"]},
-        "force": {"type": "bool", "default": False},
-    }
-
     module = AnsibleModule(
-        argument_spec=module_args,
-        supports_check_mode=True
+        argument_spec={
+            "branch": {
+                "type": "str",
+                "choices": ["auto", "release", "snapshot"],
+                "required": True,
+            },
+            "force": {"type": "bool", "default": False},
+        },
+        supports_check_mode=True,
     )
 
     result = {

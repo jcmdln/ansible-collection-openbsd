@@ -1,7 +1,0 @@
----
-- name: Converge
-  hosts: all
-  tasks:
-    - name: "Include openbsd.nsd"
-      include_role:
-        name: "openbsd.nsd"

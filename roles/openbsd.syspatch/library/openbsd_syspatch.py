@@ -11,8 +11,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 def syspatch_apply(r, m):
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(
-        r["command"], check_rc=False)
+    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
 
     if r["rc"] != 0:
         r["msg"] = "received a non-zero exit code"
@@ -33,8 +32,7 @@ def syspatch_list(r, m):
     if m.params["List"] == "installed":
         r["command"] = "%s -l" % (r["command"])
 
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(
-        r["command"], check_rc=False)
+    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
 
     if r["rc"] != 0:
         r["msg"] = "received a non-zero exit code"
@@ -54,8 +52,7 @@ def syspatch_revert(r, m):
     if m.params["revert"] == "latest":
         r["command"] = "%s -r" % (r["command"])
 
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(
-        r["command"], check_rc=False)
+    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
 
     if r["rc"] != 0:
         r["msg"] = "received a non-zero exit code"

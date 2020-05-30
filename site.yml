@@ -1,17 +1,12 @@
 ---
 # site.yml
 
-#
-# Check
-#
-
 - name: Check
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [always]
-
-  pre_tasks:
+  tags: [always, check]
+  tasks:
     - name: Confirm host is running OpenBSD
       raw: >-
         uname
@@ -23,77 +18,86 @@
       raw: >-
         command -v python3
       changed_when: not python
+      failed_when: false
       register: python
 
     - name: Install Python 3.x if missing
       raw: >-
         pkg_add python3
-      when: not python
+      when:
+        - python.rc is defined
+        - python.rc > 0
 
-  tasks:
     - name: Gather facts
       setup:
-
-#
-# Update
-#
 
 - name: Update
   any_errors_fatal: true
   gather_facts: false
   hosts: all
   tags: [never, update]
-
   roles:
     - role: openbsd.syspatch
-      tags: [update-syspatch]
+      tags: [syspatch]
 
     - role: openbsd.sysupgrade
-      tags: [update-sysupgrade]
+      tags: [sysupgrade]
 
-#
-# Setup
-#
-
-- name: Setup
+- name: Base
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [setup]
-
+  tags: [base]
   roles:
     - role: openbsd.doas
-      tags: [setup-doas]
+      tags: [doas]
 
     - role: openbsd.ntpd
-      tags: [setup-ntpd]
+      tags: [ntpd]
 
-    - role: openbsd.unwind
-      tags: [setup-unwind]
-
-#
-# DNS
-#
+    - role: openbsd.pf
+      tags: [pf]
 
 - name: DNS
   any_errors_fatal: true
   gather_facts: false
   hosts: dns
   tags: [never, dns]
-
   roles:
     - role: openbsd.nsd
-      tags: [dns-nsd]
+      tags: [nsd]
 
-#
-# Mail
-#
+    - role: openbsd.unwind
+      tags: [unwind]
 
-- name: Setup mail servers
+# - name: Firewall
+#   any_errors_fatal: true
+#   gather_facts: false
+#   hosts: firewall
+#   tags: [never, firewall]
+
+- name: Mail
   any_errors_fatal: true
   gather_facts: false
   hosts: mail
   tags: [never, mail]
-
   roles:
     - role: openbsd.mail
+
+- name: Web
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: web
+  tags: [never, web]
+  roles:
+    - role: openbsd.httpd
+      tags: [httpd]
+
+- name: Acme
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: acme
+  tags: [never, acme]
+  roles:
+    - role: openbsd.acme
+      tags: [acme]

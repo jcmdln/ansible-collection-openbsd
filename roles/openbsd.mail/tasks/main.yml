@@ -1,2 +1,14 @@
 ---
-# tasks file for openbsd.mail
+
+- name: Install packages if missing
+  package:
+    name: "{{ mail_packages }}"
+    state: present
+
+- name: Create /etc/mail directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /etc/mail
+    - /etc/mail/dkim

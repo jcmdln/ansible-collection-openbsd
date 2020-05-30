@@ -1,3 +1,12 @@
 ---
-pf_includes:
-  - 'default.conf'
+pf_conf:
+  - comment: skip loopback
+    rule: set skip on lo
+  - comment: block stateless traffic
+    rule: block return
+  - comment: establish keep-state
+    rule: pass
+  - comment: do not permit remote connections to X11
+    rule: block return in on ! lo0 proto tcp to port 6000:6010
+  - comment: ports build user does not need network
+    rule: block return out log proto {tcp udp} user _pbuild

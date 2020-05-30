@@ -1,37 +1,10 @@
 ---
-- name: create directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: wheel
-    mode: "0755"
-  with_items:
-    - /etc/pf
-    - /etc/pf/includes
-
-- name: add pf(8) includes
-  template:
-    src: "etc/pf/includes/{{ item }}.j2"
-    dest: "/etc/pf/includes/{{ item }}"
-    owner: root
-    group: wheel
-    mode: "0644"
-  with_items: "{{ pf_includes }}"
-
 - name: configure pf(8)
   template:
-    src: etc/{{ item }}.j2
-    dest: /etc/{{ item }}
+    src: etc/pf.conf.j2
+    dest: /etc/pf.conf
     owner: root
     group: wheel
-    mode: "0644"
+    mode: "0600"
   notify:
     - reload pf
-  with_items:
-    - pf.conf
-    - pf/includes.conf
-
-- name: set pf(8) facts
-  set_fact:
-    pf_includes: "{{ pf_includes }}"
