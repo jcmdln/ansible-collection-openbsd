@@ -1,3 +1,0 @@
-# requirements.python.txt
-
-ansible>=2.9,<3

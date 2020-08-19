@@ -1,5 +1,4 @@
----
-# inventory.sample.yml
+# inventory.yml
 
 dns:
   hosts:

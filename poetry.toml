@@ -1,0 +1,5 @@
+# poetry.toml
+
+[virtualenvs]
+in-project = true
+path = ".venv"

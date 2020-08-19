@@ -1,6 +1,0 @@
-# test-requirements.txt
-
-autopep8
-flake8
-molecule>=3,<4
-tox
