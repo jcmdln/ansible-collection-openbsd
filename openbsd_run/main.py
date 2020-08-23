@@ -44,7 +44,7 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
         sys.exit(1)
 
     if update:
-        ansible.run(
+        result = ansible.run(
             artifact_dir="/tmp/openbsd-run",
             host_pattern=host_pattern,
             inventory=inventory,
@@ -53,6 +53,13 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
             roles_path="%s/roles" % playbook_path(),
             quiet=quiet,
         )
+
+        if result.errored:
+            print("openbsd-run: error: update failed!")
+            sys.exit(1)
+        else:
+            print("openbsd-run: update completed successfully")
+            sys.exit(0)
 
 
 if __name__ == "__main__":
