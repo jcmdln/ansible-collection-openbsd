@@ -1,4 +1,7 @@
+from openbsd_run.playbook import Path as playbook_path
+import ansible_runner as ansible
 import click
+import sys
 
 
 @click.command(
@@ -6,13 +9,50 @@ import click
     context_settings={"help_option_names": ["-h", "--help"]},
 )
 @click.version_option(None, "-v", "--version")
-@click.option("--quiet", "-q", default=False, help="Suppress Ansible output")
 @click.option(
-    "--update", "-u", default=False, help="Upgrade, patch and update packages"
+    "--host_pattern",
+    "-H",
+    type=str,
+    default="",
+    help="Host pattern to match against inventory",
 )
-def main(quiet: bool, update: bool) -> None:
+@click.option(
+    "--inventory", "-i", default="", help="Inventory file", type=str,
+)
+@click.option(
+    "--quiet",
+    "-q",
+    default=False,
+    help="Suppress Ansible output",
+    is_flag=True,
+    type=bool,
+)
+@click.option(
+    "--update",
+    "-u",
+    default=False,
+    help="Upgrade, patch and update packages",
+    is_flag=True,
+    type=bool,
+)
+def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
     """
     """
+
+    if not inventory:
+        print("openbsd-run: error: inventory not provided")
+        sys.exit(1)
+
+    if update:
+        ansible.run(
+            artifact_dir="/tmp/openbsd-run",
+            host_pattern=host_pattern,
+            inventory=inventory,
+            playbook="%s/site-update.yml" % playbook_path(),
+            private_data_dir=playbook_path(),
+            roles_path="%s/roles" % playbook_path(),
+            quiet=quiet,
+        )
 
 
 if __name__ == "__main__":
