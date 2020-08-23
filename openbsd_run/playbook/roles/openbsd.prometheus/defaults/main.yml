@@ -1,4 +1,4 @@
----
+
 prometheus_httpd_includes:
   - "prometheus.conf"
 

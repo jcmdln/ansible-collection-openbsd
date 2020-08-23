@@ -1,4 +1,4 @@
----
+
 # tasks file for openbsd.doas
 
 - name: Configure doas

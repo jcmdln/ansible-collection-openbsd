@@ -1,4 +1,4 @@
----
+
 # tasks file for openbsd.dns
 
 - name: configure dhclient.conf

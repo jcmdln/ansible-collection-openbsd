@@ -1,4 +1,4 @@
----
+
 - name: Include and set facts
   include: facts.yml
 

@@ -1,4 +1,4 @@
----
+
 # defaults file for openbsd.sysupgrade
 
 sysupgrade_branch: "auto"

@@ -1,4 +1,4 @@
----
+
 - name: configure pf(8)
   template:
     src: etc/pf.conf.j2

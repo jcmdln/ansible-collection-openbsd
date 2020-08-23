@@ -1,4 +1,4 @@
----
+
 - name: apply all available patches
   syspatch:
     apply: true

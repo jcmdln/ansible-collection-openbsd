@@ -1,4 +1,4 @@
----
+
 # tasks file for openbsd.ntpd
 
 - name: configure ntpd

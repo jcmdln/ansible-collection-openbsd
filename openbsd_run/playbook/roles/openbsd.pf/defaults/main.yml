@@ -1,4 +1,4 @@
----
+
 pf_conf:
   - comment: skip loopback
     rule: set skip on lo
