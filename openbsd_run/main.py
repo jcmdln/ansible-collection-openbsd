@@ -6,8 +6,11 @@ import click
     context_settings={"help_option_names": ["-h", "--help"]},
 )
 @click.version_option(None, "-v", "--version")
-@click.option("--update", "-u", default=False, help="")
-def main(update: bool) -> None:
+@click.option("--quiet", "-q", default=False, help="Suppress Ansible output")
+@click.option(
+    "--update", "-u", default=False, help="Upgrade, patch and update packages"
+)
+def main(quiet: bool, update: bool) -> None:
     """
     """
 
