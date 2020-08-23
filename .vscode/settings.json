@@ -1,0 +1,24 @@
+{
+    "search.exclude": {
+        "**/__pycache__/**": true,
+        "**/.mypy_cache/**": true,
+        "**/.venv/**": true,
+        "**/venv/**": true,
+        "vendor": true,
+    },
+    "files.watcherExclude": {
+        "**/__pycache__/**": true,
+        "**/.mypy_cache/**": true,
+        "**/.venv/**": true,
+        "**/venv/**": true,
+        "vendor": true,
+    },
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.banditEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.pycodestyleEnabled": true,
+    "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
+    "python.venvPath": "${workspaceFolder}/.venv",
+}

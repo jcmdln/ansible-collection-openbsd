@@ -1,0 +1,17 @@
+---
+# site-mail.yml
+
+- name: Mail
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: mail
+
+  pre_tasks:
+    - name: collect facts if missing
+      setup:
+      when: >-
+        ansible_facts is undefined
+        or not ansible_facts
+
+  roles:
+    - role: openbsd.mail

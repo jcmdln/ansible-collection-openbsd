@@ -1,8 +1,8 @@
 ---
 - name: apply all available patches
-  openbsd_syspatch:
+  syspatch:
     apply: true
-  register: syspatch
+  register: syspatch_result
   when:
     - ansible_distribution_version is version("6.1", ">=")
     - ansible_distribution_release not in ["current", "beta"]
@@ -12,4 +12,4 @@
     connect_timeout: "{{ connect_timeout }}"
     reboot_timeout: "{{ reboot_timeout }}"
   when:
-    - syspatch.changed
+    - syspatch_result.changed

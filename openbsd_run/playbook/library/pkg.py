@@ -11,36 +11,61 @@ from ansible.module_utils.basic import AnsibleModule
 from typing import Any, Dict
 
 
-class Vmctl:
+class Pkg:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
 
         self.changed: bool = False
-        self.command: str = "/usr/sbin/vmctl"
+        self.command: str = "/usr/sbin/pkg_add"
         self.msg: str = ""
         self.rc: int = 0
         self.reboot: bool = False
         self.stdout: str = ""
         self.stderr: str = ""
 
+    def Add(self) -> None:
+        """
+        """
+
+    def Check(self) -> None:
+        """
+        """
+
+    def Delete(self) -> None:
+        """
+        """
+
+    def Info(self) -> None:
+        """
+        """
+
 
 def main() -> None:
-    module: AnsibleModule = AnsibleModule(argument_spec={})
+    module: AnsibleModule = AnsibleModule(
+        argument_spec={
+            "name": {"type": "str", "required": True},
+            "state": {
+                "type": "str",
+                "choices": ["absent", "latest", "present"],
+            },
+        },
+        supports_check_mode=True,
+    )
 
-    vmctl: Vmctl = Vmctl(module)
+    pkg: Pkg = Pkg(module)
 
     # Convert specific properties to a dict so we return specific data
     result: Dict[str, Any] = {
-        "changed": vmctl.changed,
-        "command": vmctl.command,
-        "msg": vmctl.msg,
-        "rc": vmctl.rc,
-        "reboot": vmctl.reboot,
-        "stdout": vmctl.stdout,
-        "stderr": vmctl.stderr,
+        "changed": pkg.changed,
+        "command": pkg.command,
+        "msg": pkg.msg,
+        "rc": pkg.rc,
+        "reboot": pkg.reboot,
+        "stdout": pkg.stdout,
+        "stderr": pkg.stderr,
     }
 
-    if vmctl.rc > 0:
+    if pkg.rc > 0:
         module.fail_json(**result)
     else:
         module.exit_json(**result)

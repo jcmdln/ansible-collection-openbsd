@@ -8,66 +8,97 @@
 
 from __future__ import absolute_import
 from ansible.module_utils.basic import AnsibleModule
+from typing import Any, Dict
 
 
-def syspatch_apply(r, m):
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
+class Syspatch:
+    def __init__(self, module: AnsibleModule) -> None:
+        self.module: AnsibleModule = module
 
-    if r["rc"] != 0:
-        r["msg"] = "received a non-zero exit code"
-        r["rc"] = 1
-    elif not r["stdout"]:
-        r["msg"] = "nothing to do"
-    else:
-        r["msg"] = "patches applied, probably"
-        r["changed"] = True
+        self.changed: bool = False
+        self.command: str = "/usr/sbin/syspatch"
+        self.msg: str = ""
+        self.rc: int = 0
+        self.reboot: bool = False
+        self.stdout: str = ""
+        self.stderr: str = ""
 
-    return r
+    def Apply(self) -> None:
+        """
+        Apply all available patches
+        """
+
+        self.rc, self.stdout, self.stderr = self.module.run_command(
+            self.command, check_rc=False
+        )
+
+        if self.rc != 0:
+            self.msg = "received a non-zero exit code"
+            return
+
+        if not self.stdout and not self.stderr:
+            self.msg = "no action performed"
+            return
+
+        if "reboot" in self.stdout:
+            self.reboot = True
+
+        self.changed = True
+        self.msg = "patches applied"
+
+    def List(self) -> None:
+        """
+        """
+        if self.module.params["List"].lower() == "available":
+            self.command = "%s -c" % (self.command)
+
+        if self.module.params["List"].lower() == "installed":
+            self.command = "%s -l" % (self.command)
+
+        self.rc, self.stdout, self.stderr = self.module.run_command(
+            self.command, check_rc=False
+        )
+
+        if self.rc != 0:
+            self.msg = "received a non-zero exit code"
+            return
+
+        if not self.stdout and not self.stderr:
+            self.msg = "no patches to list"
+            return
+
+        self.msg = "list of available patches returned"
+
+    def Revert(self) -> None:
+        """
+        """
+        if self.module.params["list"] == "all":
+            self.command = "%s -R" % (self.command)
+
+        if self.module.params["list"] == "latest":
+            self.command = "%s -r" % (self.command)
+
+        self.rc, self.stdout, self.stderr = self.module.run_command(
+            self.command, check_rc=False
+        )
+
+        if self.rc != 0:
+            self.msg = "received a non-zero exit code"
+            return
+
+        if not self.stdout and not self.stderr:
+            self.msg = "no patches to revert"
+            return
+
+        if "reboot" in self.stdout:
+            self.reboot = True
+
+        self.changed = True
+        self.msg = "patches reverted"
 
 
-def syspatch_list(r, m):
-    if m.params["List"] == "available":
-        r["command"] = "%s -c" % (r["command"])
-
-    if m.params["List"] == "installed":
-        r["command"] = "%s -l" % (r["command"])
-
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
-
-    if r["rc"] != 0:
-        r["msg"] = "received a non-zero exit code"
-        r["rc"] = 1
-    elif len(r["stdout"]) < 1:
-        r["msg"] = "nothing to do"
-    else:
-        r["msg"] = "list of patches returned"
-
-    return r
-
-
-def syspatch_revert(r, m):
-    if m.params["revert"] == "all":
-        r["command"] = "%s -R" % (r["command"])
-
-    if m.params["revert"] == "latest":
-        r["command"] = "%s -r" % (r["command"])
-
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
-
-    if r["rc"] != 0:
-        r["msg"] = "received a non-zero exit code"
-        r["rc"] = 1
-    elif len(r["stdout"]) < 1:
-        r["msg"] = "nothing to do"
-    else:
-        r["msg"] = "patches reverted, probably"
-        r["changed"] = True
-
-    return r
-
-
-def main():
-    module = AnsibleModule(
+def main() -> None:
+    module: AnsibleModule = AnsibleModule(
         argument_spec={
             "apply": {"type": "bool", "default": False},
             "list": {"type": "str", "choices": ["available", "installed"]},
@@ -78,23 +109,27 @@ def main():
         supports_check_mode=False,
     )
 
-    result = {
-        "changed": False,
-        "command": "/usr/sbin/syspatch",
-        "msg": "no action performed",
-        "rc": 0,
-        "stdout": "",
-        "stderr": "",
-    }
+    syspatch: Syspatch = Syspatch(module)
 
     if module.params["apply"]:
-        result = syspatch_apply(result, module)
+        syspatch.Apply()
     elif module.params["list"]:
-        result = syspatch_list(result, module)
+        syspatch.List()
     elif module.params["revert"]:
-        result = syspatch_revert(result, module)
+        syspatch.Revert()
 
-    if result["rc"] > 0:
+    # Convert specific properties to a dict so we return specific data
+    result: Dict[str, Any] = {
+        "changed": syspatch.changed,
+        "command": syspatch.command,
+        "msg": syspatch.msg,
+        "rc": syspatch.rc,
+        "reboot": syspatch.reboot,
+        "stdout": syspatch.stdout,
+        "stderr": syspatch.stderr,
+    }
+
+    if syspatch.rc > 0:
         module.fail_json(**result)
     else:
         module.exit_json(**result)

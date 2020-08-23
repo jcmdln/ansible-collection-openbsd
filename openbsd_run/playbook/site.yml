@@ -1,103 +1,26 @@
 ---
 # site.yml
 
-- name: Check
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: all
+- import_playbook: site-check.yml
   tags: [always, check]
-  tasks:
-    - name: Confirm host is running OpenBSD
-      raw: >-
-        uname
-      changed_when: false
-      failed_when: ("OpenBSD" not in uname.stdout)
-      register: uname
 
-    - name: Check if Python 3.x is present
-      raw: >-
-        command -v python3
-      changed_when: not python
-      failed_when: false
-      register: python
-
-    - name: Install Python 3.x if missing
-      raw: >-
-        pkg_add python3
-      when:
-        - python.rc is defined
-        - python.rc > 0
-
-    - name: Gather facts
-      setup:
-
-- name: Update
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: all
+- import_playbook: site-update.yml
   tags: [never, update]
-  roles:
-    - role: openbsd.syspatch
-      tags: [syspatch]
 
-    - role: openbsd.sysupgrade
-      tags: [sysupgrade]
+- import_playbook: site-core.yml
+  tags: [core]
 
-- name: Base
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: all
-  tags: [base]
-  roles:
-    - role: openbsd.doas
-      tags: [doas]
+- import_playbook: site-firewall.yml
+  tags: [never, firewall]
 
-    - role: openbsd.ntpd
-      tags: [ntpd]
-
-    - role: openbsd.pf
-      tags: [pf]
-
-- name: DNS
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: dns
+- import_playbook: site-dns.yml
   tags: [never, dns]
-  roles:
-    - role: openbsd.nsd
-      tags: [nsd]
 
-    - role: openbsd.unwind
-      tags: [unwind]
-
-# - name: Firewall
-#   any_errors_fatal: true
-#   gather_facts: false
-#   hosts: firewall
-#   tags: [never, firewall]
-
-- name: Mail
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: mail
+- import_playbook: site-mail.yml
   tags: [never, mail]
-  roles:
-    - role: openbsd.mail
 
-- name: Web
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: web
+- import_playbook: site-web.yml
   tags: [never, web]
-  roles:
-    - role: openbsd.httpd
-      tags: [httpd]
 
-- name: Acme
-  any_errors_fatal: true
-  gather_facts: false
-  hosts: acme
+- import_playbook: site-acme.yml
   tags: [never, acme]
-  roles:
-    - role: openbsd.acme
-      tags: [acme]

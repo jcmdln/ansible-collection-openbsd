@@ -1,0 +1,43 @@
+---
+# site-check.yml
+
+- name: Check
+  any_errors_fatal: true
+  gather_facts: false
+  hosts: all
+  tags: [always, check]
+
+  pre_tasks:
+    - name: collect facts if missing
+      setup:
+      when: >-
+        ansible_facts is undefined
+        or not ansible_facts
+
+  handlers:
+    - name: Install Python 3.x if missing
+      raw: >-
+        pkg_add python3
+      when:
+        - python_check.rc is defined
+        - python_check.rc > 0
+
+  tasks:
+    - name: Confirm host is running OpenBSD
+      raw: >-
+        uname
+      changed_when: false
+      failed_when: ("OpenBSD" not in uname.stdout)
+      register: uname
+
+    - name: Check if Python 3.x is present
+      raw: >-
+        command -v python3
+      changed_when: not python_check
+      failed_when: false
+      notify:
+        - Install Python 3.x if missing
+      register: python_check
+
+    - name: Gather facts
+      setup:

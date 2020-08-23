@@ -1,5 +1,9 @@
 # inventory.yml
 
+all:
+  hosts:
+    laptop.local:
+
 dns:
   hosts:
     maudlin.dev:

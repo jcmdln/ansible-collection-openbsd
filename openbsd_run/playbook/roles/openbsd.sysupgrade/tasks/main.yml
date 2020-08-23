@@ -1,8 +1,8 @@
 ---
 - name: upgrade to latest release or snapshot
-  openbsd_sysupgrade:
+  sysupgrade:
     branch: "{{ sysupgrade_branch }}"
-  register: sysupgrade
+  register: sysupgrade_result
   when:
     - ansible_distribution_version is version("6.6", ">=")
 
@@ -11,18 +11,18 @@
     connect_timeout: "{{ connect_timeout }}"
     reboot_timeout: "{{ reboot_timeout }}"
   when:
-    - sysupgrade.changed
+    - sysupgrade_result.changed
 
 - name: (release) update packages
   command: >-
     pkg_add -u
   when:
-    - sysupgrade.changed
+    - sysupgrade_result.changed
     - ansible_distribution_release not in ["current", "beta"]
 
 - name: (current) reinstall snapshot packages
   command: >-
     pkg_add -ruD snap
   when:
-    - sysupgrade.changed
+    - sysupgrade_result.changed
     - ansible_distribution_release in ["current", "beta"]

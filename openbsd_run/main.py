@@ -6,7 +6,8 @@ import click
     context_settings={"help_option_names": ["-h", "--help"]},
 )
 @click.version_option(None, "-v", "--version")
-def main() -> None:
+@click.option("--update", "-u", default=False, help="")
+def main(update: bool) -> None:
     """
     """
 

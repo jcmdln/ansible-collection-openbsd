@@ -8,67 +8,78 @@
 
 from __future__ import absolute_import
 from ansible.module_utils.basic import AnsibleModule
+from typing import Any, Dict
 
 
-def upgrade(r, m):
-    if m.params["branch"] == "release":
-        r["command"] = "%s -r" % (r["command"])
+class Sysupgrade:
+    def __init__(self, module: AnsibleModule) -> None:
+        """
+        """
+        self.module: AnsibleModule = module
 
-    if m.params["branch"] == "snapshot":
-        r["command"] = "%s -s" % (r["command"])
+        self.changed: bool = False
+        self.command: str = "/usr/sbin/sysupgrade -n"
+        self.msg: str = ""
+        self.rc: int = 0
+        self.reboot: bool = False
+        self.stdout: str = ""
+        self.stderr: str = ""
 
-    if m.params["force"]:
-        r["command"] = "%s -f" % (r["command"])
+    def Update(self) -> None:
+        """
+        """
+        if self.module.params["branch"].lower() == "release":
+            self.command = "%s -r" % (self.command)
 
-    r["rc"], r["stdout"], r["stderr"] = m.run_command(r["command"], check_rc=False)
+        if self.module.params["branch"].lower() == "snapshot":
+            self.command = "%s -s" % (self.command)
 
-    if "ftp: Error retrieving file: 404 Not Found" in r["stderr"]:
-        # This signifies that no later release is available, which
-        # isn't really an error.
-        r["rc"] = 0
-        r["msg"] = "already on the latest available release"
-    elif r["rc"] > 0:
-        r["changed"] = False
-        r["msg"] = "received a non-zero exit code"
-    elif "Already on latest" in r["stdout"]:
-        r["changed"] = False
-        r["msg"] = "no action required"
-    elif "Will upgrade on next reboot" in r["stdout"]:
-        r["changed"] = True
-        r["msg"] = "Upgrade prepared successfully"
-    else:
-        r["changed"] = True
-        r["msg"] = "something unexpected happened"
-        r["rc"] = 1
+        self.rc, self.stdout, self.stderr = self.module.run_command(
+            self.command, check_rc=False
+        )
 
-    return r
+        if self.rc != 0:
+            self.msg = "received a non-zero exit code"
+            return
+
+        if not self.stdout and not self.stderr:
+            self.msg = ""
+            return
+
+        if "Already on latest" in self.stdout:
+            return
+
+        self.changed = True
+        self.msg = "patches reverted"
+        self.reboot = True
 
 
-def main():
-    module = AnsibleModule(
+def main() -> None:
+    module: AnsibleModule = AnsibleModule(
         argument_spec={
             "branch": {
                 "type": "str",
                 "choices": ["auto", "release", "snapshot"],
-                "required": True,
+                "default": "auto",
             },
             "force": {"type": "bool", "default": False},
         },
         supports_check_mode=True,
     )
 
-    result = {
-        "changed": False,
-        "command": "/usr/sbin/sysupgrade -n",
-        "msg": "no action performed",
-        "rc": 0,
-        "stderr": "",
-        "stdout": "",
+    sysupgrade: Sysupgrade = Sysupgrade(module)
+
+    # Convert specific properties to a dict so we return specific data
+    result: Dict[str, Any] = {
+        "changed": sysupgrade.changed,
+        "command": sysupgrade.command,
+        "msg": sysupgrade.msg,
+        "rc": sysupgrade.rc,
+        "stdout": sysupgrade.stdout,
+        "stderr": sysupgrade.stderr,
     }
 
-    result = upgrade(result, module)
-
-    if result["rc"] > 0:
+    if sysupgrade.rc > 0:
         module.fail_json(**result)
     else:
         module.exit_json(**result)

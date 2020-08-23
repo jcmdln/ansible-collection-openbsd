@@ -6,7 +6,7 @@
 # GNU General Public License v3.0+ (see COPYING or
 # https://www.gnu.org/licenses/gpl-3.0.txt)
 
-from __future__ import (absolute_import)
+from __future__ import absolute_import
 from ansible.module_utils.basic import AnsibleModule
 
 
@@ -16,26 +16,22 @@ def pfsync(module, result):
 
 
 def main():
-    module = AnsibleModule(
-        argument_spec={
-        },
-        supports_check_mode=True
-    )
+    module = AnsibleModule(argument_spec={}, supports_check_mode=True)
 
     result = {
-        'changed': False,
-        'command': '/usr/sbin/syspatch',
-        'msg': 'no action performed',
-        'rc': 0,
-        'stdout': '',
-        'stderr': '',
+        "changed": False,
+        "command": "/usr/sbin/syspatch",
+        "msg": "no action performed",
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
     }
 
-    if result['rc'] > 0:
+    if result["rc"] > 0:
         module.fail_json(**result)
     else:
         module.exit_json(**result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
