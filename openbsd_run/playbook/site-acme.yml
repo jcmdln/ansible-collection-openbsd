@@ -1,11 +1,9 @@
----
 # site-acme.yml
 
 - name: Acme
   any_errors_fatal: true
   gather_facts: false
   hosts: acme
-  tags: [never, acme]
 
   pre_tasks:
     - name: collect facts if missing

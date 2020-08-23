@@ -1,11 +1,9 @@
----
 # site-core.yml
 
 - name: Core
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [core]
 
   pre_tasks:
     - name: collect facts if missing

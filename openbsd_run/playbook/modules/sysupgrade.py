@@ -43,10 +43,17 @@ class Sysupgrade:
             return
 
         if not self.stdout and not self.stderr:
-            self.msg = ""
+            self.msg = "no actions performed"
             return
 
         if "Already on latest" in self.stdout:
+            self.msg = self.stdout.split("\n")[-1].strip(".").lower()
+            return
+
+        if "Signature Verified" not in self.stdout:
+            self.changed = True
+            self.msg = "failed to verify downloaded files"
+            self.rc = 1 if self.rc == 0 else self.rc
             return
 
         self.changed = True

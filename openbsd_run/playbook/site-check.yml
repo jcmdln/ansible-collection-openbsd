@@ -1,11 +1,9 @@
----
 # site-check.yml
 
 - name: Check
   any_errors_fatal: true
   gather_facts: false
   hosts: all
-  tags: [always, check]
 
   pre_tasks:
     - name: collect facts if missing

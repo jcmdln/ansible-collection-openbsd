@@ -90,7 +90,7 @@ class Syspatch:
             self.msg = "no patches to revert"
             return
 
-        if "reboot" in self.stdout:
+        if "reboot" in self.stdout.lower():
             self.reboot = True
 
         self.changed = True
