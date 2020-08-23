@@ -1,4 +1,4 @@
-Role Name
+openbsd.mail
 =========
 
 * https://man.openbsd.org/acme-client.1
@@ -8,7 +8,7 @@ Role Name
 * https://man.openbsd.org/spamd.conf.5
 
 Requirements
-------------
+---------
 
 ### DNS Records
 | Host               | Type  | TTL  | Value |
@@ -25,28 +25,3 @@ Requirements
 * https://tools.ietf.org/html/rfc3501
 * https://tools.ietf.org/html/rfc6376
 * https://tools.ietf.org/html/rfc7489
-
-Role Variables
---------------
-
-TBD
-
-Dependencies
-------------
-
-TBD
-
-Example Playbook
-----------------
-
-TBD
-
-License
--------
-
-ISC
-
-Author Information
-------------------
-
-jcmdln

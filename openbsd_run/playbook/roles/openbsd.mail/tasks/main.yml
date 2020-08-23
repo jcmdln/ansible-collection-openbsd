@@ -1,4 +1,4 @@
-
+# openbsd.mail/tasks/main.yml
 
 - name: Install packages if missing
   package:

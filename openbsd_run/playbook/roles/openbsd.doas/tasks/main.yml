@@ -1,5 +1,4 @@
-
-# tasks file for openbsd.doas
+# openbsd.doas/tasks/main.yml
 
 - name: Configure doas
   template:

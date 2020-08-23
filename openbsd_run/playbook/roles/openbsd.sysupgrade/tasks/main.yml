@@ -1,3 +1,4 @@
+# openbsd.sysupgrade/tasks/main.yml
 
 - name: upgrade to latest release or snapshot
   sysupgrade:

@@ -1,3 +1,4 @@
+# openbsd.pf/tasks/main.yml
 
 - name: configure pf(8)
   template:

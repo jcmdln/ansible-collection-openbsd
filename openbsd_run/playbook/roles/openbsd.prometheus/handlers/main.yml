@@ -1,3 +1,4 @@
+# openbsd.prometheus/handlers/main.yml
 
 - name: reload httpd
   service:

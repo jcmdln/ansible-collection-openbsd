@@ -1,3 +1,4 @@
+# openbsd.syspatch/tasks/main.yml
 
 - name: apply all available patches
   syspatch:

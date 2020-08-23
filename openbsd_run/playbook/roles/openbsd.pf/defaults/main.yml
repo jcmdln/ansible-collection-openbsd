@@ -1,3 +1,4 @@
+# openbsd.pf/defaults/main.yml
 
 pf_conf:
   - comment: skip loopback

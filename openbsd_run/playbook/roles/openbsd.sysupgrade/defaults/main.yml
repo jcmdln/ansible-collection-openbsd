@@ -1,7 +1,5 @@
-
-# defaults file for openbsd.sysupgrade
-
-sysupgrade_branch: "auto"
+# openbsd.sysupgrade/defaults/main.yml
 
 connect_timeout: 600
 reboot_timeout: 600
+sysupgrade_branch: "auto"

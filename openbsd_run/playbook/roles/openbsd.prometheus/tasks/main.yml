@@ -1,3 +1,4 @@
+# openbsd.prometheus/tasks/main.yml
 
 - name: install packages
   package:

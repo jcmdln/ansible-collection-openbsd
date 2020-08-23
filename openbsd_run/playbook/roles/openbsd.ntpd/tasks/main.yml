@@ -1,5 +1,4 @@
-
-# tasks file for openbsd.ntpd
+# openbsd.ntpd/tasks/main.yml
 
 - name: configure ntpd
   template:
