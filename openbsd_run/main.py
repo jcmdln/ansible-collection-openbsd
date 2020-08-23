@@ -1,6 +1,8 @@
-from openbsd_run.playbook import Path as playbook_path
+from openbsd_run.playbook import path as playbook_path
+from typing import Any, Dict
 import ansible_runner as ansible
 import click
+import yaml
 import sys
 
 
@@ -39,28 +41,50 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
     """
     """
 
+    inventory_contents: Dict[Any, Any] = {}
+
     if not inventory:
         print("openbsd-run: error: inventory not provided")
         sys.exit(1)
 
+    with open(inventory, "r") as f:
+        inventory_contents = yaml.safe_load(f.read())
+
+    if not inventory_contents:
+        print("openbsd-run: error: inventory is invalid:", inventory_contents)
+        sys.exit(1)
+
     if update:
         result = ansible.run(
-            artifact_dir="/tmp/openbsd-run",
             host_pattern=host_pattern,
-            inventory=inventory,
-            playbook="%s/site-update.yml" % playbook_path(),
-            private_data_dir=playbook_path(),
-            roles_path="%s/roles" % playbook_path(),
+            inventory=inventory_contents,
+            playbook="%s/site-update.yml" % playbook_path,
+            private_data_dir="/tmp/openbsd-run",
+            project_dir=playbook_path,
+            roles_path="%s/roles" % playbook_path,
             quiet=quiet,
         )
 
         if result.errored:
             print("openbsd-run: error: update failed!")
             sys.exit(1)
-        else:
+
+        if result.stats["changed"]:
             print("openbsd-run: update completed successfully")
-            sys.exit(0)
+        else:
+            print("openbsd-run: no newer updates available")
+
+        sys.exit(0)
 
 
 if __name__ == "__main__":
     main()
+
+data = {
+    "skipped": {"laptop": 5, "maudlin.dev": 5},
+    "ok": {"laptop": 2, "maudlin.dev": 2},
+    "dark": {},
+    "failures": {},
+    "processed": {"laptop": 1, "maudlin.dev": 1},
+    "changed": {},
+}
