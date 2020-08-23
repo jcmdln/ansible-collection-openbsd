@@ -2,7 +2,7 @@
 
 all:
   hosts:
-    laptop.local:
+    laptop:
 
 dns:
   hosts:
