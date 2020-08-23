@@ -79,12 +79,3 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
 
 if __name__ == "__main__":
     main()
-
-data = {
-    "skipped": {"laptop": 5, "maudlin.dev": 5},
-    "ok": {"laptop": 2, "maudlin.dev": 2},
-    "dark": {},
-    "failures": {},
-    "processed": {"laptop": 1, "maudlin.dev": 1},
-    "changed": {},
-}
