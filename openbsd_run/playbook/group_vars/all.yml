@@ -1,8 +1,7 @@
----
 # group_vars/all.yml
 
 ansible_become_method: doas
 ansible_become_user: root
 ansible_connection: ssh
-ansible_python_interpreter: /usr/local/bin/python3
+ansible_python_interpreter: python3
 ansible_user: root
