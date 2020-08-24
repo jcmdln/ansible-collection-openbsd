@@ -22,10 +22,11 @@ class Sysupgrade:
     def Update(self) -> None:
         """
         """
-        if self.module.params["branch"].lower() == "release":
+
+        if self.module.params["branch"] == "release":
             self.command = "%s -r" % (self.command)
 
-        if self.module.params["branch"].lower() == "snapshot":
+        if self.module.params["branch"] == "snapshot":
             self.command = "%s -s" % (self.command)
 
         self.rc, self.stdout, self.stderr = self.module.run_command(
@@ -69,12 +70,14 @@ def main() -> None:
     )
 
     sysupgrade: Sysupgrade = Sysupgrade(module)
+    sysupgrade.Update()
 
     # Convert specific properties to a dict so we return specific data
     result: Dict[str, Any] = {
         "changed": sysupgrade.changed,
         "command": sysupgrade.command,
         "msg": sysupgrade.msg,
+        "reboot": sysupgrade.reboot,
         "rc": sysupgrade.rc,
         "stdout": sysupgrade.stdout,
         "stderr": sysupgrade.stderr,
