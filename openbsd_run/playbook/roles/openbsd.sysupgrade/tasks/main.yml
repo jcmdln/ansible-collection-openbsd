@@ -13,12 +13,14 @@
     reboot_timeout: "{{ reboot_timeout }}"
   when:
     - sysupgrade_result.changed
+    - sysupgrade_result.reboot
 
 - name: (release) update packages
   command: >-
     pkg_add -u
   when:
     - sysupgrade_result.changed
+    - sysupgrade_result.reboot
     - ansible_distribution_release not in ["current", "beta"]
 
 - name: (current) reinstall snapshot packages
@@ -26,4 +28,5 @@
     pkg_add -ruD snap
   when:
     - sysupgrade_result.changed
+    - sysupgrade_result.reboot
     - ansible_distribution_release in ["current", "beta"]

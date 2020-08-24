@@ -8,9 +8,10 @@
     - ansible_distribution_version is version("6.1", ">=")
     - ansible_distribution_release not in ["current", "beta"]
 
-- name: reboot host if patched
+- name: reboot host if patched and a reboot is required
   reboot:
     connect_timeout: "{{ connect_timeout }}"
     reboot_timeout: "{{ reboot_timeout }}"
   when:
     - syspatch_result.changed
+    - syspatch_result.reboot
