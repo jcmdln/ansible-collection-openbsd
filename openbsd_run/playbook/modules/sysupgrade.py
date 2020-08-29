@@ -47,7 +47,7 @@ class Sysupgrade:
 
         if (
             "failed" in self.stdout.lower()
-            or "signature Verified" not in self.stdout.lower()
+            or "signature verified" not in self.stdout.lower()
         ):
             self.changed = True
             self.msg = "failed to verify downloaded files"
