@@ -1,10 +1,11 @@
-# site.yml
-
 - import_playbook: site-check.yml
   tags: [always, check]
 
-- import_playbook: site-update.yml
-  tags: [never, update]
+- import_playbook: site-patch.yml
+  tags: [never, update, patch]
+
+- import_playbook: site-upgrade.yml
+  tags: [never, update, upgrade]
 
 - import_playbook: site-core.yml
   tags: [core]

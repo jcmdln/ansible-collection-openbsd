@@ -23,9 +23,9 @@
     - sysupgrade_result.reboot
     - ansible_distribution_release not in ["current", "beta"]
 
-- name: (current) reinstall snapshot packages
+- name: (current) update and replace snapshot packages
   command: >-
-    pkg_add -ruD snap
+    pkg_add -ruD snapshot
   when:
     - sysupgrade_result.changed
     - sysupgrade_result.reboot

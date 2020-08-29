@@ -1,16 +1,5 @@
-# site-dns.yml
-
 - name: DNS
-  any_errors_fatal: true
-  gather_facts: false
   hosts: dns
-
-  pre_tasks:
-    - name: collect facts if missing
-      setup:
-      when: >-
-        ansible_facts is undefined
-        or not ansible_facts
 
   roles:
     - role: openbsd.nsd

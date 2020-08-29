@@ -48,6 +48,7 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
     log: Logger = Log("openbsd-run: Main")
 
     inventory_contents: Dict[Any, Any] = {}
+    tags: str = ""
 
     if not inventory:
         log.info("inventory not provided")
@@ -61,33 +62,30 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
     except NotADirectoryError:
         log.error("'%s' is not a file" % inventory)
         sys.exit(1)
-
     if not inventory_contents:
         log.error("inventory is invalid:", inventory_contents)
         sys.exit(1)
 
     if update:
-        result: Runner = ansible.run(
-            host_pattern=host_pattern,
-            inventory=inventory_contents,
-            playbook="%s/site-update.yml" % playbook_path,
-            private_data_dir="/tmp/openbsd-run",
-            project_dir=playbook_path,
-            roles_path="%s/roles" % playbook_path,
-            quiet=quiet,
-            suppress_ansible_output=True,
-        )
+        tags = "patch,upgrade"
 
-        if result.rc != 0 or result.errored or result.canceled:
-            log.error("update failed!")
-            sys.exit(1)
+    result: Runner = ansible.run(
+        host_pattern=host_pattern,
+        inventory=inventory_contents,
+        playbook="%s/site.yml" % playbook_path,
+        private_data_dir="/tmp/openbsd-run",
+        project_dir=playbook_path,
+        roles_path="%s/roles" % playbook_path,
+        quiet=quiet,
+        suppress_ansible_output=True,
+        tags=tags,
+    )
 
-        if result.stats["changed"]:
-            log.info("update completed successfully")
-        else:
-            log.info("no newer updates available")
+    if result.rc != 0 or result.errored or result.canceled:
+        log.error("update failed!")
+        sys.exit(1)
 
-        sys.exit(0)
+    sys.exit(0)
 
 
 if __name__ == "__main__":

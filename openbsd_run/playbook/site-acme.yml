@@ -1,16 +1,5 @@
-# site-acme.yml
-
 - name: Acme
-  any_errors_fatal: true
-  gather_facts: false
   hosts: acme
-
-  pre_tasks:
-    - name: collect facts if missing
-      setup:
-      when: >-
-        ansible_facts is undefined
-        or not ansible_facts
 
   roles:
     - role: openbsd.acme
