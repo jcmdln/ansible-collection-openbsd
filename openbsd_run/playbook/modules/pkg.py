@@ -78,7 +78,7 @@ class Pkg:
 
         for pkg in self.packages:
             if pkg in self.module.params["name"]:
-                to_delete[pkg] = ""
+                to_delete[self.module.params["name"]] = ""
 
         if not to_delete:
             self.command = ""
