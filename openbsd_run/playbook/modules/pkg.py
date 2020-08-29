@@ -24,43 +24,54 @@ class Pkg:
         Add or update package(s)
         """
 
-        self.command = "/usr/sbin/pkg_add -Ivx"
+        self.command = "/usr/sbin/pkg_add -Ixz"
+        __latest_cmd: str = ""
+        __add_cmd: str = ""
+
         pkgs: List[str] = self.module.params["name"]
+        dup_pkgs: List[str] = [
+            pkgs[pkgs.index(p)] for p in self.packages.keys() if p in pkgs
+        ]
         new_pkgs: List[str] = list(
             set(pkgs) - set(self.packages_raw) - set(self.packages.keys())
         )
 
-        if self.module.params["state"] == "latest":
-            pkg_action = "updated"
-            __command = "{} -u".format(self.command)
+        if dup_pkgs and self.module.params["state"] == "latest":
+            __latest_cmd = "{} -u".format(self.command)
             if "*" not in self.module.params["name"]:
-                for p in [p for p in self.packages.keys() if p in pkgs]:
-                    __command = "{} {}".format(self.command, p)
-
-            self.rc, self.stdout, self.stderr = self.module.run_command(
-                __command, check_rc=False, use_unsafe_shell=True
-            )
-        else:
-            pkg_action = "installed"
+                for p in dup_pkgs:
+                    __latest_cmd = "{} {}".format(__latest_cmd, p)
 
         if new_pkgs and "*" not in self.module.params["name"]:
+            __add_cmd = "{}v".format(self.command)
             for p in new_pkgs:
-                self.command = "{} {}".format(self.command, p)
+                __add_cmd = "{} {}".format(__add_cmd, p)
+
+        if dup_pkgs or new_pkgs:
+            if __latest_cmd and __add_cmd:
+                self.command = "{} && {}".format(__add_cmd, __latest_cmd)
+            elif __add_cmd:
+                self.command = __add_cmd
+            elif __latest_cmd:
+                self.command = __latest_cmd
 
             self.rc, self.stdout, self.stderr = self.module.run_command(
                 self.command, check_rc=False
             )
 
+            # Trim certain things from stdout
+            self.stdout = re.sub(r"\nUpdate\scandidates\:.*$", "", self.stdout)
+
         if self.rc != 0:
             self.msg = "received a non-zero exit code"
             return
 
-        if len(self.stdout) <= 2:
+        if not self.stderr and len(self.stdout.splitlines()) <= 2:
             self.command = ""
             return
 
         self.changed = True
-        self.msg = "packages {}".format(pkg_action)
+        self.msg = "completed successfully"
 
     def Delete(self) -> None:
         """
@@ -78,7 +89,7 @@ class Pkg:
 
         for pkg in self.packages:
             if pkg in self.module.params["name"]:
-                to_delete[self.module.params["name"]] = ""
+                to_delete[pkg] = ""
 
         if not to_delete:
             self.command = ""
@@ -109,7 +120,7 @@ class Pkg:
             self.command, check_rc=False
         )
 
-        pkgs = stdout.split("\n")
+        pkgs = stdout.splitlines()
         for pkg in pkgs:
             if not pkg:
                 continue
