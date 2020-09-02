@@ -6,8 +6,14 @@
 
 - name: check dmesg for nested paging support
   shell: dmesg | egrep "(VMX/EPT|SVM/RVI)"
-  failed_when: (vmm_supported.stdout_lines | length) == 0
+  changed_when: (vmm_supported.stdout_lines | length) == 0
   register: vmm_supported
+
+- name: fail if host does not support nested paging
+  fail:
+    msg: >-
+      Host does not support nested paging!
+  failed_when: vmm_supported.changed
 
 #
 # Setup
