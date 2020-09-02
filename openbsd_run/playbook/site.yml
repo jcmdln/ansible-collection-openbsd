@@ -18,9 +18,3 @@
 
 - import_playbook: site-mail.yml
   tags: [never, mail]
-
-- import_playbook: site-web.yml
-  tags: [never, web]
-
-- import_playbook: site-acme.yml
-  tags: [never, acme]

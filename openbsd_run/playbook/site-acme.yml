@@ -1,6 +1,0 @@
-- name: Acme
-  hosts: acme
-
-  roles:
-    - role: openbsd.acme
-      tags: [acme]
