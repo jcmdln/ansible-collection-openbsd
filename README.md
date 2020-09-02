@@ -1,4 +1,5 @@
-# openbsd.run
+openbsd.run
+====================
 
 This project marries a complete Ansible playbook within type-annotated Python
 specifically to simplify configuration of OpenBSD hosts.  Originally this
@@ -12,7 +13,8 @@ extremely awkward, and until I get Ansible Molecule working with vmm(4) the
 prospect of verifying anything involves manual action.
 
 
-## Playbooks
+Playbooks
+--------------------
 The Ansible playbooks are the main thing I'm working through at the moment, so
 that they are of decent quality and can be customized painlessly.
 
@@ -28,7 +30,8 @@ site-sysupgrade.yml - Run sysupgrade
 site-vmd.yml        - Prepare host(s) to run VMM
 ```
 
-## Commands
+Commands
+--------------------
 Eventually I would like to have a nearly 1:1 mapping of running ad-hoc commands
 that perform the expected task.  Since these will require the use of the modules
 specific to this repository, some slight alterations or limitations in scope
