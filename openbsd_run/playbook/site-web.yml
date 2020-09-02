@@ -1,6 +1,0 @@
-- name: Web
-  hosts: web
-
-  roles:
-    - role: openbsd.httpd
-      tags: [httpd]
