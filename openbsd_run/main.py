@@ -2,7 +2,7 @@ from openbsd_run.config import Read as ReadConfig
 from openbsd_run.log import Log
 from openbsd_run.playbook import path as playbook_path
 
-from ansible_runner import Runner
+from ansible_runner import Runner  # type: ignore
 from logging import Logger
 from typing import Any, Dict
 
@@ -73,7 +73,6 @@ def main(host_pattern: str, inventory: str, quiet: bool, update: bool) -> None:
         host_pattern=host_pattern,
         inventory=inventory_contents,
         playbook="%s/site.yml" % playbook_path,
-        private_data_dir="/tmp/openbsd-run",
         project_dir=playbook_path,
         roles_path="%s/roles" % playbook_path,
         quiet=quiet,
