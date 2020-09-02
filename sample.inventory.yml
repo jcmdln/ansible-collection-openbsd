@@ -1,0 +1,12 @@
+# sample.inventory.yml
+
+all:
+  hosts:
+    laptop:
+
+    localhost:
+      ansible_connection: local
+
+dns:
+  hosts:
+    maudlin.dev:
