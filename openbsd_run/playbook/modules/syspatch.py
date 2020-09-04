@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/local/bin/python3
 
 from __future__ import absolute_import
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule  # type: ignore
 from typing import Any, Dict
 
 
