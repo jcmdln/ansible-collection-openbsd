@@ -29,33 +29,34 @@ class Pkg:
         for pkg in self.packages:
             package = self.packages[pkg]["name"]
             if pkg in pkgs or package in pkgs:
-                to_update[pkg] = None
-                pkgs = list(set(pkgs) - set([pkg]) - set(package))
+                to_update[package] = None
+                pkgs = list(set(pkgs) - set([pkg]) - set([package]))
 
         if to_update and self.module.params["state"] == "latest":
-            __latest_cmd = "{} -u".format(self.command)
+            __latest_cmd = "{}u".format(self.command)
             if "*" not in self.module.params["name"]:
                 for p in to_update.keys():
-                    __latest_cmd = "{} {}".format(__latest_cmd, p)
+                    __latest_cmd = "%s %s" % (__latest_cmd, p)
 
         if pkgs and "*" not in self.module.params["name"]:
             __present_cmd = "{}v".format(self.command)
             for p in pkgs:
-                __present_cmd = "{} {}".format(__present_cmd, p)
+                __present_cmd = "%s %s" % (__present_cmd, p)
 
         if to_update or pkgs:
             if __latest_cmd and __present_cmd:
-                self.command = "{} && {}".format(__latest_cmd, __present_cmd)
+                self.command = "%s && %s" % (__latest_cmd, __present_cmd)
             elif __latest_cmd:
                 self.command = __latest_cmd
             elif __present_cmd:
                 self.command = __present_cmd
 
             self.rc, self.stdout, self.stderr = self.module.run_command(
-                self.command, check_rc=False
+                self.command, check_rc=False, use_unsafe_shell=True
             )
 
         if self.rc != 0 or self.stderr:
+            self.changed = True
             self.msg = "received a non-zero exit code"
             self.rc = 1 if not self.rc else self.rc
             return
