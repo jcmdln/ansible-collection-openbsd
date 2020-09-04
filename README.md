@@ -15,6 +15,9 @@ prospect of verifying anything involves manual action.
 
 Playbooks
 --------------------
+
+The raw playbook works with Ansible, and is [here](./openbsd_run/playbook).
+
 The Ansible playbooks are the main thing I'm working through at the moment, so
 that they are of decent quality and can be customized painlessly.  This list is
 mostly for show, as very little has actually been made usable or reasonable.
