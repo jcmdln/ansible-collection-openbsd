@@ -34,7 +34,7 @@ class Syspatch:
             self.msg = "no action performed"
             return
 
-        if "reboot" in self.stdout:
+        if "reboot" in self.stdout.lower():
             self.reboot = True
 
         self.changed = True
@@ -94,9 +94,9 @@ class Syspatch:
 def main() -> None:
     module: AnsibleModule = AnsibleModule(
         argument_spec={
-            "apply": {"type": "bool", "default": False},
-            "list": {"type": "str", "choices": ["available", "installed"]},
-            "revert": {"type": "str", "choices": ["all", "latest"]},
+            "apply": {"type": "bool"},
+            "list": {"choices": ["available", "installed"], "type": "str"},
+            "revert": {"choices": ["all", "latest"], "type": "str"},
         },
         required_one_of=[["apply", "list", "revert"]],
         mutually_exclusive=[["apply", "list", "revert"]],

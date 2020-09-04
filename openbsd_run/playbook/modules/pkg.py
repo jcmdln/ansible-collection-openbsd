@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from __future__ import absolute_import
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule  # type: ignore
 from typing import Any, Dict, List
 import re
 
@@ -10,76 +10,65 @@ class Pkg:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
         self.packages: Dict[str, Any] = {}
-        self.packages_raw: List[str] = []
 
         self.changed: bool = False
         self.command: str = ""
-        self.msg: str = "no action performed"
+        self.msg: str = "no action required"
         self.rc: int = 0
         self.stdout: str = ""
         self.stderr: str = ""
 
     def Add(self) -> None:
-        """
-        Add or update package(s)
-        """
-
-        self.command = "/usr/sbin/pkg_add -Ixz"
+        self.command = "/usr/sbin/pkg_add -Ix"
         __latest_cmd: str = ""
-        __add_cmd: str = ""
+        __present_cmd: str = ""
 
         pkgs: List[str] = self.module.params["name"]
-        dup_pkgs: List[str] = [
-            pkgs[pkgs.index(p)] for p in self.packages.keys() if p in pkgs
-        ]
-        new_pkgs: List[str] = list(
-            set(pkgs) - set(self.packages_raw) - set(self.packages.keys())
-        )
+        to_update: Dict[str, None] = {}
 
-        if dup_pkgs and self.module.params["state"] == "latest":
+        for pkg in self.packages:
+            package = self.packages[pkg]["name"]
+            if pkg in pkgs or package in pkgs:
+                to_update[pkg] = None
+                pkgs = list(set(pkgs) - set([pkg]) - set(package))
+
+        if to_update and self.module.params["state"] == "latest":
             __latest_cmd = "{} -u".format(self.command)
             if "*" not in self.module.params["name"]:
-                for p in dup_pkgs:
+                for p in to_update.keys():
                     __latest_cmd = "{} {}".format(__latest_cmd, p)
 
-        if new_pkgs and "*" not in self.module.params["name"]:
-            __add_cmd = "{}v".format(self.command)
-            for p in new_pkgs:
-                __add_cmd = "{} {}".format(__add_cmd, p)
+        if pkgs and "*" not in self.module.params["name"]:
+            __present_cmd = "{}v".format(self.command)
+            for p in pkgs:
+                __present_cmd = "{} {}".format(__present_cmd, p)
 
-        if dup_pkgs or new_pkgs:
-            if __latest_cmd and __add_cmd:
-                self.command = "{} && {}".format(__add_cmd, __latest_cmd)
-            elif __add_cmd:
-                self.command = __add_cmd
+        if to_update or pkgs:
+            if __latest_cmd and __present_cmd:
+                self.command = "{} && {}".format(__latest_cmd, __present_cmd)
             elif __latest_cmd:
                 self.command = __latest_cmd
+            elif __present_cmd:
+                self.command = __present_cmd
 
             self.rc, self.stdout, self.stderr = self.module.run_command(
                 self.command, check_rc=False
             )
 
-            # Trim certain things from stdout
-            self.stdout = re.sub(r"\nUpdate\scandidates\:.*$", "", self.stdout)
-
-        if self.rc != 0:
+        if self.rc != 0 or self.stderr:
             self.msg = "received a non-zero exit code"
+            self.rc = 1 if not self.rc else self.rc
             return
 
         if not self.stderr and len(self.stdout.splitlines()) <= 2:
-            self.command = ""
             return
 
         self.changed = True
         self.msg = "completed successfully"
 
     def Delete(self) -> None:
-        """
-        Delete installed package(s)
-        """
-
         self.command = "/usr/sbin/pkg_delete -Ivx"
-        to_delete: Dict[str, Any] = {}
+        to_delete: Dict[str, None] = {}
 
         if "*" in self.module.params["name"]:
             self.command = ""
@@ -88,8 +77,11 @@ class Pkg:
             return
 
         for pkg in self.packages:
+            package = self.packages[pkg]["name"]
             if pkg in self.module.params["name"]:
-                to_delete[pkg] = ""
+                to_delete[pkg] = None
+            elif package in self.module.params["name"]:
+                to_delete[package] = None
 
         if not to_delete:
             self.command = ""
@@ -111,28 +103,25 @@ class Pkg:
         self.msg = "packages removed successfully"
 
     def Info(self) -> None:
-        """
-        Collect information about currently installed packages
-        """
-
         self.command = "/usr/sbin/pkg_info -q"
         self.rc, stdout, stderr = self.module.run_command(
             self.command, check_rc=False
         )
 
-        pkgs = stdout.splitlines()
-        for pkg in pkgs:
+        for pkg in stdout.splitlines():
             if not pkg:
                 continue
+
             name = re.sub(r"-[0-9].*$", "", pkg)
-            vers = re.search(r"-([\d.]+.*$)", pkg).group(1)  # type: ignore
-            self.packages[name] = {"version": "{}".format(vers)}
-            self.packages_raw.append(pkg)
+            version = re.search(r"-([\d.]+.*$)", pkg).group(1)  # type: ignore
+            self.packages[pkg] = {"name": name, "version": "%s" % version}
 
 
 def main() -> None:
     module: AnsibleModule = AnsibleModule(
         argument_spec={
+            "check": {"choices": ["available", "installed"], "type": "str"},
+            "force": {"default": False, "type": "bool"},
             "name": {"elements": "str", "type": "list"},
             "state": {
                 "choices": ["absent", "latest", "present"],
@@ -142,7 +131,7 @@ def main() -> None:
         },
         mutually_exclusive=[["list", "name"], ["list", "state"]],
         required_one_of=[["list", "name"]],
-        supports_check_mode=True,
+        supports_check_mode=False,
     )
 
     pkg: Pkg = Pkg(module)

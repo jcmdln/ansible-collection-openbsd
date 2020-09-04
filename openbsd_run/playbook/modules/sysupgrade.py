@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from __future__ import absolute_import
-from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.basic import AnsibleModule  # type: ignore
 from typing import Any, Dict
 
 
@@ -20,14 +20,13 @@ class Sysupgrade:
         self.stderr: str = ""
 
     def Update(self) -> None:
-        """
-        """
-
         if self.module.params["branch"] == "release":
             self.command = "%s -r" % (self.command)
-
-        if self.module.params["branch"] == "snapshot":
+        elif self.module.params["branch"] == "snapshot":
             self.command = "%s -s" % (self.command)
+
+        if self.module.params["force"]:
+            self.command = "%s -f" % (self.command)
 
         self.rc, self.stdout, self.stderr = self.module.run_command(
             self.command, check_rc=False
@@ -49,7 +48,6 @@ class Sysupgrade:
             "failed" in self.stdout.lower()
             or "signature verified" not in self.stdout.lower()
         ):
-            self.changed = True
             self.msg = "failed to verify downloaded files"
             self.rc = 1 if self.rc == 0 else self.rc
             return
@@ -63,19 +61,19 @@ def main() -> None:
     module: AnsibleModule = AnsibleModule(
         argument_spec={
             "branch": {
-                "type": "str",
                 "choices": ["auto", "release", "snapshot"],
-                "default": "auto",
+                "required": True,
+                "type": "str",
             },
-            "force": {"type": "bool", "default": False},
+            "force": {"default": False, "type": "bool"},
+            "keep": {"default": False, "type": "bool"},
         },
-        supports_check_mode=True,
+        supports_check_mode=False,
     )
 
     sysupgrade: Sysupgrade = Sysupgrade(module)
     sysupgrade.Update()
 
-    # Convert specific properties to a dict so we return specific data
     result: Dict[str, Any] = {
         "changed": sysupgrade.changed,
         "command": sysupgrade.command,
