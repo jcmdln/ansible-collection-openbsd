@@ -1,0 +1,21 @@
+- name: Syspatch
+  hosts: all
+  vars:
+    syspatch_reboot_timeout: 600
+
+  tasks:
+    - name: apply all available patches
+      syspatch:
+        apply: true
+      register: syspatch_result
+      when:
+        - ansible_distribution_version is version("6.1", ">=")
+        - ansible_distribution_release not in ["current", "beta"]
+
+    - name: reboot host if patched and a reboot is required
+      reboot:
+        connect_timeout: "{{ syspatch_reboot_timeout }}"
+        reboot_timeout: "{{ syspatch_reboot_timeout }}"
+      when:
+        - syspatch_result.changed
+        - syspatch_result.reboot

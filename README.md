@@ -16,31 +16,88 @@ prospect of verifying anything involves manual action.
 Playbooks
 --------------------
 The Ansible playbooks are the main thing I'm working through at the moment, so
-that they are of decent quality and can be customized painlessly.
+that they are of decent quality and can be customized painlessly.  This list is
+mostly for show, as very little has actually been made usable or reasonable.
 
 ```
-# Individual plays
-site-check.yml      - Check host(s) meet requirements
-site-dns.yml        - Prepare host(s) as a DNS server
-site-firewall.yml   - Prepare host(s) as a firewall
-site-mail.yml       - Prepare host(s) as a mail server
-site-packages.yml   - Manage packages
-site-syspatch.yml   - Run syspatch
-site-sysupgrade.yml - Run sysupgrade
-site-vmd.yml        - Prepare host(s) to run VMM
+# Meta
+site-check.yml      - Check host(s) meet playbook requirements
+
+# Management / Operations
+site-pkg.yml        - Frontend for pkg_{add,check,delete,info,upgrade}
+site-syspatch.yml   - Patch host(s) using syspatch
+site-sysupgrade.yml - Upgrade host(s) using sysupgrade
+
+# Services
+site-bpg.yml        - Setup a BGP server
+site-dns.yml        - Setup a DNS server
+site-firewall.yml   - Setup a firewall
+site-mail.yml       - Setup a mail server
+site-mirror.yml     - Setup an OpenBSD mirror
+site-ntp.yml        - Setup an NTP server
+site-pxe.yml        - Setup a PXE server
+site-relayd.yml     - Setup a load balancer
+site-router.yml     - Setup a router
+site-switch.yml     - Setup a switch
+site-unbound.yml    - Setup a validating DNS resolver
+site-unwind.yml     - Setup a local DNS resolver
+site-vmd.yml        - Setup host(s) to run virtual machines
+site-vpn.yml        - Setup a IKEv2 or Wireguard VPN client/server
 ```
+
+### Extras
+Something I want to play around with is the idea of bundling individual services
+in a way that somewhat implements modern equivalents.  Rather than being treated
+as standalone utilities, they would be configured to mostly handle what the
+modern cloud-native options do:
+
+```
+# Service Mesh (Consul, Istio)
+site-relayd.yml     - Setup a load balancer
+site-router.yml     - Setup a router
+site-switch.yml     - Setup a switch
+site-unbound.yml    - Setup a validating DNS resolver
+```
+
+I don't know how far I'll take this idea, but it'll be long after all the core
+pieces are in an adequate state.
+
 
 Commands
 --------------------
-Eventually I would like to have a nearly 1:1 mapping of running ad-hoc commands
-that perform the expected task.  Since these will require the use of the modules
-specific to this repository, some slight alterations or limitations in scope
-will be unavoidable.
+I'm trying to work out some sort of reasonable behavior for the command line
+interface, but there are some pain points.  The commands must use the created
+modules that are used within the playbook in order to be reliable, otherwise you
+would be using something like fabric to run arbitrary commands.  Because of
+this, the commands as provided by the cli will be limited to interactions that
+are able to be provided in both workflows, prioritizing Ansible playbooks since
+that's the primary purpose of this project.
 
-When this is implemented, I will fully support Ansible's syntax for performing
-these actions on arbitrary hosts, which should mostly work out of the box aside
-from contextual errors:
+``` sh
+$ openbsd-run -h
+Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  -H, --host_pattern TEXT  Host pattern to match against inventory
+  -i, --inventory TEXT     Inventory file
+  -q, --quiet              Suppress Ansible output
+  -V, --verbose            Increase Ansible output
+  -v, --version            Show the version and exit.
+  -h, --help               Show this message and exit.
+
+Commands:
+  syspatch    Patch host(s) using syspatch
+  sysupgrade  Upgrade host(s) using sysupgrade
+```
+
+An issue is that the global options as listed above are propagated to
+subcommands, though subcommands themselves do not declare that they receive
+these options.  This leads to weird output as shown below:
 
 ```
-openbsd-run -i inventory.yml host[1-3].domain.tld <command>
+$ openbsd-run syspatch -h
+Usage: openbsd-run syspatch [OPTIONS]
+
+Options:
+  -h, --help  Show this message and exit.
 ```

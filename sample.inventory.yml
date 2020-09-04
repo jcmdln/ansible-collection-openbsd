@@ -1,12 +1,21 @@
 # sample.inventory.yml
 
+# The "all" group is a special group that refers to all hosts declared in this
+# file, not just this moniker itself.
 all:
+  # These are global variables.  Almost everything has been set as intended in
+  # "openbsd_run/playbook/ansible.cfg" but this wayward variable.
+  vars:
+    ansible_python_interpreter: python3
+
+  # Below are hosts we want to perform actions on, but not assign them a group
+  # which would imply a specific purpose.  One example are hosts that should be
+  # patched, but aren't specifically running some type of service as denoted by
+  # the name of the groups below.
   hosts:
+    # This can be a domain name or IP address, and in the example below I've
+    # used the hostname and defined the fqdn it points to.
     laptop:
-
-    localhost:
-      ansible_connection: local
-
-dns:
-  hosts:
-    maudlin.dev:
+      # This isn't required, provided  that above you used whatever hostname or
+      # IP address that your host can actually reach over ssh.
+      ansible_host: laptop.home.local

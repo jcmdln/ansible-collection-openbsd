@@ -1,0 +1,6 @@
+- name: Vmd
+  hosts: dns
+
+  roles:
+    - role: openbsd.vmd
+      tags: [vmd]

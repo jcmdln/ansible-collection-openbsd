@@ -1,5 +1,3 @@
-# site-check.yml
-
 - name: Check
   gather_facts: false
   hosts: all
@@ -12,7 +10,7 @@
         - python_check.rc is defined
         - python_check.rc > 0
 
-  pre_tasks:
+  tasks:
     - name: Confirm host is running OpenBSD
       raw: >-
         uname

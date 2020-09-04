@@ -1,6 +1,0 @@
-- name: Upgrade
-  hosts: all
-
-  roles:
-    - role: openbsd.sysupgrade
-      tags: [never, sysupgrade, upgrade]

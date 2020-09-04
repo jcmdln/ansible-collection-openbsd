@@ -1,6 +1,0 @@
-- name: Patch
-  hosts: all
-
-  roles:
-    - role: openbsd.syspatch
-      tags: [never, syspatch, patch]

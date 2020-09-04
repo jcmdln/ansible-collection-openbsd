@@ -1,0 +1,23 @@
+- name: Sysupgrade
+  hosts: all
+  vars:
+    sysupgrade_branch: "auto"
+    sysupgrade_force: false
+    sysupgrade_reboot: true
+    sysupgrade_reboot_timeout: "600"
+
+  tasks:
+    - name: upgrade to latest release or snapshot
+      sysupgrade:
+        branch: "{{ sysupgrade_branch }}"
+        force: "{{ sysupgrade_force }}"
+      register: sysupgrade_result
+      when: ansible_distribution_version is version("6.6", ">=")
+
+    - name: reboot if upgraded
+      reboot:
+        connect_timeout: "{{ sysupgrade_reboot_timeout }}"
+        reboot_timeout: "{{ sysupgrade_reboot_timeout }}"
+      when:
+        - sysupgrade_result.changed
+        - sysupgrade_result.reboot

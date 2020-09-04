@@ -1,4 +1,0 @@
-# openbsd.syspatch/defaults/main.yml
-
-connect_timeout: 600
-reboot_timeout: 600
