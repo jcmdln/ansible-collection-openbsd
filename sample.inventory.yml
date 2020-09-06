@@ -2,7 +2,7 @@
 #
 # I went a bit overboard with leaving comments, but my hope is that if this is
 # your first time looking at an Ansible inventory you won't have to do too much
-# prior reading.
+# extracurricular reading.
 #
 ##
 
@@ -12,6 +12,7 @@ all:
   # These are global variables.  Almost everything has been set as intended in
   # "openbsd_run/playbook/ansible.cfg" but this wayward variable.
   vars:
+    ansible_user: root
     ansible_python_interpreter: python3
 
   # Below are hosts we want to perform actions on, but not assign them a group
