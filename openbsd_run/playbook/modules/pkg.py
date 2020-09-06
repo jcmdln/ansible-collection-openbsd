@@ -32,8 +32,10 @@ class Pkg:
                 to_update[package] = None
                 pkgs = list(set(pkgs) - set([pkg]) - set([package]))
 
-        if to_update and self.module.params["state"] == "latest":
-            __latest_cmd = "{}u".format(self.command)
+        if self.module.params["state"] == "latest":
+            if to_update or "*" in self.module.params["name"]:
+                __latest_cmd = "{}u".format(self.command)
+
             if "*" not in self.module.params["name"]:
                 for p in to_update.keys():
                     __latest_cmd = "%s %s" % (__latest_cmd, p)

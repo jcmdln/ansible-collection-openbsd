@@ -1,2 +1,8 @@
 - name: Package
   hosts: all
+
+  tasks:
+    - name: update packages
+      pkg:
+        name: "*"
+        state: latest
