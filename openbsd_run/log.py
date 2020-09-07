@@ -13,18 +13,19 @@ def Log(function: str) -> Logger:
 
     log.propagate = False
     log.setLevel(DEBUG)
-    f = Formatter(
-        "%(asctime)s %(name)s: %(levelname)8s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
 
     if not log.hasHandlers():
         # fh = FileHandler("/var/log/openbsd-run.log")
-        # fh.setFormatter(f)
+        # fileFormat = Formatter(
+        #     "%(asctime)s %(name)s: %(levelname)8s: %(message)s",
+        #     datefmt="%Y-%m-%d %H:%M:%S",
+        # )
+        # fh.setFormatter(fileFormat)
         # log.addHandler(fh)
 
         sh = StreamHandler()
-        sh.setFormatter(f)
+        streamFormat = Formatter("%(name)s: %(levelname)8s: %(message)s")
+        sh.setFormatter(streamFormat)
         log.addHandler(sh)
 
     return log

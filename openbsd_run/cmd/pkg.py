@@ -9,10 +9,10 @@ import click
 import ansible_runner as ansible
 
 
-@click.command(short_help="Upgrade host(s) using sysupgrade")
+@click.command(short_help="Frontend for pkg_{add,check,delete,info,upgrade}")
 @click.pass_context
-def sysupgrade(context: Any) -> None:
-    log: Logger = Log("openbsd-run: sysupgrade")
+def pkg(context: Any) -> None:
+    log: Logger = Log("openbsd-run: pkg")
 
     host_pattern = context.obj["host_pattern"]
     inventory_contents: Dict[Any, Any] = context.obj["inventory_contents"]
@@ -22,7 +22,7 @@ def sysupgrade(context: Any) -> None:
     result: Runner = ansible.run(
         inventory=inventory_contents,
         limit=host_pattern,
-        playbook="%s/site-sysupgrade.yml" % playbook_path,
+        playbook="%s/site-pkg.yml" % playbook_path,
         project_dir=playbook_path,
         quiet=quiet,
         suppress_ansible_output=True,

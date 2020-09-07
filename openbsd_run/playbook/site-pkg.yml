@@ -1,8 +1,11 @@
 - name: Package
   hosts: all
+  vars:
+    pkg_packages: "*"
+    pkg_state: "latest"
 
   tasks:
     - name: update packages
       pkg:
-        name: "*"
-        state: latest
+        name: "{{ pkg_packages }}"
+        state: "{{ pkg_state }}"
