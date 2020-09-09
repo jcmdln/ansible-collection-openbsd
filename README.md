@@ -15,8 +15,9 @@ prospect of verifying anything involves manual action.
 
 Playbooks
 --------------------
-
-The raw playbook works with Ansible, and is [here](./openbsd_run/playbook).
+The raw playbook can be used without any atypical Ansible setup or intrisic
+dependencies to the command line interface, and is located
+[here](./openbsd_run/playbook).
 
 The Ansible playbooks are the main thing I'm working through at the moment, so
 that they are of decent quality and can be customized painlessly.  This list is
@@ -68,6 +69,9 @@ pieces are in an adequate state.
 
 Commands
 --------------------
+The command line interface may be used by installing this repository as a Python
+package using pip, poetry, or other such tools.
+
 I'm trying to work out some sort of reasonable behavior for the command line
 interface, but there are some pain points.  The commands must use the created
 modules that are used within the playbook in order to be reliable, otherwise you
