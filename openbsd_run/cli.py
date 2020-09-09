@@ -1,5 +1,5 @@
 from logging import Logger
-from openbsd_run.cmd import pkg, syspatch, sysupgrade
+from openbsd_run.cmd import pkg_add, syspatch, sysupgrade
 from openbsd_run.config import Read as ReadConfig
 from openbsd_run.log import Log
 from typing import Any, Dict
@@ -71,6 +71,6 @@ def cli(
 if __name__ == "__main__":
     cli(obj={})
 
-cli.add_command(pkg)
+cli.add_command(pkg_add)
 cli.add_command(syspatch)
 cli.add_command(sysupgrade)

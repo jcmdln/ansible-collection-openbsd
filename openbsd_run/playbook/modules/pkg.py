@@ -19,12 +19,44 @@ class Pkg:
         self.stderr: str = ""
 
     def Add(self) -> None:
-        self.command = "/usr/sbin/pkg_add -Ix"
+        self.command = "/usr/sbin/pkg_add -I -x"
         __latest_cmd: str = ""
         __present_cmd: str = ""
 
         pkgs: List[str] = self.module.params["name"]
         to_update: Dict[str, None] = {}
+
+        if self.module.params["force"] and self.module.params["force"] not in [
+            "allversions",
+            "arch",
+            "checksum",
+            "dontmerge",
+            "donttie",
+            "downgrade",
+            "installed",
+            "nonroot",
+            "paranoid",
+            "repair",
+            "scripts",
+            "SIGNER",
+            "snap",
+            "snapshot",
+            "unassigned",
+            "updatedepends",
+        ]:
+            self.command = ""
+            self.msg = (
+                "'%s' is not a valid choice when deleting packages"
+                % self.module.params["force"]
+            )
+            self.rc = 1
+            return
+
+        if self.module.params["force"]:
+            self.command = "%s -D %s" % (
+                self.command,
+                self.module.params["force"],
+            )
 
         for pkg in self.packages:
             package = self.packages[pkg]["name"]
@@ -34,18 +66,18 @@ class Pkg:
 
         if self.module.params["state"] == "latest":
             if to_update or "*" in self.module.params["name"]:
-                __latest_cmd = "{}u".format(self.command)
+                __latest_cmd = "{} -u".format(self.command)
 
             if "*" not in self.module.params["name"]:
                 for p in to_update.keys():
                     __latest_cmd = "%s %s" % (__latest_cmd, p)
 
         if pkgs and "*" not in self.module.params["name"]:
-            __present_cmd = "{}v".format(self.command)
+            __present_cmd = "{} -v".format(self.command)
             for p in pkgs:
                 __present_cmd = "%s %s" % (__present_cmd, p)
 
-        if to_update or pkgs:
+        if (to_update and __latest_cmd) or (pkgs and __present_cmd):
             if __latest_cmd and __present_cmd:
                 self.command = "%s && %s" % (__latest_cmd, __present_cmd)
             elif __latest_cmd:
@@ -70,8 +102,29 @@ class Pkg:
         self.msg = "completed successfully"
 
     def Delete(self) -> None:
-        self.command = "/usr/sbin/pkg_delete -Ivx"
+        self.command = "/usr/sbin/pkg_delete -I -v -x"
         to_delete: Dict[str, None] = {}
+
+        if self.module.params["force"] and self.module.params["force"] not in [
+            "baddepend",
+            "checksum",
+            "dependencies",
+            "nonroot",
+            "scripts",
+        ]:
+            self.command = ""
+            self.msg = (
+                "'%s' is not a valid choice when deleting packages"
+                % self.module.params["force"]
+            )
+            self.rc = 1
+            return
+
+        if self.module.params["force"]:
+            self.command = "%s -D %s" % (
+                self.command,
+                self.module.params["force"],
+            )
 
         if "*" in self.module.params["name"]:
             self.command = ""
@@ -123,8 +176,30 @@ class Pkg:
 def main() -> None:
     module: AnsibleModule = AnsibleModule(
         argument_spec={
-            "check": {"choices": ["available", "installed"], "type": "str"},
-            "force": {"default": False, "type": "bool"},
+            "force": {
+                "choices": [
+                    "allversions",
+                    "arch",
+                    "baddepend",
+                    "checksum",
+                    "dependencies",
+                    "dontmerge",
+                    "donttie",
+                    "downgrade",
+                    "installed",
+                    "nonroot",
+                    "paranoid",
+                    "repair",
+                    "scripts",
+                    "SIGNER",
+                    "snap",
+                    "snapshot",
+                    "unassigned",
+                    "updatedepends",
+                ],
+                "required": False,
+                "type": "str",
+            },
             "name": {"elements": "str", "type": "list"},
             "state": {
                 "choices": ["absent", "latest", "present"],
@@ -146,7 +221,6 @@ def main() -> None:
     elif module.params["state"] in ["latest", "present"]:
         pkg.Add()
 
-    # Convert specific properties to a dict so we return specific data
     result: Dict[str, Any] = {
         "changed": pkg.changed,
         "command": pkg.command,

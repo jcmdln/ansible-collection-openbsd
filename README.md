@@ -27,7 +27,7 @@ mostly for show, as very little has actually been made usable or reasonable.
 site-check.yml      - Check host(s) meet playbook requirements
 
 # Management / Operations
-site-pkg.yml        - Frontend for pkg_{add,check,delete,info,upgrade}
+site-pkg.yml        - Manage package(s)
 site-syspatch.yml   - Patch host(s) using syspatch
 site-sysupgrade.yml - Upgrade host(s) using sysupgrade
 
@@ -89,18 +89,22 @@ Options:
   -h, --help               Show this message and exit.
 
 Commands:
+  pkg-add     Add or update packages
   syspatch    Patch host(s) using syspatch
   sysupgrade  Upgrade host(s) using sysupgrade
 ```
 
 An issue is that the global options as listed above are propagated to
 subcommands, though subcommands themselves do not declare that they receive
-these options.  This leads to weird output as shown below:
+these options.  This leads to a weird command line interface and output as shown
+below:
 
 ```
-$ openbsd-run syspatch -h
-Usage: openbsd-run syspatch [OPTIONS]
+$ openbsd-run -i sample.inventory.yml pkg-add -h
+Usage: openbsd-run pkg-add [OPTIONS] PACKAGES
 
 Options:
+  -D TEXT     Force package install, waiving the specified failsafe
+  -u          Update named packages, installing any missing packages
   -h, --help  Show this message and exit.
 ```
