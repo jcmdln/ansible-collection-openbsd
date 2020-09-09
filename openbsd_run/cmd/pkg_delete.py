@@ -9,23 +9,16 @@ import click
 import ansible_runner as ansible
 
 
-@click.command(short_help="Add or update packages")
+@click.command(short_help="Remove packages")
 @click.option(
     "-D",
     default="",
-    help="Force package install, waiving the specified failsafe",
+    help="Force package removal, waiving the specified failsafe",
     type=str,
 )
-@click.option(
-    "-u",
-    default=False,
-    help="Update named packages, installing any missing packages",
-    is_flag=True,
-    type=bool,
-)
-@click.argument("packages", required=False)
+@click.argument("packages", required=True)
 @click.pass_context
-def pkg_add(context: Any, d: str, packages: List[str], u: bool) -> None:
+def pkg_delete(context: Any, d: str, packages: List[str]) -> None:
     log: Logger = Log("openbsd-run: pkg")
 
     host_pattern = context.obj["host_pattern"]
@@ -35,37 +28,25 @@ def pkg_add(context: Any, d: str, packages: List[str], u: bool) -> None:
 
     extra_vars: Dict[Any, Any] = {}
 
+    if not packages or "*" in packages:
+        log.error("'%s' is not a valid list of package names" % packages)
+        exit(1)
+    else:
+        extra_vars["pkg_packages"] = packages
+        extra_vars["pkg_state"] = "absent"
+
     if d and d not in [
-        "allversions",
-        "arch",
+        "baddepend",
         "checksum",
-        "dontmerge",
-        "donttie",
-        "downgrade",
-        "installed",
+        "dependencies",
         "nonroot",
-        "paranoid",
-        "repair",
         "scripts",
-        "SIGNER",
-        "snap",
-        "snapshot",
-        "unassigned",
-        "updatedepends",
     ]:
         log.error("'%s' is not a valid failsafe to waive.")
         exit(1)
 
     if d:
         extra_vars["pkg_force"] = d
-
-    if packages:
-        extra_vars["pkg_packages"] = packages
-
-    if u:
-        extra_vars["pkg_state"] = "latest"
-    else:
-        extra_vars["pkg_state"] = "present"
 
     result: Runner = ansible.run(
         extravars=extra_vars,
