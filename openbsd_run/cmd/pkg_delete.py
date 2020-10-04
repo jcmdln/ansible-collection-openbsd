@@ -56,7 +56,7 @@ def pkg_delete(context: Any, d: str, packages: List[str]) -> None:
         project_dir=playbook_path,
         quiet=quiet,
         suppress_ansible_output=True,
-        verbosity="3" if verbose else None,
+        verbosity=3 if verbose else None,
     )
 
     if result.rc != 0 or result.errored or result.canceled:

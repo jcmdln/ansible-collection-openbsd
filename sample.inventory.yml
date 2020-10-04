@@ -6,11 +6,10 @@
 #
 ##
 
-# The "all" group is a special group that refers to all hosts declared in this
-# file, not just this moniker itself.
+# The "all" group is a special group that refers to all hosts declared in any
+# group, not just within this moniker itself.
 all:
-  # These are global variables.  Almost everything has been set as intended in
-  # "openbsd_run/playbook/ansible.cfg" but this wayward variable.
+  # These are variables that apply to all hosts.
   vars:
     ansible_user: root
     ansible_python_interpreter: python3
@@ -18,25 +17,18 @@ all:
   # Below are hosts we want to perform actions on, but not assign them a group
   # which would imply a specific purpose.  One example are hosts that should be
   # patched, but aren't specifically running some type of service as denoted by
-  # the name of the groups below.
+  # the name of subsequent groups.
   hosts:
-    # This can be a domain name or IP address
+    # This first host definition can be a domain name or IP address
     maudlin.dev:
+      pkg_force: "snapshot"
 
-# The "everything" group is a custom group that is a child of all following
-# groups, meaning that this is an all-in-one host that all services will be
-# deployed to.
-#
-# Right now this is primarily for testing things, so I personally wouldn't
-# suggest being so brazen.
-everything:
-  hosts:
-    # This can be a domain name or IP address, and in the example below I've
-    # used the hostname and defined the fqdn it points to.
+    # Another host definition
     laptop:
-      # This isn't required, provided  that above you used whatever hostname or
+      # This isn't required, provided that above you used whatever hostname or
       # IP address that your host can actually reach over ssh.
       ansible_host: laptop.home.local
+      pkg_force: "snapshot"
 
 # The "ports" group is a custom group that defines hosts that should be
 # configured for building packages in the ports tree.

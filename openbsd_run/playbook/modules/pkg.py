@@ -46,7 +46,7 @@ class Pkg:
         ]:
             self.command = ""
             self.msg = (
-                "'%s' is not a valid choice when deleting packages"
+                "'%s' is not a valid choice when adding packages"
                 % self.module.params["force"]
             )
             self.rc = 1
@@ -77,7 +77,7 @@ class Pkg:
             for p in pkgs:
                 __present_cmd = "%s %s" % (__present_cmd, p)
 
-        if (to_update and __latest_cmd) or (pkgs and __present_cmd):
+        if __latest_cmd or (pkgs and __present_cmd):
             if __latest_cmd and __present_cmd:
                 self.command = "%s && %s" % (__latest_cmd, __present_cmd)
             elif __latest_cmd:

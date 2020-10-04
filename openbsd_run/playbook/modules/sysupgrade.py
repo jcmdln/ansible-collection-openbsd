@@ -8,6 +8,7 @@ from typing import Any, Dict
 class Sysupgrade:
     def __init__(self, module: AnsibleModule) -> None:
         """
+        Upgrade a host to the latest release or snapshot.
         """
         self.module: AnsibleModule = module
 
@@ -32,10 +33,6 @@ class Sysupgrade:
             self.command, check_rc=False
         )
 
-        if self.rc != 0:
-            self.msg = "received a non-zero exit code"
-            return
-
         if not self.stdout and not self.stderr:
             self.msg = "no actions performed"
             return
@@ -44,16 +41,23 @@ class Sysupgrade:
             self.msg = self.stdout.split("\n")[-1].strip(".").lower()
             return
 
-        if (
-            "failed" in self.stdout.lower()
-            or "signature verified" not in self.stdout.lower()
-        ):
-            self.msg = "failed to verify downloaded files"
+        if "404 not found" in self.stderr.lower():
+            self.msg = "no newer {} available".format(
+                self.module.params["branch"]
+            )
+            self.rc = 0
+            return
+
+        if self.rc != 0 or "failed" in [
+            self.stderr.lower(),
+            self.stdout.lower(),
+        ]:
+            self.msg = "failed to upgrade host"
             self.rc = 1 if self.rc == 0 else self.rc
             return
 
         self.changed = True
-        self.msg = "patches reverted"
+        self.msg = "upgrade performed successfully"
         self.reboot = True
 
 

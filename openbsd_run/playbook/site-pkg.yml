@@ -1,14 +1,23 @@
 - name: Package
   hosts: all
-  vars:
-    pkg_force: ""
-    pkg_packages: "*"
-    pkg_state: "latest"
-
   tasks:
+    - name: set facts
+      set_fact:
+        pkg_force: >-
+          {{ pkg_force if pkg_force is defined and pkg_force else "" }}
+        pkg_packages: >-
+          {{ pkg_packages if pkg_packages is defined and pkg_packages
+          else "*" }}
+        pkg_state: >-
+          {{ pkg_packages if pkg_packages is defined and pkg_packages
+          else "latest" }}
+
     - name: update packages
       pkg:
         force: "{{ pkg_force if pkg_force else omit }}"
         name: "{{ pkg_packages }}"
         state: "{{ pkg_state }}"
       register: result
+
+    - debug:
+        msg: "{{result}}"

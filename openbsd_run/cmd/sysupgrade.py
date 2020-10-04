@@ -68,7 +68,7 @@ def sysupgrade(context: Any, f: bool, n: bool, r: bool, s: bool) -> None:
         project_dir=playbook_path,
         quiet=quiet,
         suppress_ansible_output=True,
-        verbosity="3" if verbose else None,
+        verbosity=3 if verbose else None,
     )
 
     if result.rc != 0 or result.errored or result.canceled:
