@@ -1,10 +1,4 @@
 # sample.inventory.yml
-#
-# I went a bit overboard with leaving comments, but my hope is that if this is
-# your first time looking at an Ansible inventory you won't have to do too much
-# extracurricular reading.
-#
-##
 
 # The "all" group is a special group that refers to all hosts declared in any
 # group, not just within this moniker itself.
@@ -12,7 +6,7 @@ all:
   # These are variables that apply to all hosts.
   vars:
     ansible_user: root
-    ansible_python_interpreter: python3
+    ansible_python_interpreter: /usr/local/bin/python3
 
   # Below are hosts we want to perform actions on, but not assign them a group
   # which would imply a specific purpose.  One example are hosts that should be
@@ -20,15 +14,9 @@ all:
   # the name of subsequent groups.
   hosts:
     # This first host definition can be a domain name or IP address
-    maudlin.dev:
-      pkg_force: "snapshot"
-
-    # Another host definition
     laptop:
-      # This isn't required, provided that above you used whatever hostname or
-      # IP address that your host can actually reach over ssh.
-      ansible_host: laptop.home.local
-      pkg_force: "snapshot"
+    # Another host
+    server:
 
 # The "ports" group is a custom group that defines hosts that should be
 # configured for building packages in the ports tree.
