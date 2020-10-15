@@ -20,27 +20,35 @@ packages = [{ include = "openbsd_run" }]
 [tool.poetry.dependencies]
 python = "^3.6"
 ansible-base = "^2.10"
-ansible-runner = "^1"
-click = "^7"
-cryptography = "^3"
-jinja2 = "^2"
-pyyaml = "^5"
+ansible-runner = "^1.4"
+click = "^7.1"
+cryptography = "^3.1"
+jinja2 = "^2.11"
+pyyaml = "^5.3"
 
 [tool.poetry.dev-dependencies]
-bandit = "^1"
-black = "^19"
-flake8 = "^3"
+bandit = "^1.6"
+black = "20.8b1"
+coverage = "^5.3"
+flake8 = "^3.8"
 #molecule = "^3"
-mypy = "^0"
-poetry = "^1"
-pycodestyle = "^2"
-pyls-black = "^0"
-pyls-mypy = "^0"
-pytest = "^5"
-pytest-bandit = "^0"
-pytest-black = "^0"
-pytest-mypy = "^0"
-python-language-server = "^0"
+mypy = "^0.790"
+pydocstyle = "^5.1"
+pyls-black = "^0.4"
+pytest = "^6.1"
+sphinx = "^3.2"
+
+[tool.poetry.dev-dependencies.python-language-server]
+extras = [
+    "flake8",
+    "mccabe",
+    "pycodestyle",
+    "pydocstyle",
+    "pyflakes",
+    "pylint",
+    "rope",
+]
+version = "^0.35"
 
 [tool.poetry.scripts]
 openbsd-run = "openbsd_run.cli:cli"
