@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from __future__ import absolute_import
-from ansible.module_utils.basic import AnsibleModule  # type: ignore
+from ansible.module_utils.basic import AnsibleModule
 from typing import Any, Dict
 
 
@@ -41,8 +41,6 @@ class Syspatch:
         self.msg = "patches applied"
 
     def List(self) -> None:
-        """
-        """
         if self.module.params["List"].lower() == "available":
             self.command = "%s -c" % (self.command)
 
@@ -64,8 +62,6 @@ class Syspatch:
         self.msg = "list of available patches returned"
 
     def Revert(self) -> None:
-        """
-        """
         if self.module.params["list"] == "all":
             self.command = "%s -R" % (self.command)
 

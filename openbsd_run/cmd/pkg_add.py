@@ -1,4 +1,4 @@
-from ansible_runner import Runner  # type: ignore
+from ansible_runner import Runner
 from logging import Logger
 from openbsd_run.log import Log
 from openbsd_run.playbook import path as playbook_path

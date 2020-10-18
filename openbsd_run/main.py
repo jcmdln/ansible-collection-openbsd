@@ -16,7 +16,11 @@ import click
     help="Host pattern to match against inventory",
 )
 @click.option(
-    "--inventory", "-i", default="", help="Inventory file", type=str,
+    "--inventory",
+    "-i",
+    default="",
+    help="Inventory file",
+    type=str,
 )
 @click.option(
     "--quiet",

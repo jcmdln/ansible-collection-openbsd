@@ -136,7 +136,7 @@ media
 static
 
 #
-# Fixes
+# Errata
 #
 
 # Allow 'var' subdirectories in ansible roles
