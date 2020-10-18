@@ -5,8 +5,7 @@ from yaml import safe_load as yaml_load, YAMLError
 
 def Read(filename: str) -> Dict[Any, Any]:
     """
-    Read an ini or yaml configuration file as a dict, returning an empty dict
-    if the file could not be parsed as either format.
+    Read an ini or yaml configuration file as a dictionary.
     """
 
     try:
