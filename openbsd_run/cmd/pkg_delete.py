@@ -9,7 +9,7 @@ import click
 import ansible_runner as ansible
 
 
-@click.command(short_help="Remove packages")
+@click.command(name="pkg_delete", short_help="Remove packages")
 @click.option(
     "-D",
     default="",

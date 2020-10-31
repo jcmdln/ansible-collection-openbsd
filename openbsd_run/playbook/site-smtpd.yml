@@ -1,5 +1,0 @@
-- name: Mail
-  hosts: mail
-
-  roles:
-    - role: openbsd.mail

@@ -1,0 +1,9 @@
+# site-monitor.yml
+
+- import_playbook: site-check.yml
+
+- name: monitor
+  hosts: all
+  roles:
+    - role: openbsd.monitor
+      tags: [monitor]

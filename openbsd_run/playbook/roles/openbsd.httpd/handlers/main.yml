@@ -1,6 +1,0 @@
-# openbsd.httpd/handlers/main.yml
-
-- name: reload httpd
-  service:
-    name: httpd
-    state: reloaded

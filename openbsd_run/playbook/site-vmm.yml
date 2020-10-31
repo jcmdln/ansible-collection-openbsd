@@ -1,0 +1,9 @@
+# site-vmm.yml
+
+- import_playbook: site-check.yml
+
+- name: vmm
+  hosts: vmm
+  roles:
+    - role: openbsd.vmm
+      tags: [vmm]

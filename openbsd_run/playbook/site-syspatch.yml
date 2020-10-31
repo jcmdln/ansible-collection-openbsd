@@ -1,8 +1,11 @@
-- name: Syspatch
+# site-syspatch.yml
+
+- import_playbook: site-check.yml
+
+- name: syspatch
   hosts: all
   vars:
     syspatch_reboot_timeout: 600
-
   tasks:
     - name: apply all available patches
       syspatch:

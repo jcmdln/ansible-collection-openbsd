@@ -1,5 +1,0 @@
-# openbsd.pf/handlers/main.yml
-
-- name: reload pf
-  command: >-
-    pfctl -f /etc/pf.conf

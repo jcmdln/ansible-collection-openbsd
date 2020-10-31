@@ -1,0 +1,6 @@
+# site-mirror.yml
+
+- import_playbook: site-check.yml
+
+- name: mirror
+  hosts: mirror

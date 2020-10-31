@@ -1,9 +1,0 @@
-# openbsd.doas/tasks/main.yml
-
-- name: Configure doas
-  template:
-    src: etc/doas.conf.j2
-    dest: /etc/doas.conf
-    owner: root
-    group: wheel
-    mode: "0600"

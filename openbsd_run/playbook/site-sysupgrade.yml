@@ -1,11 +1,14 @@
-- name: Sysupgrade
+# site-sysupgrade.yml
+
+- import_playbook: site-check.yml
+
+- name: sysupgrade
   hosts: all
   vars:
     sysupgrade_branch: "auto"
     sysupgrade_force: false
     sysupgrade_reboot: true
     sysupgrade_reboot_timeout: "600"
-
   tasks:
     - name: upgrade to latest release or snapshot
       sysupgrade:

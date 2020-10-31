@@ -1,0 +1,8 @@
+# site-pxeboot.yml
+
+- import_playbook: site-check.yml
+
+- name: pxeboot
+  hosts: pxeboot
+  roles:
+    - role: openbsd.pxeboot

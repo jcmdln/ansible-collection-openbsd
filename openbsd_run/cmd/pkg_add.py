@@ -9,7 +9,7 @@ import click
 import ansible_runner as ansible
 
 
-@click.command(short_help="Add or update packages")
+@click.command(name="pkg_add", short_help="Add or update packages")
 @click.option(
     "-D",
     default="",

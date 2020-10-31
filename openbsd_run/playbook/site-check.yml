@@ -1,4 +1,4 @@
-- name: Check
+- name: check
   gather_facts: false
   hosts: all
 

@@ -1,4 +1,8 @@
-- name: Package
+# site-pkg.yml
+
+- import_playbook: site-check.yml
+
+- name: pkg
   hosts: all
   tasks:
     - name: set facts
@@ -18,6 +22,3 @@
         name: "{{ pkg_packages }}"
         state: "{{ pkg_state }}"
       register: result
-
-    - debug:
-        msg: "{{result}}"

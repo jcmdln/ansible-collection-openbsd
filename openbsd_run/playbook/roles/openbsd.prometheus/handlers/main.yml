@@ -1,9 +1,0 @@
-# openbsd.prometheus/handlers/main.yml
-
-- name: reload httpd
-  service:
-    name: httpd
-    state: reloaded
-
-- name: reload pf
-  command: "pfctl -f /etc/pf.conf"

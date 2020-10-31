@@ -17,6 +17,7 @@ all:
     laptop:
     # Another host
     server:
+    maudlin.dev:
 
 # The "ports" group is a custom group that defines hosts that should be
 # configured for building packages in the ports tree.
