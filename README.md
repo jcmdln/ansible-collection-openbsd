@@ -11,7 +11,7 @@ Usage
 
 Playbook
 --------------------
-The [raw playbook](./openbsd_run/playbook/README.md) can be used without any
+The [raw playbook](./openbsd_run/playbook/) can be used without any
 atypical Ansible setup or intrinsic dependencies to the command line interface
 for those who might prefer it.
 
