@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import
+from __future__ import absolute_import, annotations
+
 from ansible.module_utils.basic import AnsibleModule
-from typing import Any, Dict
 
 
 class Signify:
@@ -23,7 +23,7 @@ def main() -> None:
 
     signify: Signify = Signify(module)
 
-    result: Dict[str, Any] = {
+    result: dict[str, bool | int | str] = {
         "changed": signify.changed,
         "command": signify.command,
         "msg": signify.msg,

@@ -1,12 +1,11 @@
-from ansible_runner import Runner
 from logging import Logger
-from openbsd_run.log import Log
-from openbsd_run.playbook import path as playbook_path
 from sys import exit
-from typing import Any, Dict, List
 
-import click
 import ansible_runner as ansible
+import click
+from ansible_runner import Runner
+from openbsd_run.playbook import path as playbook_path
+from openbsd_run.utils.log import Log
 
 
 @click.command(name="pkg_add", short_help="Add or update packages")
@@ -25,15 +24,14 @@ import ansible_runner as ansible
 )
 @click.argument("packages", required=False)
 @click.pass_context
-def pkg_add(context: Any, d: str, packages: List[str], u: bool) -> None:
+def pkg_add(context, d: str, packages: list[str], u: bool) -> None:
     log: Logger = Log("openbsd-run: pkg")
 
+    extra_vars: dict = {}
     host_pattern = context.obj["host_pattern"]
-    inventory_contents: Dict[Any, Any] = context.obj["inventory_contents"]
+    inventory_contents: dict = context.obj["inventory_contents"]
     quiet: bool = context.obj["quiet"]
     verbose: bool = context.obj["verbose"]
-
-    extra_vars: Dict[Any, Any] = {}
 
     if d and d not in [
         "allversions",

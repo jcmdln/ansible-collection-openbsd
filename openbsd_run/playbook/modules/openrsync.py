@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import
+from __future__ import absolute_import, annotations
+
 from ansible.module_utils.basic import AnsibleModule
-from typing import Any, Dict
 
 
 class Openrsync:
     def __init__(self, module: AnsibleModule) -> None:
-        """"""
         self.module: AnsibleModule = module
 
         self.changed: bool = False
@@ -24,7 +23,7 @@ def main() -> None:
 
     openrsync: Openrsync = Openrsync(module)
 
-    result: Dict[str, Any] = {
+    result: dict[str, bool | int | str] = {
         "changed": openrsync.changed,
         "command": openrsync.command,
         "msg": openrsync.msg,

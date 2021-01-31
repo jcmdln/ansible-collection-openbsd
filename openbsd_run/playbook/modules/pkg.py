@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import
-from ansible.module_utils.basic import AnsibleModule
-from typing import Any, Dict, List
+from __future__ import absolute_import, annotations
+
 import re
+
+from ansible.module_utils.basic import AnsibleModule
 
 
 class Pkg:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
-        self.packages: Dict[str, Any] = {}
+        self.packages: dict = {}
 
         self.changed: bool = False
         self.command: str = ""
@@ -23,8 +24,8 @@ class Pkg:
         __latest_cmd: str = ""
         __present_cmd: str = ""
 
-        pkgs: List[str] = self.module.params["name"]
-        to_update: Dict[str, None] = {}
+        pkgs: list[str] = self.module.params["name"]
+        to_update: dict[str, None] = {}
 
         if self.module.params["force"] and self.module.params["force"] not in [
             "allversions",
@@ -103,7 +104,7 @@ class Pkg:
 
     def Delete(self) -> None:
         self.command = "/usr/sbin/pkg_delete -I -v -x"
-        to_delete: Dict[str, None] = {}
+        to_delete: dict[str, None] = {}
 
         if self.module.params["force"] and self.module.params["force"] not in [
             "baddepend",
@@ -221,7 +222,7 @@ def main() -> None:
     elif module.params["state"] in ["latest", "present"]:
         pkg.Add()
 
-    result: Dict[str, Any] = {
+    result: dict[str, bool | int | str] = {
         "changed": pkg.changed,
         "command": pkg.command,
         "msg": pkg.msg,

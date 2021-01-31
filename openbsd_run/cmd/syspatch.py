@@ -1,21 +1,20 @@
-from ansible_runner import Runner
 from logging import Logger
-from openbsd_run.log import Log
-from openbsd_run.playbook import path as playbook_path
 from sys import exit
-from typing import Any, Dict
 
-import click
 import ansible_runner as ansible
+import click
+from ansible_runner import Runner
+from openbsd_run.playbook import path as playbook_path
+from openbsd_run.utils.log import Log
 
 
 @click.command(short_help="Patch host(s) using syspatch")
 @click.pass_context
-def syspatch(context: Any) -> None:
+def syspatch(context) -> None:
     log: Logger = Log("openbsd-run: syspatch")
 
     host_pattern = context.obj["host_pattern"]
-    inventory_contents: Dict[Any, Any] = context.obj["inventory_contents"]
+    inventory_contents: dict = context.obj["inventory_contents"]
     quiet: bool = context.obj["quiet"]
     verbose: bool = context.obj["verbose"]
 

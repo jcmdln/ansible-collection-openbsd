@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import
+from __future__ import absolute_import, annotations
+
 from ansible.module_utils.basic import AnsibleModule
-from typing import Any, Dict
 
 
 class Sysupgrade:
@@ -78,7 +78,7 @@ def main() -> None:
     sysupgrade: Sysupgrade = Sysupgrade(module)
     sysupgrade.Update()
 
-    result: Dict[str, Any] = {
+    result: dict[str, bool | int | str] = {
         "changed": sysupgrade.changed,
         "command": sysupgrade.command,
         "msg": sysupgrade.msg,

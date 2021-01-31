@@ -1,10 +1,11 @@
 from logging import Logger
-from openbsd_run.cmd import pkg_add, pkg_delete, syspatch, sysupgrade
-from openbsd_run.config import Read as ReadConfig
-from openbsd_run.log import Log
 from typing import Any, Dict
 
 import click
+
+from .cmd import pkg_add, pkg_delete, syspatch, sysupgrade
+from .utils.config import Read as ReadConfig
+from .utils.log import Log
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})

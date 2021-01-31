@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import
+from __future__ import absolute_import, annotations
+
 from ansible.module_utils.basic import AnsibleModule
-from typing import Any, Dict
 
 
 class Syspatch:
@@ -19,7 +19,7 @@ class Syspatch:
 
     def Apply(self) -> None:
         """
-        Apply all available patches
+        Apply all available patches.
         """
 
         self.rc, self.stdout, self.stderr = self.module.run_command(
@@ -109,7 +109,7 @@ def main() -> None:
         syspatch.Revert()
 
     # Convert specific properties to a dict so we return specific data
-    result: Dict[str, Any] = {
+    result: dict[str, bool | int | str] = {
         "changed": syspatch.changed,
         "command": syspatch.command,
         "msg": syspatch.msg,
