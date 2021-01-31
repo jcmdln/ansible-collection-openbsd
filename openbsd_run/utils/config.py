@@ -1,6 +1,8 @@
 from configparser import ConfigParser, ParsingError
 from typing import Any, Dict
-from yaml import safe_load as yaml_load, YAMLError
+
+from yaml import YAMLError
+from yaml import safe_load as yaml_load
 
 
 def Read(filename: str) -> Dict[Any, Any]:
