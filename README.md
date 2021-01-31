@@ -28,12 +28,12 @@ examples are provided below, though this is not intended to be exhaustive.
 
 #### poetry
 ```sh
-    $ poetry install git+https://github.com/jcmdln/openbsd-run.git
+$ poetry install git+https://github.com/jcmdln/openbsd-run.git
 ```
 
 #### pip
 ```sh
-    $ pip install git+https://github.com/jcmdln/openbsd-run.git
+$ pip install git+https://github.com/jcmdln/openbsd-run.git
 ```
 
 ### Running
@@ -41,32 +41,32 @@ The command line interface may be used by installing this repository as a Python
 package using pip, poetry, or other such tools.
 
 ```sh
-    $ openbsd-run -h
-    Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
+$ openbsd-run -h
+Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
 
-    Options:
-      -H, --host_pattern TEXT  Host pattern to match against inventory
-      -i, --inventory TEXT     Inventory file
-      -q, --quiet              Suppress Ansible output
-      -V, --verbose            Increase Ansible output
-      -v, --version            Show the version and exit.
-      -h, --help               Show this message and exit.
+Options:
+  -H, --host_pattern TEXT  Host pattern to match against inventory
+  -i, --inventory TEXT     Inventory file
+  -q, --quiet              Suppress Ansible output
+  -V, --verbose            Increase Ansible output
+  -v, --version            Show the version and exit.
+  -h, --help               Show this message and exit.
 
-    Commands:
-      pkg_add     Add or update packages
-      pkg_delete  Remove packages
-      syspatch    Patch host(s) using syspatch
-      sysupgrade  Upgrade host(s) using sysupgrade
+Commands:
+  pkg_add     Add or update packages
+  pkg_delete  Remove packages
+  syspatch    Patch host(s) using syspatch
+  sysupgrade  Upgrade host(s) using sysupgrade
 ```
 
 ### Subcommand Example
 
 ```sh
-    $ openbsd-run -i sample.inventory.yml pkg-add -h
-    Usage: openbsd-run pkg-add [OPTIONS] PACKAGES
+$ openbsd-run -i sample.inventory.yml pkg-add -h
+Usage: openbsd-run pkg-add [OPTIONS] PACKAGES
 
-    Options:
-      -D TEXT     Force package install, waiving the specified failsafe
-      -u          Update named packages, installing any missing packages
-      -h, --help  Show this message and exit.
+Options:
+  -D TEXT     Force package install, waiving the specified failsafe
+  -u          Update named packages, installing any missing packages
+  -h, --help  Show this message and exit.
 ```
