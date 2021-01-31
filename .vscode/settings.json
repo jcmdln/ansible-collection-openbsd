@@ -2,11 +2,13 @@
     "search.exclude": {
         "**/__pycache__/**": true,
         "**/.mypy_cache/**": true,
+        "**/.tox/**": true,
         "**/.venv/**": true,
     },
     "files.watcherExclude": {
         "**/__pycache__/**": true,
         "**/.mypy_cache/**": true,
+        "**/.tox/**": true,
         "**/.venv/**": true,
     },
     "python.formatting.provider": "black",
@@ -18,4 +20,10 @@
     "python.linting.pydocstyleEnabled": true,
     "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
     "python.venvPath": "${workspaceFolder}/.venv",
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        "editor.formatOnSave": true,
+    }
 }
