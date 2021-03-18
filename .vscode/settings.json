@@ -14,6 +14,12 @@
             "**/vendor/**": true,
         },
     },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+        "editor.formatOnSave": true,
+    },
     "[search]": {
         "exclude": {
             "**/__pycache__/**": true,
