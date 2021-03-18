@@ -42,10 +42,10 @@ class Syspatch:
 
     def List(self) -> None:
         if self.module.params["List"].lower() == "available":
-            self.command = "%s -c" % (self.command)
+            self.command = "{} -c".format(self.command)
 
         if self.module.params["List"].lower() == "installed":
-            self.command = "%s -l" % (self.command)
+            self.command = "{} -l".format(self.command)
 
         self.rc, self.stdout, self.stderr = self.module.run_command(
             self.command, check_rc=False
@@ -63,10 +63,10 @@ class Syspatch:
 
     def Revert(self) -> None:
         if self.module.params["list"] == "all":
-            self.command = "%s -R" % (self.command)
+            self.command = "{} -R".format(self.command)
 
         if self.module.params["list"] == "latest":
-            self.command = "%s -r" % (self.command)
+            self.command = "{} -r".format(self.command)
 
         self.rc, self.stdout, self.stderr = self.module.run_command(
             self.command, check_rc=False
@@ -92,6 +92,7 @@ def main() -> None:
         argument_spec={
             "apply": {"type": "bool"},
             "list": {"choices": ["available", "installed"], "type": "str"},
+            "reboot": {"type": "bool"},
             "revert": {"choices": ["all", "latest"], "type": "str"},
         },
         required_one_of=[["apply", "list", "revert"]],

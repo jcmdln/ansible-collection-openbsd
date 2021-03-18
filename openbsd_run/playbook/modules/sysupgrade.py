@@ -22,12 +22,12 @@ class Sysupgrade:
 
     def Update(self) -> None:
         if self.module.params["branch"] == "release":
-            self.command = "%s -r" % (self.command)
+            self.command = "{} -r".format(self.command)
         elif self.module.params["branch"] == "snapshot":
-            self.command = "%s -s" % (self.command)
+            self.command = "{} -s".format(self.command)
 
         if self.module.params["force"]:
-            self.command = "%s -f" % (self.command)
+            self.command = "{} -f".format(self.command)
 
         self.rc, self.stdout, self.stderr = self.module.run_command(
             self.command, check_rc=False

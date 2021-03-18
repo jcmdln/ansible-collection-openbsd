@@ -3,6 +3,7 @@
 from __future__ import absolute_import, annotations
 
 import re
+from typing import Any
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -10,7 +11,7 @@ from ansible.module_utils.basic import AnsibleModule
 class Pkg:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
-        self.packages: dict = {}
+        self.packages: dict[str, Any] = {}
 
         self.changed: bool = False
         self.command: str = ""
@@ -47,14 +48,15 @@ class Pkg:
         ]:
             self.command = ""
             self.msg = (
-                "'%s' is not a valid choice when adding packages"
-                % self.module.params["force"]
+                "'{}' is not a valid choice when adding packages".format(
+                    self.module.params["force"]
+                )
             )
             self.rc = 1
             return
 
         if self.module.params["force"]:
-            self.command = "%s -D %s" % (
+            self.command = "{} -D {}".format(
                 self.command,
                 self.module.params["force"],
             )
@@ -71,16 +73,16 @@ class Pkg:
 
             if "*" not in self.module.params["name"]:
                 for p in to_update.keys():
-                    __latest_cmd = "%s %s" % (__latest_cmd, p)
+                    __latest_cmd = "{} {}".format(__latest_cmd, p)
 
         if pkgs and "*" not in self.module.params["name"]:
             __present_cmd = "{} -v".format(self.command)
             for p in pkgs:
-                __present_cmd = "%s %s" % (__present_cmd, p)
+                __present_cmd = "{} {}".format(__present_cmd, p)
 
         if __latest_cmd or (pkgs and __present_cmd):
             if __latest_cmd and __present_cmd:
-                self.command = "%s && %s" % (__latest_cmd, __present_cmd)
+                self.command = "{} && {}".format(__latest_cmd, __present_cmd)
             elif __latest_cmd:
                 self.command = __latest_cmd
             elif __present_cmd:
@@ -115,14 +117,15 @@ class Pkg:
         ]:
             self.command = ""
             self.msg = (
-                "'%s' is not a valid choice when deleting packages"
-                % self.module.params["force"]
+                "'{}' is not a valid choice when deleting packages".format(
+                    self.module.params["force"]
+                )
             )
             self.rc = 1
             return
 
         if self.module.params["force"]:
-            self.command = "%s -D %s" % (
+            self.command = "{} -D {}".format(
                 self.command,
                 self.module.params["force"],
             )
@@ -170,8 +173,14 @@ class Pkg:
                 continue
 
             name = re.sub(r"-[0-9].*$", "", pkg)
-            version = re.search(r"-([\d.]+.*$)", pkg).group(1)  # type: ignore
-            self.packages[pkg] = {"name": name, "version": "%s" % version}
+            version = re.search(r"-([\d.]+.*$)", pkg)
+            if version:
+                version = version.group(1)
+
+            self.packages[pkg] = {
+                "name": name,
+                "version": "{}".format(version),
+            }
 
 
 def main() -> None:
