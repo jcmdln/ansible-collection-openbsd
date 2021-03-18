@@ -20,7 +20,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-poetry.lock
 .Python
 build/
 develop-eggs/

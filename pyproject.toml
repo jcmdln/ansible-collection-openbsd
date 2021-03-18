@@ -18,8 +18,8 @@ authors = ["Johnathan C. Maudlin <jcmdln@gmail.com>"]
 packages = [{ include = "openbsd_run" }]
 
 [tool.poetry.dependencies]
-python = "^3.9.0"
-ansible-base = "^2.10.5"
+python = "^3.6"
+ansible = "^3.1.0"
 ansible-runner = "^1.4.6"
 click = "^7.1.2"
 cryptography = "^3.3.1"
@@ -28,15 +28,15 @@ pyyaml = "^5.4.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.0"
-black = "20.8b1"
+black = "^20.8b1"
 #coverage = "^5.4"
-mypy = "^0.800"
+mypy = "^0.812"
 poetry = "^1.1.4"
 pydocstyle = "^5.1.1"
 pyls-black = "^0.4.6"
 #pytest = "^6.2.2"
 #sphinx = "^3.4.3"
-#tox = "^3.21.3"
+tox = "^3.21.3"
 
 [tool.poetry.dev-dependencies.python-language-server]
 extras = ["flake8", "mccabe", "pycodestyle", "pydocstyle", "pyflakes", "rope"]
