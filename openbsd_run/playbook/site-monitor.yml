@@ -1,3 +1,4 @@
+---
 # site-monitor.yml
 
 - import_playbook: site-check.yml

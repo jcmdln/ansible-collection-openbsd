@@ -1,3 +1,4 @@
+---
 # site-sysupgrade.yml
 
 - import_playbook: site-check.yml

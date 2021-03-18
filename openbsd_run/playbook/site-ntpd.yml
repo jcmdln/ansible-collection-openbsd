@@ -1,3 +1,4 @@
+---
 # site-ntpd.yml
 
 - import_playbook: site-check.yml

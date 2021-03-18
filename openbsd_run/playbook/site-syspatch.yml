@@ -1,3 +1,4 @@
+---
 # site-syspatch.yml
 
 - import_playbook: site-check.yml
