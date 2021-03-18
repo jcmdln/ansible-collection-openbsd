@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from logging import Logger
 from sys import exit
+from typing import Any
 
 import ansible_runner as ansible
 import click
@@ -17,15 +20,15 @@ from openbsd_run.utils.log import Log
 )
 @click.argument("packages", required=True)
 @click.pass_context
-def pkg_delete(context, d: str, packages: list[str]) -> None:
+def pkg_delete(context: Any, d: str, packages: list[str]) -> None:
     log: Logger = Log("openbsd-run: pkg")
 
     host_pattern = context.obj["host_pattern"]
-    inventory_contents: dict = context.obj["inventory_contents"]
+    inventory_contents: dict[Any, Any] = context.obj["inventory_contents"]
     quiet: bool = context.obj["quiet"]
     verbose: bool = context.obj["verbose"]
 
-    extra_vars: dict = {}
+    extra_vars: dict[Any, Any] = {}
 
     if not packages or "*" in packages:
         log.error("'%s' is not a valid list of package names" % packages)
@@ -61,3 +64,5 @@ def pkg_delete(context, d: str, packages: list[str]) -> None:
     if result.rc != 0 or result.errored or result.canceled:
         log.error("update failed!")
         exit(1)
+
+    exit(0)

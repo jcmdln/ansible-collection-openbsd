@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from logging import Logger
 from sys import exit
+from typing import Any
 
 import ansible_runner as ansible
 import click
@@ -10,11 +13,11 @@ from openbsd_run.utils.log import Log
 
 @click.command(short_help="Patch host(s) using syspatch")
 @click.pass_context
-def syspatch(context) -> None:
+def syspatch(context: Any) -> None:
     log: Logger = Log("openbsd-run: syspatch")
 
     host_pattern = context.obj["host_pattern"]
-    inventory_contents: dict = context.obj["inventory_contents"]
+    inventory_contents: dict[Any, Any] = context.obj["inventory_contents"]
     quiet: bool = context.obj["quiet"]
     verbose: bool = context.obj["verbose"]
 
@@ -31,3 +34,5 @@ def syspatch(context) -> None:
     if result.rc != 0 or result.errored or result.canceled:
         log.error("update failed!")
         exit(1)
+
+    exit(0)

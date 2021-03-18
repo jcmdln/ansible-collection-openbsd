@@ -20,7 +20,6 @@ class Vmctl:
 
 def main() -> None:
     module: AnsibleModule = AnsibleModule(argument_spec={})
-
     vmctl: Vmctl = Vmctl(module)
 
     # Convert specific properties to a dict so we return specific data
@@ -36,8 +35,8 @@ def main() -> None:
 
     if vmctl.rc > 0:
         module.fail_json(**result)
-    else:
-        module.exit_json(**result)
+
+    module.exit_json(**result)
 
 
 if __name__ == "__main__":

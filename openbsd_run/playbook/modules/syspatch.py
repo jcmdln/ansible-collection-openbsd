@@ -122,8 +122,8 @@ def main() -> None:
 
     if syspatch.rc > 0:
         module.fail_json(**result)
-    else:
-        module.exit_json(**result)
+
+    module.exit_json(**result)
 
 
 if __name__ == "__main__":

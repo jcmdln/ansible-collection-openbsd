@@ -1,5 +1,5 @@
-from typing import List
+from __future__ import annotations
 
-from . import playbook
+from openbsd_run import playbook
 
-__all__: List[str] = ["playbook"]
+__all__: list[str] = ["playbook"]
