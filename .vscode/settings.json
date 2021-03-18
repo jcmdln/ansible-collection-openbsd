@@ -1,32 +1,38 @@
 {
-    "search.exclude": {
-        "**/__pycache__/**": true,
-        "**/*.egg-info/**": true,
-        "**/.mypy_cache/**": true,
-        "**/.tox/**": true,
-        "**/.venv/**": true,
+    "[editor]": {
+        "formatOnSave": true,
+        "trimAutoWhitespace": true
     },
-    "files.watcherExclude": {
-        "**/__pycache__/**": true,
-        "**/*.egg-info/**": true,
-        "**/.mypy_cache/**": true,
-        "**/.tox/**": true,
-        "**/.venv/**": true,
+    "[files]": {
+        "trimTrailingWhitespace": true,
+        "watcherExclude": {
+            "**/__pycache__/**": true,
+            "**/*.egg-info/**": true,
+            "**/.mypy_cache/**": true,
+            "**/.tox/**": true,
+            "**/.venv/**": true,
+            "**/vendor/**": true,
+        },
     },
+    "[search]": {
+        "exclude": {
+            "**/__pycache__/**": true,
+            "**/*.egg-info/**": true,
+            "**/.mypy_cache/**": true,
+            "**/.tox/**": true,
+            "**/.venv/**": true,
+            "**/vendor/**": true,
+        },
+    },
+    "evenBetterToml.formatter.columnWidth": 79,
     "python.formatting.provider": "black",
     "python.languageServer": "Pylance",
     "python.linting.enabled": true,
-    "python.linting.banditEnabled": true,
+    "python.linting.banditEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.mypyEnabled": true,
     "python.linting.pycodestyleEnabled": true,
     "python.linting.pydocstyleEnabled": true,
     "python.pythonPath": "${workspaceFolder}/.venv/bin/python",
     "python.venvPath": "${workspaceFolder}/.venv",
-    "[python]": {
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true,
-        },
-        "editor.formatOnSave": true,
-    }
 }
