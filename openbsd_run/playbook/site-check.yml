@@ -9,9 +9,6 @@
     - name: Install Python 3.x if missing
       raw: >-
         pkg_add python3
-      when:
-        - python_check.rc is defined
-        - python_check.rc > 0
 
   tasks:
     - name: Confirm host is running OpenBSD
