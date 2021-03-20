@@ -16,12 +16,14 @@ packages = [{ include = "openbsd_run" }]
 
 [tool.poetry.dependencies]
 python = "^3.6.2"
-ansible = "^3.1.0"
+
+ansible-core = "^2.11.0-beta.3"
 ansible-runner = "^1.4.7"
 click = "^7.1.2"
 cryptography = "^3.4.6"
 jinja2 = "^2.11.3"
-pyyaml = "^5.4.1"
+packaging = "~20.9"
+resolvelib = "~0.5.4"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.0"
