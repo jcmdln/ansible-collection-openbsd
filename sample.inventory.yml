@@ -6,7 +6,6 @@
 all:
   # These are variables that apply to all hosts.
   vars:
-    ansible_user: root
     ansible_python_interpreter: /usr/local/bin/python3
 
   # Below are hosts we want to perform actions on, but not assign them a group
@@ -18,12 +17,3 @@ all:
     laptop:
     # Another host
     server:
-
-# The "ports" group is a custom group that defines hosts that should be
-# configured for building packages in the ports tree.
-ports:
-  # The "children" moniker here allows us to define groups under it, so rather
-  # than declaring each host multiple times we can collate the hosts of these
-  # groups.
-  children:
-    everything:
