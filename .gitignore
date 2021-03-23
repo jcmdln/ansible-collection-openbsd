@@ -6,6 +6,17 @@
 
 inventory.yml
 
+# For ansible-galaxy stuff we bundle, trim as much junk as possible
+# from our own commit history.
+openbsd_run/playbook/**/.azure-pipelines/
+openbsd_run/playbook/**/.github/
+openbsd_run/playbook/**/changelogs/
+openbsd_run/playbook/**/docs/
+openbsd_run/playbook/**/hacking/
+openbsd_run/playbook/**/tests/
+openbsd_run/playbook/**/*.md
+openbsd_run/playbook/**/*.rst
+openbsd_run/playbook/**/*.txt
 
 #
 # Python
