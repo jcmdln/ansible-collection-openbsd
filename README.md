@@ -32,12 +32,12 @@ examples are provided below, though this is not intended to be exhaustive.
 
 #### pip
 Pip should work exactly as you would expect, and the following example does not
-need to be followed literally.
+need to be performed literally.
 
 ```sh
 $ git clone --branch master https://github.com/jcmdln/openbsd-run
 $ cd openbsd-run
-$ virtualenv .venv
+$ virtualenv .venv --system-site-packages
 $ source .venv/bin/activate
 (.venv) $ pip install git+https://github.com/jcmdln/openbsd-run@master
 (.venv) $ openbsd-run -h
