@@ -39,7 +39,7 @@ $ git clone --branch master https://github.com/jcmdln/openbsd-run
 $ cd openbsd-run
 $ virtualenv .venv --system-site-packages
 $ source .venv/bin/activate
-(.venv) $ pip install git+https://github.com/jcmdln/openbsd-run@master
+(.venv) $ pip install .
 (.venv) $ openbsd-run -h
 Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
 
