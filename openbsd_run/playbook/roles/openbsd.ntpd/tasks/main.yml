@@ -1,7 +1,7 @@
 # openbsd.ntpd/tasks/main.yml
 
 - name: configure ntpd
-  template:
+  ansible.builtin.template:
     src: etc/ntpd.conf.j2
     dest: /etc/ntpd.conf
     owner: root

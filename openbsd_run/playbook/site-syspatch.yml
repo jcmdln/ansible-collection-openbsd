@@ -17,7 +17,7 @@
         - ansible_distribution_release not in ["current", "beta"]
 
     - name: reboot host if patched and a reboot is required
-      reboot:
+      ansible.builtin.reboot:
         connect_timeout: "{{ syspatch_reboot_timeout }}"
         reboot_timeout: "{{ syspatch_reboot_timeout }}"
       when:

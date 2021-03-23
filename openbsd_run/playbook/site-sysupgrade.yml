@@ -19,7 +19,7 @@
       when: ansible_distribution_version is version("6.6", ">=")
 
     - name: reboot if upgraded
-      reboot:
+      ansible.builtin.reboot:
         connect_timeout: "{{ sysupgrade_reboot_timeout }}"
         reboot_timeout: "{{ sysupgrade_reboot_timeout }}"
       when:

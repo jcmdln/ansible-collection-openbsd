@@ -7,7 +7,7 @@
   hosts: all
   tasks:
     - name: set facts
-      set_fact:
+      ansible.builtin.set_fact:
         pkg_force: >-
           {{ pkg_force if pkg_force is defined and pkg_force else "" }}
         pkg_packages: >-

@@ -1,7 +1,7 @@
 # openbsd.unwind/tasks/main.yml
 
 - name: configure dhclient.conf
-  template:
+  ansible.builtin.template:
     src: etc/dhclient.conf.j2
     dest: /etc/dhclient.conf
     owner: root
@@ -9,7 +9,7 @@
     mode: 0644
 
 - name: start and enable unwind
-  service:
+  ansible.builtin.service:
     name: unwind
     state: started
     enabled: true

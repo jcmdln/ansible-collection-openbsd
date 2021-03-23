@@ -1,6 +1,6 @@
 # openbsd.monitor/tasks/client.yml
 
 - name: Install client packages
-  package:
+  pkg:
     name: "{{ moniter_client_packages }}"
     state: present

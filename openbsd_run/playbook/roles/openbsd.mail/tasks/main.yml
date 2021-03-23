@@ -1,12 +1,12 @@
 # openbsd.mail/tasks/main.yml
 
 - name: Install packages if missing
-  package:
+  pkg:
     name: "{{ mail_packages }}"
     state: present
 
 - name: Create /etc/mail directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
   with_items:
