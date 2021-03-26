@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from __future__ import absolute_import, annotations
+from __future__ import annotations
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -22,7 +20,6 @@ def main() -> None:
     module: AnsibleModule = AnsibleModule(argument_spec={})
     vmctl: Vmctl = Vmctl(module)
 
-    # Convert specific properties to a dict so we return specific data
     result: dict[str, bool | int | str] = {
         "changed": vmctl.changed,
         "command": vmctl.command,

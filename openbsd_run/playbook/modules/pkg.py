@@ -1,8 +1,7 @@
-#!/usr/bin/env python
-
-from __future__ import absolute_import, annotations
+from __future__ import annotations
 
 import re
+
 from typing import Any
 
 from ansible.module_utils.basic import AnsibleModule

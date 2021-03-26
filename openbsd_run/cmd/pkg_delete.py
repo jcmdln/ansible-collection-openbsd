@@ -6,7 +6,9 @@ from typing import Any
 
 import ansible_runner as ansible
 import click
+
 from ansible_runner import Runner
+
 from openbsd_run.playbook import path as playbook_path
 from openbsd_run.utils.log import Log
 

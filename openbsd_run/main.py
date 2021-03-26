@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from logging import Logger
+from sys import exit
 from typing import Any, Dict
 
 import click

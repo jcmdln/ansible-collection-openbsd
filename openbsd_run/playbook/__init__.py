@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import os as os
+import os
 
 path: str = os.path.dirname(os.path.abspath(__file__))
 
