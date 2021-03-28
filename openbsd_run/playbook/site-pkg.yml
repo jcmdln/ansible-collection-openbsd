@@ -5,21 +5,22 @@
 
 - name: pkg
   hosts: all
-  tasks:
-    - name: set facts
-      ansible.builtin.set_fact:
-        pkg_force: >-
-          {{ pkg_force if pkg_force is defined and pkg_force else "" }}
-        pkg_packages: >-
-          {{ pkg_packages if pkg_packages is defined and pkg_packages
-          else "*" }}
-        pkg_state: >-
-          {{ pkg_packages if pkg_packages is defined and pkg_packages
-          else "latest" }}
 
-    - name: update packages
+  vars:
+    pkg_force: ""
+    pkg_packages: "*"
+    pkg_state: "latest"
+    pkg_title: "update"
+
+  tasks:
+    - name: "{{ pkg_title }} package(s)"
       pkg:
         force: "{{ pkg_force if pkg_force else omit }}"
         name: "{{ pkg_packages }}"
         state: "{{ pkg_state }}"
-      register: result
+      register: pkg_result
+
+    - name: show results if there were changes
+      debug:
+        msg: "{{ pkg_result.stdout_lines }}"
+      when: pkg_result.changed

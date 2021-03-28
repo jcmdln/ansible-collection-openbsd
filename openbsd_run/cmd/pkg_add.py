@@ -66,8 +66,10 @@ def pkg_add(context: Any, d: str, packages: list[str], u: bool) -> None:
         extra_vars["pkg_packages"] = packages
 
     if u:
+        extra_vars["pkg_title"] = "update"
         extra_vars["pkg_state"] = "latest"
     else:
+        extra_vars["pkg_title"] = "install"
         extra_vars["pkg_state"] = "present"
 
     result: Runner = ansible.run(

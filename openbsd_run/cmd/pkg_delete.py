@@ -38,6 +38,7 @@ def pkg_delete(context: Any, d: str, packages: list[str]) -> None:
     else:
         extra_vars["pkg_packages"] = packages
         extra_vars["pkg_state"] = "absent"
+        extra_vars["pkg_title"] = "delete"
 
     if d and d not in [
         "baddepend",
