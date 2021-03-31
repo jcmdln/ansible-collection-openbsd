@@ -27,12 +27,15 @@ resolvelib = "~0.5.4"
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.0"
 black = "20.8b1"
-#coverage = "^5.5"
+# coverage = "^5.5"
+flake8-black = "^0.2.1"
+flake8-docstrings = "^1.6.0"
+flake8-isort = "^4.0.0"
 mypy = "^0.812"
 pyls-black = "^0.4.6"
 pyls-isort = "^0.2.0"
-#pytest = "^6.2.2"
-#sphinx = "^3.5.2"
+# pytest = "^6.2.2"
+# sphinx = "^3.5.2"
 tox = "^3.23.0"
 
 [tool.poetry.dev-dependencies.python-language-server]
@@ -48,9 +51,14 @@ openbsd-run = "openbsd_run.main:cli"
 
 [tool.black]
 line-length = 79
+exclude = '''
+ansible_collections/
+'''
 
 [tool.isort]
 line_length = 79
 lines_between_types = 1
+profile = "black"
 remove_redundant_aliases = true
+skip_glob = "**/ansible_collections/*"
 wrap_length = 79
