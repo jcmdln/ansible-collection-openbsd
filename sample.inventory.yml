@@ -13,7 +13,9 @@ all:
   # patched, but aren't specifically running some type of service as denoted by
   # the name of subsequent groups.
   hosts:
-    # This first host definition can be a domain name or IP address
-    laptop:
-    # Another host
-    server:
+    # This is the Vagrant box from our Vagrantfile
+    default:
+      ansible_become: true
+      ansible_become_method: sudo
+      ansible_ssh_pass: vagrant
+      ansible_user: vagrant

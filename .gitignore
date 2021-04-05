@@ -1,11 +1,5 @@
 # .gitignore
 
-#
-# Ansible
-#
-
-inventory.yml
-
 # For ansible-galaxy collections we bundle, trim as much junk as possible from
 # our own commit history.
 openbsd_run/playbook/collections/**/.azure-pipelines/
@@ -17,6 +11,84 @@ openbsd_run/playbook/collections/**/tests/
 openbsd_run/playbook/collections/**/*.md
 openbsd_run/playbook/collections/**/*.rst
 openbsd_run/playbook/collections/**/*.txt
+
+#
+# Ansible
+#
+
+*.retry
+inventory.yml
+
+
+#
+# Emacs
+#
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+
+# cask packages
+.cask/
+dist/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration
+.dir-locals.el
+
+# network security
+/network-security.data
+
+
+#
+# Packer
+#
+
+# Build objects
+build/
+
+# Cache objects
+packer_cache/
+
+# Crash log
+crash.log
+
+# For built boxes
+*.box
+
 
 #
 # Python
@@ -44,7 +116,6 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -52,6 +123,8 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -148,13 +221,53 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# static files generated from Django application using `collectstatic`
-media
-static
 
 #
-# Errata
+# Vagrant
 #
 
-# Allow 'var' subdirectories in ansible roles
-!**/roles/**/var
+# General
+.vagrant/
+
+# Log files (if you are creating logs in debug mode, uncomment this)
+# *.log
+
+
+#
+# Vim
+#
+
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+Sessionx.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+# Persistent undo
+[._]*.un~
+
+
+#
+# VS Code
+#
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
