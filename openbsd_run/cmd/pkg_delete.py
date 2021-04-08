@@ -20,7 +20,7 @@ from openbsd_run.utils.log import Log
     help="Force package removal, waiving the specified failsafe",
     type=str,
 )
-@click.argument("packages", required=True)
+@click.argument("packages", nargs=-1, required=True)
 @click.pass_context
 def pkg_delete(context: Any, d: str, packages: list[str]) -> None:
     log: Logger = Log("openbsd-run: pkg")

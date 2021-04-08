@@ -27,7 +27,7 @@ from openbsd_run.utils.log import Log
     is_flag=True,
     type=bool,
 )
-@click.argument("packages", required=False)
+@click.argument("packages", nargs=-1, required=False)
 @click.pass_context
 def pkg_add(context: Any, d: str, packages: list[str], u: bool) -> None:
     log: Logger = Log("openbsd-run: pkg")
