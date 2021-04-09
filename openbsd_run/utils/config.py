@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 from configparser import ConfigParser, ParsingError
-from typing import Any
 
 from yaml import YAMLError
 from yaml import safe_load as yaml_load
 
 
-def Read(filename: str) -> dict[Any, Any]:
+def Read(filename: str) -> dict:
     """
     Read an ini or yaml configuration file as a dictionary.
     """

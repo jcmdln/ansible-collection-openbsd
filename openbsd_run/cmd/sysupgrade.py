@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from logging import Logger
 from sys import exit
-from typing import Any
 
 import ansible_runner as ansible
 import click
@@ -43,12 +42,12 @@ from openbsd_run.utils.log import Log
     type=bool,
 )
 @click.pass_context
-def sysupgrade(context: Any, f: bool, n: bool, r: bool, s: bool) -> None:
+def sysupgrade(context, f: bool, n: bool, r: bool, s: bool) -> None:
     log: Logger = Log("openbsd-run: sysupgrade")
 
-    extra_vars: dict[Any, Any] = {}
+    extra_vars: dict = {}
     host_pattern = context.obj["host_pattern"]
-    inventory_contents: dict[Any, Any] = context.obj["inventory_contents"]
+    inventory_contents: dict = context.obj["inventory_contents"]
     quiet: bool = context.obj["quiet"]
     verbose: bool = context.obj["verbose"]
 

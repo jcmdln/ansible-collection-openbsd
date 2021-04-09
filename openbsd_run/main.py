@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from logging import Logger
 from sys import exit
-from typing import Any, Dict
 
 import click
 
@@ -45,7 +44,7 @@ from openbsd_run.utils.log import Log
 @click.pass_context
 @click.version_option(None, "-v", "--version")
 def cli(
-    context: Any, host_pattern: str, inventory: str, quiet: bool, verbose: bool
+    context, host_pattern: str, inventory: str, quiet: bool, verbose: bool
 ) -> None:
     log: Logger = Log("openbsd-run")
 
@@ -60,7 +59,7 @@ def cli(
         exit(1)
 
     try:
-        inventory_contents: Dict[Any, Any] = ReadConfig(inventory)
+        inventory_contents: dict = ReadConfig(inventory)
         context.obj["inventory_contents"] = inventory_contents
     except FileNotFoundError:
         log.error("file '%s' does not exist" % inventory)
