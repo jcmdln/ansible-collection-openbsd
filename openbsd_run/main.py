@@ -22,7 +22,7 @@ from openbsd_run.utils.log import Log
     "--inventory",
     "-i",
     default="",
-    help="Inventory file",
+    help="Ansible inventory file",
     type=str,
 )
 @click.option(
@@ -35,14 +35,14 @@ from openbsd_run.utils.log import Log
 )
 @click.option(
     "--verbose",
-    "-V",
+    "-v",
     default=False,
     help="Increase Ansible output",
     is_flag=True,
     type=bool,
 )
 @click.pass_context
-@click.version_option(None, "-v", "--version")
+@click.version_option(None, "--version")
 def cli(
     context, host_pattern: str, inventory: str, quiet: bool, verbose: bool
 ) -> None:
@@ -54,23 +54,23 @@ def cli(
     context.obj["quiet"] = quiet
     context.obj["verbose"] = verbose
 
-    if not inventory:
-        log.info("inventory not provided")
-        exit(1)
+    if "-h" in click.get_os_args() or "--help" in click.get_os_args():
+        pass
+    else:
+        if not inventory:
+            log.error("ansible inventory file not provided")
+            exit(1)
 
-    try:
-        inventory_contents: dict = ReadConfig(inventory)
-        context.obj["inventory_contents"] = inventory_contents
-    except FileNotFoundError:
-        log.error("file '%s' does not exist" % inventory)
-        exit(1)
-    except NotADirectoryError:
-        log.error("'%s' is not a file" % inventory)
-        exit(1)
+        try:
+            inventory_contents: dict = ReadConfig(inventory)
+            context.obj["inventory_contents"] = inventory_contents
+        except (FileNotFoundError, NotADirectoryError) as e:
+            log.error("'{}'".format(e))
+            exit(1)
 
-    if not inventory_contents:
-        log.error("inventory is invalid:", inventory_contents)
-        exit(1)
+        if not inventory_contents:
+            log.error("inventory is invalid:", inventory_contents)
+            exit(1)
 
     pass
 

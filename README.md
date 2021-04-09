@@ -85,22 +85,6 @@ Commands:
   sysupgrade  Upgrade host(s) using sysupgrade
 ```
 
-### Subcommand Example
-Looking at the help output of subcommands is a little weird for now, as it
-requires that you have provided an inventory file. In the future I'll allow
-using a configuration file at `/etc/openbsd-run/inventory.{cfg,yaml}` or loosen
-the check for a valid file if `-h|--help` was passed. Likely both.
-
-```sh
-$ openbsd-run -i sample.inventory.yml pkg-add -h
-Usage: openbsd-run pkg-add [OPTIONS] PACKAGES
-
-Options:
-  -D TEXT     Force package install, waiving the specified failsafe
-  -u          Update named packages, installing any missing packages
-  -h, --help  Show this message and exit.
-```
-
 
 Contributing
 ==========
