@@ -9,32 +9,34 @@ from logging import (
 
 
 def Log(title: str) -> Logger:
-    log: Logger = getLogger("openbsd-run: {}".format(title))
+    log: Logger = getLogger("{}".format(title))
 
     logfile: str = ""
     try:
-        with open("/var/log/openbsd-run.log", "w+") as fd:
+        with open("/var/log/openbsd-run.log", "a") as fd:
             fd.close()
         logfile = "/var/log/openbsd-run.log"
     except Exception:
-        logfile = "openbsd-run.log"
+        # If we hit any exception, we won't log to a file
+        logfile = ""
+        pass
 
     log.propagate = False
     log.setLevel(DEBUG)
-    f = Formatter(
-        "%(asctime)s %(name)s: %(levelname)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
 
     if not log.hasHandlers():
-        # Add a log handler for printing to stdout and stderr
         sh = StreamHandler()
-        sh.setFormatter(f)
+        sh.setFormatter(Formatter("%(name)s: %(levelname)s: %(message)s"))
         log.addHandler(sh)
 
-        # Add a log handler for logging to a file
-        fh = FileHandler(logfile)
-        fh.setFormatter(f)
-        log.addHandler(fh)
+        if logfile:
+            fh = FileHandler(logfile)
+            fh.setFormatter(
+                Formatter(
+                    "%(asctime)s %(name)s: %(levelname)s: %(message)s",
+                    datefmt="%Y-%m-%d %H:%M:%S",
+                )
+            )
+            log.addHandler(fh)
 
     return log
