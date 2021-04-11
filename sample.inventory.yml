@@ -1,21 +1,25 @@
 ---
 # sample.inventory.yml
 
-# The "all" group is a special group that refers to all hosts declared in any
-# group, not just within this moniker itself.
 all:
-  # These are variables that apply to all hosts.
+  children:
+    vagrant:
   vars:
     ansible_python_interpreter: /usr/local/bin/python3
 
-  # Below are hosts we want to perform actions on, but not assign them a group
-  # which would imply a specific purpose.  One example are hosts that should be
-  # patched, but aren't specifically running some type of service as denoted by
-  # the name of subsequent groups.
+dns:
+  children:
+    vagrant:
+
+mail:
+  children:
+    vagrant:
+
+vagrant:
   hosts:
-    # This is the Vagrant box from our Vagrantfile
-    default:
-      ansible_become: true
-      ansible_become_method: sudo
-      ansible_ssh_pass: vagrant
-      ansible_user: vagrant
+    openbsd-1:
+  vars:
+    ansible_become: true
+    ansible_become_method: sudo
+    ansible_ssh_pass: vagrant
+    ansible_user: vagrant
