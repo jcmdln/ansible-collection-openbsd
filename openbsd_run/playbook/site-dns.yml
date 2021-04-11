@@ -8,6 +8,3 @@
   roles:
     - role: openbsd.nsd
       tags: [nsd]
-
-    - role: openbsd.unwind
-      tags: [unwind]
