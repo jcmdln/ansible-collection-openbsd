@@ -10,7 +10,16 @@ prospect of verifying anything involves manual action.
 
 
 Usage
-====================
+==========
+This repository only supports OpenBSD. You may test it by using the included
+Vagrantfile or by setting up an instance on a hosting provider. If you are
+looking for a hosting provider that provides OpenBSD, consider using
+[OpenBSD.Amsterdam](https://openbsd.amsterdam) which donates some proceeds to
+[The OpenBSD Foundation](https://www.openbsdfoundation.org/).
+
+
+Playbook
+----------
 The [raw playbook](./openbsd_run/playbook/) can be used without any atypical
 Ansible setup or intrinsic dependencies to the command line interface for those
 who might prefer it. See the [README.md](./openbsd_run/playbook/README.md) for
@@ -18,7 +27,7 @@ more information.
 
 
 Command Line Interface
---------------------
+----------
 The command line interface provides familiar commands for performing actions
 against hosts defined in an [inventory](./sample.inventory.yml) that directly
 use the [raw playbook](./openbsd_run/playbook/) files. The main benefit of this
