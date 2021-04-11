@@ -1,7 +1,0 @@
----
-# site-ntpd.yml
-
-- import_playbook: site-check.yml
-
-- name: ntpd
-  hosts: ntpd
