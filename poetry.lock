@@ -8,7 +8,7 @@ python-versions = "*"
 
 [[package]]
 name = "ansible-core"
-version = "2.11.0b4"
+version = "2.11.0rc2"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -983,7 +983,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "24269b77b60bdd443a54927fef7e17d25af898324cb90507420f7442864047c7"
+content-hash = "f0ed6cef010e4bc2799d7d8ae49ba1a7ee3b2d2e07ab4c789969a34218971b2a"
 
 [metadata.files]
 alabaster = [
@@ -991,7 +991,7 @@ alabaster = [
     {file = "alabaster-0.7.12.tar.gz", hash = "sha256:a661d72d58e6ea8a57f7a86e37d86716863ee5e92788398526d58b26a4e4dc02"},
 ]
 ansible-core = [
-    {file = "ansible-core-2.11.0b4.tar.gz", hash = "sha256:69561295bfdc101235397f41ef7c2421919a4f2e7bc95988bc312a21e4f4bc80"},
+    {file = "ansible-core-2.11.0rc2.tar.gz", hash = "sha256:d1e5503a307c0cdfa649241c7a1fae3c3dced107d5e676a939e002f0e23fe23d"},
 ]
 ansible-runner = [
     {file = "ansible-runner-1.4.7.tar.gz", hash = "sha256:1bb56f9061c3238d89ec8871bc842f5b8d0e868f892347e8455c98d5b6fa58a1"},
