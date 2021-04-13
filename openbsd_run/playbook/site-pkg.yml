@@ -7,6 +7,7 @@
   hosts: all
 
   vars:
+    pkg_delete_unused: false
     pkg_force: ""
     pkg_packages: "*"
     pkg_state: "latest"
@@ -15,6 +16,7 @@
   tasks:
     - name: "{{ pkg_title }} package(s)"
       pkg:
+        delete_unused: "{{ pkg_delete_unused if pkg_delete_unused else omit }}"
         force: "{{ pkg_force if pkg_force else omit }}"
         name: "{{ pkg_packages }}"
         state: "{{ pkg_state }}"

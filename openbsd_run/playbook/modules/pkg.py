@@ -2,16 +2,23 @@ from __future__ import annotations
 
 import re
 
-from typing import Any
-
 from ansible.module_utils.basic import AnsibleModule
 
 
 class Pkg:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
-        self.packages: dict[str, Any] = {}
 
+        # Module parameters
+        self.delete_unused: bool = module.params["delete_unused"]
+        self.force: str = module.params["force"]
+        self.name: list[str] = module.params["name"]
+        self.state: str = module.params["state"]
+
+        # Storage
+        self.packages: dict = {}
+
+        # Return values
         self.changed: bool = False
         self.command: str = ""
         self.msg: str = "no action required"
@@ -24,10 +31,10 @@ class Pkg:
         __latest_cmd: str = ""
         __present_cmd: str = ""
 
-        pkgs: list[str] = self.module.params["name"]
+        pkgs: list[str] = self.name
         to_update: dict[str, None] = {}
 
-        if self.module.params["force"] and self.module.params["force"] not in [
+        if self.force and self.force not in [
             "allversions",
             "arch",
             "checksum",
@@ -46,19 +53,14 @@ class Pkg:
             "updatedepends",
         ]:
             self.command = ""
-            self.msg = (
-                "'{}' is not a valid choice when adding packages".format(
-                    self.module.params["force"]
-                )
+            self.msg = "'{}' is invalid when adding packages".format(
+                self.force
             )
             self.rc = 1
             return
 
-        if self.module.params["force"]:
-            self.command = "{} -D {}".format(
-                self.command,
-                self.module.params["force"],
-            )
+        if self.force:
+            self.command = "{} -D {}".format(self.command, self.force)
 
         for pkg in self.packages:
             package = self.packages[pkg]["name"]
@@ -66,15 +68,15 @@ class Pkg:
                 to_update[package] = None
                 pkgs = list(set(pkgs) - set([pkg]) - set([package]))
 
-        if self.module.params["state"] == "latest":
-            if to_update or "*" in self.module.params["name"]:
+        if self.state == "latest":
+            if to_update or "*" in self.name:
                 __latest_cmd = "{} -u".format(self.command)
 
-            if "*" not in self.module.params["name"]:
+            if "*" not in self.name:
                 for p in to_update.keys():
                     __latest_cmd = "{} {}".format(__latest_cmd, p)
 
-        if pkgs and "*" not in self.module.params["name"]:
+        if pkgs and "*" not in self.name:
             __present_cmd = "{} -v".format(self.command)
             for p in pkgs:
                 __present_cmd = "{} {}".format(__present_cmd, p)
@@ -107,7 +109,10 @@ class Pkg:
         self.command = "/usr/sbin/pkg_delete -I -v -x"
         to_delete: dict[str, None] = {}
 
-        if self.module.params["force"] and self.module.params["force"] not in [
+        if self.delete_unused:
+            self.command = "{} -a".format(self.command)
+
+        if self.force and self.force not in [
             "baddepend",
             "checksum",
             "dependencies",
@@ -115,21 +120,16 @@ class Pkg:
             "scripts",
         ]:
             self.command = ""
-            self.msg = (
-                "'{}' is not a valid choice when deleting packages".format(
-                    self.module.params["force"]
-                )
+            self.msg = "'{}' is invalid when deleting packages".format(
+                self.force
             )
             self.rc = 1
             return
 
-        if self.module.params["force"]:
-            self.command = "{} -D {}".format(
-                self.command,
-                self.module.params["force"],
-            )
+        if self.force:
+            self.command = "{} -D {}".format(self.command, self.force)
 
-        if "*" in self.module.params["name"]:
+        if "*" in self.name:
             self.command = ""
             self.msg = "refusing to attempt removing all packages"
             self.rc = 1
@@ -137,12 +137,12 @@ class Pkg:
 
         for pkg in self.packages:
             package = self.packages[pkg]["name"]
-            if pkg in self.module.params["name"]:
+            if pkg in self.name:
                 to_delete[pkg] = None
-            elif package in self.module.params["name"]:
+            elif package in self.name:
                 to_delete[package] = None
 
-        if not to_delete:
+        if not to_delete and not self.delete_unused:
             self.command = ""
             self.msg = "no action performed"
             return
@@ -156,6 +156,10 @@ class Pkg:
 
         if self.rc != 0:
             self.msg = "received a non-zero exit code"
+            return
+
+        if self.delete_unused and "Deleting" not in self.stdout:
+            self.msg = "no action performed"
             return
 
         self.changed = True
@@ -185,6 +189,7 @@ class Pkg:
 def main() -> None:
     module: AnsibleModule = AnsibleModule(
         argument_spec={
+            "delete_unused": {"type": bool},
             "force": {
                 "choices": [
                     "allversions",
@@ -209,15 +214,13 @@ def main() -> None:
                 "required": False,
                 "type": "str",
             },
-            "name": {"elements": "str", "type": "list"},
+            "name": {"elements": "str", "required": False, "type": "list"},
             "state": {
                 "choices": ["absent", "latest", "present"],
                 "required": True,
                 "type": "str",
             },
         },
-        mutually_exclusive=[["list", "name"], ["list", "state"]],
-        required_one_of=[["list", "name"]],
         supports_check_mode=False,
     )
 
@@ -225,9 +228,9 @@ def main() -> None:
 
     pkg.Info()
 
-    if module.params["state"] == "absent":
+    if pkg.state == "absent":
         pkg.Delete()
-    elif module.params["state"] in ["latest", "present"]:
+    elif pkg.state in ["latest", "present"]:
         pkg.Add()
 
     result: dict[str, bool | int | str] = {
