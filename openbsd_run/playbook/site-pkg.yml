@@ -10,6 +10,7 @@
     pkg_delete_unused: false
     pkg_force: ""
     pkg_packages: "*"
+    pkg_replace_existing: false
     pkg_state: "latest"
     pkg_title: "update"
 
@@ -19,6 +20,8 @@
         delete_unused: "{{ pkg_delete_unused if pkg_delete_unused else omit }}"
         force: "{{ pkg_force if pkg_force else omit }}"
         name: "{{ pkg_packages }}"
+        replace_existing: >-
+          {{ pkg_replace_existing if pkg_replace_existing else omit }}
         state: "{{ pkg_state }}"
       register: pkg_result
 

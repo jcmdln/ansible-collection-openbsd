@@ -20,6 +20,13 @@ from openbsd_run.utils.log import Log
     type=str,
 )
 @click.option(
+    "-r",
+    default=False,
+    help="Replace existing packages",
+    is_flag=True,
+    type=bool,
+)
+@click.option(
     "-u",
     default=False,
     help="Update named packages, installing any missing packages",
@@ -28,7 +35,7 @@ from openbsd_run.utils.log import Log
 )
 @click.argument("packages", nargs=-1, required=False)
 @click.pass_context
-def pkg_add(context, d: str, packages: list[str], u: bool) -> None:
+def pkg_add(context, d: str, packages: list[str], r: bool, u: bool) -> None:
     log: Logger = Log("openbsd-run: pkg")
 
     extra_vars: dict = {}
@@ -63,6 +70,9 @@ def pkg_add(context, d: str, packages: list[str], u: bool) -> None:
 
     if packages:
         extra_vars["pkg_packages"] = packages
+
+    if r:
+        extra_vars["replace_existing"] = r
 
     if u:
         extra_vars["pkg_title"] = "update"

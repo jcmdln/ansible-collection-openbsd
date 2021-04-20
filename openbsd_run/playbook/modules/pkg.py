@@ -13,6 +13,7 @@ class Pkg:
         self.delete_unused: bool = module.params["delete_unused"]
         self.force: str = module.params["force"]
         self.name: list[str] = module.params["name"]
+        self.replace_existing: bool = module.params["replace_existing"]
         self.state: str = module.params["state"]
 
         # Storage
@@ -33,6 +34,9 @@ class Pkg:
 
         pkgs: list[str] = self.name
         to_update: dict[str, None] = {}
+
+        if self.replace_existing:
+            self.command = "{} -r".format(self.command)
 
         if self.force and self.force not in [
             "allversions",
@@ -189,7 +193,7 @@ class Pkg:
 def main() -> None:
     module: AnsibleModule = AnsibleModule(
         argument_spec={
-            "delete_unused": {"type": bool},
+            "delete_unused": {"default": False, "type": bool},
             "force": {
                 "choices": [
                     "allversions",
@@ -211,10 +215,10 @@ def main() -> None:
                     "unassigned",
                     "updatedepends",
                 ],
-                "required": False,
                 "type": "str",
             },
-            "name": {"elements": "str", "required": False, "type": "list"},
+            "name": {"elements": "str", "type": "list"},
+            "replace_existing": {"default": False, "type": bool},
             "state": {
                 "choices": ["absent", "latest", "present"],
                 "required": True,
@@ -225,13 +229,20 @@ def main() -> None:
     )
 
     pkg: Pkg = Pkg(module)
-
     pkg.Info()
 
     if pkg.state == "absent":
-        pkg.Delete()
+        if not pkg.replace_existing:
+            pkg.Delete()
+        else:
+            pkg.msg = "cannot mix 'replace_existing' with 'state: absent'"
+            pkg.rc = 1
     elif pkg.state in ["latest", "present"]:
-        pkg.Add()
+        if not pkg.delete_unused:
+            pkg.Add()
+        else:
+            pkg.msg = "cannot mix 'delete' with 'state: {}'".format(pkg.state)
+            pkg.rc = 1
 
     result: dict[str, bool | int | str] = {
         "changed": pkg.changed,
