@@ -1,7 +1,8 @@
 **An OpenBSD-focused Ansible playbook embedded in type-annotated Python**
 
 `openbsd-run` is an Ansible playbook embedded in type-annotated Python which
-allows for running the Ansible playbooks directly or via command line.
+allows for running the Ansible playbooks directly or via command line. The goal
+is to trivialize deploying and maintaining OpenBSD-based services.
 
 NOTE: This is a work-in-progress that at times may require you are well-versed
 in Ansible, Python, and OpenBSD.  Things are likely to not work at all or be
@@ -11,12 +12,11 @@ prospect of verifying anything involves manual action.
 
 Usage
 ==========
-This repository only supports OpenBSD. You may test it by using the included
+This project only supports OpenBSD. You may test it by using the included
 Vagrantfile or by setting up an instance on a hosting provider. If you are
 looking for a hosting provider that provides OpenBSD, consider using
 [OpenBSD.Amsterdam](https://openbsd.amsterdam) which donates some proceeds to
 [The OpenBSD Foundation](https://www.openbsdfoundation.org/).
-
 
 Playbook
 ----------
@@ -25,15 +25,13 @@ Ansible setup or intrinsic dependencies to the command line interface for those
 who might prefer it. See the [README.md](./openbsd_run/playbook/README.md) for
 more information.
 
-
 Command Line Interface
 ----------
 The command line interface provides familiar commands for performing actions
 against hosts defined in an [inventory](./sample.inventory.yml) that directly
 use the [raw playbook](./openbsd_run/playbook/) files. The main benefit of this
 is that you may define a simple inventory that can be dynamically acted upon
-but there's no _real_ functional difference between the two flows other than
-the CLI exposes only what _appears_ to be ready for broader use.
+without also needing to define or consume playbooks.
 
 ### Installing
 You may use poetry, pip, or some equivalent Python package manager. Some
@@ -41,7 +39,7 @@ examples are provided below, though this is not intended to be exhaustive.
 
 #### pip
 Pip should work exactly as you would expect, and the following example does not
-need to be performed literally.
+need to be performed literally:
 
 ```sh
 $ git clone --branch master https://github.com/jcmdln/openbsd-run
@@ -70,7 +68,7 @@ Commands:
 #### poetry
 When using [Poetry](https://github.com/python-poetry/poetry) the virtualenv
 will automatically be created as `.venv`, and doesn't have to be activated
-unless you prefer to do so.
+unless you prefer to do so:
 
 ```sh
 $ git clone --branch master https://github.com/jcmdln/openbsd-run
