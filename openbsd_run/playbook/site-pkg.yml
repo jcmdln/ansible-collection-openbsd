@@ -17,15 +17,8 @@
   tasks:
     - name: "{{ pkg_title }} package(s)"
       pkg:
-        delete_unused: "{{ pkg_delete_unused if pkg_delete_unused else omit }}"
+        delete_unused: "{{ pkg_delete_unused }}"
         force: "{{ pkg_force if pkg_force else omit }}"
         name: "{{ pkg_packages }}"
-        replace_existing: >-
-          {{ pkg_replace_existing if pkg_replace_existing else omit }}
+        replace_existing: "{{ pkg_replace_existing }}"
         state: "{{ pkg_state }}"
-      register: pkg_result
-
-    - name: show results if there were changes
-      debug:
-        msg: "{{ pkg_result.stdout_lines }}"
-      when: pkg_result.changed
