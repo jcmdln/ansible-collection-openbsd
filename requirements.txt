@@ -1,0 +1,5 @@
+ansible>=2.9
+ansible-runner==1.4.7
+click==7.1.2
+cryptography>=3.3.2
+resolvelib>=0.5.4,!=0.5.5

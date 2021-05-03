@@ -1,4 +1,8 @@
 # openbsd.mail/defaults/main.yml
 
+mail_dkim_domain: "domain.tld"
+mail_dkim_selector: "domain"
+mail_domain: "mail.domain.tld"
 mail_packages:
   - dovecot
+  - opensmtpd-extras

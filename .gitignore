@@ -1,17 +1,5 @@
 # .gitignore
 
-# For ansible-galaxy collections we bundle, trim as much junk as possible from
-# our own commit history.
-openbsd_run/playbook/collections/**/.azure-pipelines/
-openbsd_run/playbook/collections/**/.github/
-openbsd_run/playbook/collections/**/changelogs/
-openbsd_run/playbook/collections/**/docs/
-openbsd_run/playbook/collections/**/hacking/
-openbsd_run/playbook/collections/**/tests/
-openbsd_run/playbook/collections/**/*.md
-openbsd_run/playbook/collections/**/*.rst
-openbsd_run/playbook/collections/**/*.txt
-
 #
 # Ansible
 #

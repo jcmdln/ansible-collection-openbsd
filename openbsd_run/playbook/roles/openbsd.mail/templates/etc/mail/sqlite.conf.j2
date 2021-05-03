@@ -1,0 +1,7 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+dbpath /etc/mail/database.sql
+query_alias SELECT destination FROM virtuals WHERE email=?;
+query_credentials SELECT email, password FROM credentials WHERE email=?;
+query_domain SELECT domain FROM domains WHERE domain=?;

@@ -30,47 +30,15 @@ benefit of this is that you may define a simple inventory that can be
 dynamically acted upon without also needing to define or consume playbooks.
 
 ### Installing
-You may use poetry, pip, or some equivalent Python package manager. Some
-examples are provided below, though this is not intended to be exhaustive.
-
-#### pip
-Pip should work exactly as you would expect, and the following example does not
-need to be performed literally:
+As shown in the following example, we suggest using `--system-site-packages` as
+this will greatly reduce the total installation size if you already have
+Ansible and build time if you already have py3-cryptography.
 
 ```sh
-    $ git clone --branch master https://github.com/jcmdln/openbsd-run
-    $ cd openbsd-run
-    $ virtualenv .venv --system-site-packages
+    $ virtualenv --system-site-packages .venv
     $ source .venv/bin/activate
     (.venv) $ pip install .
     (.venv) $ openbsd-run -h
-    Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
-
-    Options:
-      -H, --host_pattern TEXT  Host pattern to match against inventory
-      -i, --inventory TEXT     Inventory file
-      -q, --quiet              Suppress Ansible output
-      -V, --verbose            Increase Ansible output
-      -v, --version            Show the version and exit.
-      -h, --help               Show this message and exit.
-
-    Commands:
-      pkg_add     Add or update packages
-      pkg_delete  Remove packages
-      syspatch    Patch host(s) using syspatch
-      sysupgrade  Upgrade host(s) using sysupgrade
-```
-
-#### poetry
-When using [Poetry](https://github.com/python-poetry/poetry) the virtualenv
-will automatically be created as `.venv`, and doesn't have to be activated
-unless you prefer to do so:
-
-```sh
-    $ git clone --branch master https://github.com/jcmdln/openbsd-run
-    $ cd openbsd-run
-    $ poetry install --no-dev
-    $ poetry run openbsd-run
     Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
 
     Options:

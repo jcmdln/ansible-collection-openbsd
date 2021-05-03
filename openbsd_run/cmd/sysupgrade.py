@@ -59,8 +59,10 @@ def sysupgrade(context, f: bool, n: bool, r: bool, s: bool) -> None:
 
     if r:
         extra_vars["sysupgrade_branch"] = "release"
+        extra_vars["sysupgrade_title"] = "release"
     elif s:
         extra_vars["sysupgrade_branch"] = "snapshot"
+        extra_vars["sysupgrade_title"] = "snapshot"
 
     result: Runner = ansible.run(
         extravars=extra_vars,

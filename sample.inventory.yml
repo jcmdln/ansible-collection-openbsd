@@ -21,5 +21,6 @@ vagrant:
   vars:
     ansible_become: true
     ansible_become_method: sudo
+    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
     ansible_ssh_pass: vagrant
     ansible_user: vagrant

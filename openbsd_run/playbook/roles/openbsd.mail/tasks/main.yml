@@ -1,3 +1,4 @@
+---
 # openbsd.mail/tasks/main.yml
 
 - name: Install packages if missing
@@ -9,6 +10,11 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-  with_items:
+  loop:
     - /etc/mail
     - /etc/mail/dkim
+
+- include_tasks: certs.yml
+- include_tasks: opensmtpd.yml
+- include_tasks: spamd.yml
+- include_tasks: dovecot.yml

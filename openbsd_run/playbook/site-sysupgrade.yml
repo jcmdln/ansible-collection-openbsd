@@ -11,9 +11,10 @@
     sysupgrade_force: false
     sysupgrade_reboot: true
     sysupgrade_reboot_timeout: "600"
+    sysupgrade_title: "release or snapshot"
 
   tasks:
-    - name: upgrade to latest release or snapshot
+    - name: "upgrade to latest {{ sysupgrade_title }}"
       sysupgrade:
         branch: "{{ sysupgrade_branch }}"
         force: "{{ sysupgrade_force }}"

@@ -1,0 +1,44 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+#
+# Authentication
+#
+
+auth_mechanisms = plain
+disable_plaintext_auth = yes
+hostname = {{ mail_domain }}
+lda_mailbox_autocreate = yes
+mail_location = maildir:/var/vmail/%u
+postmaster_address = postmaster@{{ mail_domain }}
+protocols = imap lmtp pop3
+ssl = required
+ssl_cert = </etc/ssl/{{ mail_domain }}.crt
+ssl_key = </etc/ssl/private/{{ mail_domain }}.key
+ssl_prefer_server_ciphers = yes
+
+service imap-login {
+  inet_listener imaps {
+    port = 993
+    ssl = yes
+  }
+}
+
+service lmtp {
+  unix_listener lmtp {
+    mode = 0660
+    user = vmail
+    group = vmail
+  }
+}
+
+service pop3-login {
+  inet_listener pop3s {
+    port = 995
+    ssl = yes
+  }
+}
+
+userdb {
+  driver = sqlite
+}

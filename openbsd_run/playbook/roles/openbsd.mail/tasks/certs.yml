@@ -1,0 +1,14 @@
+---
+# openbsd.mail/tasks/certs.yml
+
+- name: Generate SSL certificate
+# openssl genrsa -out /etc/ssl/private/mail.maudlin.dev.key 4096
+# openssl req -x509 -new -nodes -sha256 -days 3650 \
+#   -key /etc/ssl/private/mail.maudlin.dev.key \
+#   -out /etc/ssl/mail.maudlin.dev.crt
+# chmod 0400 /etc/ssl/private/mail.maudlin.dev.key
+
+- name: Generate DKIM
+# doas -u _dkimsign openssl genrsa -out /etc/mail/dkim/maudlin.private.key 2048
+# openssl rsa -in /etc/mail/dkim/maudlin.private.key -pubout |
+#    sed '1s/.*/v=DKIM1;p=/;:nl;${s/-----.*//;q;};N;s/\n//g;b nl;'

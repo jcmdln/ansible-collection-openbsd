@@ -1,0 +1,5 @@
+pyls-black==0.4.6
+pyls-isort==0.2.0
+pytest==6.2.3
+python-language-server==0.36.2
+tox==3.23.0

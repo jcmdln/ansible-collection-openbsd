@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
   config.nfs.verify_installed = false
   config.ssh.verify_host_key = false
   config.vm.box = "generic/openbsd6"
+  config.vm.box_version = "3.2.18"
   config.vm.provider "libvirt" do |v|
     v.cpus = 1
     v.memory = 1024

@@ -12,7 +12,7 @@
     pkg_packages: "*"
     pkg_replace_existing: false
     pkg_state: "latest"
-    pkg_title: "update"
+    pkg_title: "install or update"
 
   tasks:
     - name: "{{ pkg_title }} package(s)"

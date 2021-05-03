@@ -1,23 +1,15 @@
 image: openbsd/latest
 
-environment:
-  PIP_DISABLE_PIP_VERSION_CHECK: true
-  PYTHONDONTWRITEBYTECODE: true
-  PYTHONUNBUFFERED: true
-
 packages:
   - python3
   - py3-pip
+  - py3-tox
   - py3-wheel
 
 sources:
   - https://git.sr.ht/~jcmdln/openbsd-run
 
 tasks:
-  - prepare: |
-      pip3.8 install --user poetry
-      cd openbsd-run
-      ~/.local/bin/poetry install --no-root
   - lint: |
       cd openbsd-run
-      ~/.local/bin/poetry run tox -e bandit,flake8,mypy
+      tox
