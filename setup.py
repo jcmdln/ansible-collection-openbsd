@@ -19,10 +19,7 @@ setup(
     url="https://github.com/jcmdln/openbsd.run",
     # Dependencies
     install_requires=Open("requirements.txt").splitlines(),
-    extras_require={
-        "devel": Open("requirements-dev.txt").splitlines()
-        + Open("requirements-lint.txt").splitlines()
-    },
+    extras_require={"devel": Open("requirements-dev.txt").splitlines()},
     # Package info
     packages=find_packages(include=["openbsd_run", "openbsd_run.*"]),
     package_data={"openbsd_run": ["*"]},
