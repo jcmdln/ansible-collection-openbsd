@@ -10,7 +10,7 @@ sources:
 
 tasks:
   - prepare: |
-      python3 -m pip install --no-progress-bar --user tox
+      python3 -m pip install --progress-bar off --user tox
   - lint: |
       cd openbsd-run
       ~/.local/bin/tox
