@@ -13,4 +13,4 @@ tasks:
       python3 -m pip install --progress-bar off --user tox
   - lint: |
       cd openbsd-run
-      ~/.local/bin/tox
+      ~/.local/bin/tox -e bandit
