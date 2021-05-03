@@ -2,25 +2,10 @@
 # sample.inventory.yml
 
 all:
-  children:
-    vagrant:
-  vars:
-    ansible_python_interpreter: /usr/local/bin/python3
-
-dns:
-  children:
-    vagrant:
-
-mail:
-  children:
-    vagrant:
-
-vagrant:
   hosts:
     openbsd-1:
-  vars:
-    ansible_become: true
-    ansible_become_method: sudo
-    ansible_ssh_extra_args: "-o StrictHostKeyChecking=no"
-    ansible_ssh_pass: vagrant
-    ansible_user: vagrant
+      ansible_become: true
+      ansible_become_method: sudo
+      ansible_python_interpreter: /usr/local/bin/python3
+      ansible_ssh_pass: vagrant
+      ansible_user: vagrant
