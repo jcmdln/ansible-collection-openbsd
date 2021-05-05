@@ -21,8 +21,8 @@ setup(
     install_requires=Open("requirements.txt").splitlines(),
     extras_require={"devel": Open("requirements-devel.txt").splitlines()},
     # Package info
-    packages=find_packages(include=["openbsd_run", "openbsd_run.*"]),
-    package_data={"openbsd_run": ["*"]},
-    include_package_data=True,
     entry_points={"console_scripts": ["openbsd-run=openbsd_run.main:cli"]},
+    include_package_data=True,
+    packages=find_packages(include=["openbsd_run"]),
+    setup_requires=["setuptools_scm"],
 )
