@@ -24,12 +24,13 @@ class Syspatch:
             self.command, check_rc=False
         )
 
-        if self.rc != 0:
-            self.msg = "received a non-zero exit code"
+        if self.rc == 2 or (not self.stdout and not self.stderr):
+            self.msg = "no action performed"
+            self.rc = 0
             return
 
-        if not self.stdout and not self.stderr:
-            self.msg = "no action performed"
+        if self.rc != 0:
+            self.msg = "received a non-zero exit code"
             return
 
         if "reboot" in self.stdout.lower():
