@@ -15,7 +15,7 @@ filter "dkimsign" proc-exec "filter-dkimsign \
 listen on socket filter "dkimsign"
 listen on lo0 filter "dkimsign"
 listen on egress port 25 filter "dkimsign" tls \
-    pki "mail" hostname "{{ mail_domain }}" auth
+    pki "mail" hostname "{{ mail_domain }}"
 listen on egress port 465 filter "dkimsign" tls-require \
     pki "mail" hostname "{{ mail_domain }}" auth
 listen on egress port 587 filter "dkimsign" tls \
