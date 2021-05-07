@@ -2,11 +2,11 @@
 # {{ ansible_managed }}
 
 all:\
-        :nixspam:override:
+    :nixspam:override:
 
 nixspam:\
-        :black:\
-        :method=https:\
-        :file=www.openbsd.org/spamd/nixspam.gz
-        :msg="Your address %A is in the nixspam list\n\
-        See https://www.heise.de/ix/nixspam/dnsbl_en/ for details":\
+    :black:\
+    :method=https:\
+    :file=www.openbsd.org/spamd/nixspam.gz
+    :msg="Your address %A is in the nixspam list\n\
+    See https://www.heise.de/ix/nixspam/dnsbl_en/ for details":\

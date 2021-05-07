@@ -1,6 +1,6 @@
 openbsd.mail
 =========
-Setup a simple mail server using OpenSMTPD, spamd, Dovecot + SQLite.
+Setup a simple mail server using OpenSMTPD, spamd, and Dovecot.
 
 Included in base:
 * https://man.openbsd.org/acme-client.1
@@ -14,7 +14,6 @@ Included in base:
 
 Ports:
 * https://www.dovecot.org/
-* https://www.sqlite.org/
 
 
 Requirements

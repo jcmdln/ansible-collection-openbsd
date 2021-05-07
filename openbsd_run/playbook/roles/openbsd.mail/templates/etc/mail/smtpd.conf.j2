@@ -1,31 +1,28 @@
 # {{ template_destpath }}
 # {{ ansible_managed }}
 
-pki "{{ mail_domain }}" cert "/etc/ssl/mail.{{ mail_domain }}.crt"
-pki "{{ mail_domain }}" key  "/etc/ssl/private/mail.{{ mail_domain }}.key"
+pki "mail" cert "/etc/ssl/mail.crt"
+pki "mail" key "/etc/ssl/private/mail.key"
 
-table aliases     file:/etc/mail/aliases
-table credentials sqlite:/etc/mail/sqlite.conf
-table domains     sqlite:/etc/mail/sqlite.conf
-table virtuals    sqlite:/etc/mail/sqlite.conf
+table aliases file:/etc/mail/aliases
 
 filter "dkimsign" proc-exec "filter-dkimsign \
-    -d {{ mail_dkim_domain }} \
+    -d {{ mail_domain }} \
     -s {{ mail_dkim_selector }} \
     -k /etc/mail/dkim/{{ mail_dkim_selector }}.private.key" \
     user _dkimsign group _dkimsign
 
-listen on socket          filter "dkimsign"
-listen on egress port 25  filter "dkimsign" tls pki {{ mail_domain }}
+listen on socket filter "dkimsign"
+listen on lo0 filter "dkimsign"
+listen on egress port 25 filter "dkimsign" tls \
+    pki "mail" hostname "{{ mail_domain }}"
 listen on egress port 465 filter "dkimsign" tls-require \
-    pki {{ mail_domain }} auth <credentials>
+    pki "mail" hostname "{{ mail_domain }}"
 listen on egress port 587 filter "dkimsign" tls \
-    pki {{ mail_domain }} auth <credentials>
+    pki "mail" hostname "{{ mail_domain }}"
 
-action "receive_aliases" lmtp "/var/dovecot/lmtp" rcpt-to alias   <aliases>
-action "receive_vmail"   lmtp "/var/dovecot/lmtp" rcpt-to virtual <virtuals>
-action "outbound"        relay helo {{ mail_domain }}
+action "local_mail" maildir "~/Maildir" alias <aliases>
+action "outbound" relay
 
-match from local for local            action "receive_aliases"
-match from any   for domain <domains> action "receive_vmail"
-match from auth  for any              action "outbound"
+match from any for local action "local_mail"
+match from any for any action "outbound"
