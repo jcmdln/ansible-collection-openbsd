@@ -15,14 +15,15 @@ filter "dkimsign" proc-exec "filter-dkimsign \
 listen on socket filter "dkimsign"
 listen on lo0 filter "dkimsign"
 listen on egress port 25 filter "dkimsign" tls \
-    pki "mail" hostname "{{ mail_domain }}"
+    pki "mail" hostname "{{ mail_domain }}" auth
 listen on egress port 465 filter "dkimsign" tls-require \
-    pki "mail" hostname "{{ mail_domain }}"
+    pki "mail" hostname "{{ mail_domain }}" auth
 listen on egress port 587 filter "dkimsign" tls \
-    pki "mail" hostname "{{ mail_domain }}"
+    pki "mail" hostname "{{ mail_domain }}" auth
 
 action "local_mail" maildir "~/Maildir" alias <aliases>
 action "outbound" relay
 
 match from any for local action "local_mail"
-match from any for any action "outbound"
+match from local for any action "outbound"
+match auth from any for any action "outbound"
