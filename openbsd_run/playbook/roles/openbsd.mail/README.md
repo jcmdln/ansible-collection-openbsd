@@ -31,9 +31,9 @@ Requirements
 | Host/Service          | Type  | TTL  | Value |
 | --------------------- | ----- | ---- | ----- |
 | @                     | MX    | 3600 | 10 mail.domain.tld.
-| @                     | TXT   | 3600 | v=spf1 mx ~all
+| @                     | TXT   | 3600 | v=spf1 mx -all
 | _autodiscover._tcp    | SRV   | 3600 | 0  1  443  mail.domain.tld.
-| _dmarc                | TXT   | 3600 | v=DMARC1; p=none; pct=100; rua=mailto:hostmaster@domain.tld
+| _dmarc                | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rua=mailto:hostmaster@domain.tld
 | _imaps._tcp           | SRV   | 3600 | 0  1  993  mail.domain.tld.
 | _pop3s._tcp           | SRV   | 3600 | 10 1  995  mail.domain.tld.
 | _submission._tcp      | SRV   | 3600 | 10 1  587  mail.domain.tld.
