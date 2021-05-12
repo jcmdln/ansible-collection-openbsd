@@ -48,26 +48,43 @@ Requirements
 | mail                  | AAAA  | 3600 | 2001:db8::1
 
 ### User Sieve Example
-Below is an example of filtering OpenBSD Mailing lists:
+Below is an example of filtering mailing lists to another directory using the
+OpenBSD mailing list as an example:
 
 ```sieve
 # ~/Mail/dovecot.sieve
 
 require ["fileinto", "mailbox"];
 
-if anyof (header "Precedence" "list", header "Precedence" "bulk", exists "List-Id") {
-  if header :contains "List-Id" "advocacy@openbsd.org" {
-    fileinto :create "OpenBSD/advocacy";
-  } elsif header :contains "List-Id" "announce@openbsd.org" {
-    fileinto :create "OpenBSD/announce";
-  } elsif header :contains "List-Id" "bugs@openbsd.org" {
-    fileinto :create "OpenBSD/bugs";
-  } elsif header :contains "List-Id" "misc@openbsd.org" {
-    fileinto :create "OpenBSD/misc";
-  } elsif header :contains "List-Id" "ports@openbsd.org" {
-    fileinto :create "OpenBSD/ports";
-  } elsif header :contains "List-Id" "tech@openbsd.org" {
-    fileinto :create "OpenBSD/tech";
+#
+# Mailing Lists
+#
+
+if exists ["List-Id", "X-Loop"] {
+
+  #
+  # OpenBSD
+  #
+  if header :contains ["List-Id", "X-Loop"] "@openbsd.org" {
+    if header :contains ["List-Id", "X-Loop"] "advocacy@openbsd.org" {
+      fileinto :create "OpenBSD/advocacy";
+    }
+    if header :contains ["List-Id", "X-Loop"] "announce@openbsd.org" {
+      fileinto :create "OpenBSD/announce";
+    }
+    if header :contains ["List-Id", "X-Loop"] "bugs@openbsd.org" {
+      fileinto :create "OpenBSD/bugs";
+    }
+    if header :contains ["List-Id", "X-Loop"] "misc@openbsd.org" {
+      fileinto :create "OpenBSD/misc";
+    }
+    if header :contains ["List-Id", "X-Loop"] "ports@openbsd.org" {
+      fileinto :create "OpenBSD/ports";
+    }
+    if header :contains ["List-Id", "X-Loop"] "tech@openbsd.org" {
+      fileinto :create "OpenBSD/tech";
+    }
   }
+
 }
 ```
