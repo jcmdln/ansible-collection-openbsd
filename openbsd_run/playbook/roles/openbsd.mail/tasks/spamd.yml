@@ -1,16 +1,15 @@
----
 # openbsd.mail/tasks/spamd.yml
-
-- name: Enable spamd service
+---
+- name: Enable spamd
   ansible.builtin.service:
     name: spamd
     enabled: true
 
-- name: Set spamd to blacklist-only (ie disable greylisting)
+- name: Set spamd to blacklist-only mode (ie disable greylisting)
   ansible.builtin.raw: >-
     rcctl set spamd flags -b
 
-- name: Start spamd service
+- name: Start spamd
   ansible.builtin.service:
     name: spamd
     state: started

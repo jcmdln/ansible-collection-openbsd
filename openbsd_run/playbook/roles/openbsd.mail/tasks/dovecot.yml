@@ -1,12 +1,21 @@
----
 # openbsd.mail/tasks/dovecot.yml
+---
+- name: Enable Dovecot
+  ansible.builtin.service:
+    name: dovecot
+    enabled: true
 
 - name: Define Dovecot daemon login class in login.conf
   ansible.builtin.blockinfile:
     block: |
       dovecot:\
-              :openfiles-cur=1024:\
-              :openfiles-max=2048:\
-              :tc=daemon:
-    marker: "# {mark} ANSIBLE MANAGED DOVECOT LOGIN CLASS"
+      {{'\t'}}:openfiles-cur=1024:\
+      {{'\t'}}:openfiles-max=2048:\
+      {{'\t'}}:tc=daemon:
+    marker: "# {mark} ANSIBLE MANAGED: openbsd-run.mail: dovecot"
     path: "/etc/login.conf"
+
+- name: Start Dovecot
+  ansible.builtin.service:
+    name: dovecot
+    state: started

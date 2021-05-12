@@ -5,13 +5,16 @@
 # Authentication
 #
 
+auth_username_format = %Ln
 hostname = {{ mail_domain }}
 lda_mailbox_autocreate = yes
-mail_location = maildir:~/Maildir
+lda_mailbox_autosubscribe = yes
+mail_location = maildir:~/Mail
 postmaster_address = postmaster@{{ mail_domain }}
+protocols = imap lmtp
 ssl = required
-ssl_cert = </etc/ssl/mail.crt
-ssl_key = </etc/ssl/private/mail.key
+ssl_cert = </etc/ssl/{{ mail_domain }}.crt
+ssl_key = </etc/ssl/private/{{ mail_domain }}.key
 ssl_prefer_server_ciphers = yes
 
 #
@@ -19,8 +22,62 @@ ssl_prefer_server_ciphers = yes
 #
 
 userdb {
-  driver = passwd
-  args = blocking=no
+	driver = passwd
+	args = blocking=no
+}
+
+#
+# Folders
+#
+
+namespace inbox {
+	inbox = yes
+	separator = /
+
+	mailbox Archive {
+		auto = subscribe
+		special_use = \Archive
+	}
+
+	mailbox Drafts {
+		auto = subscribe
+		special_use = \Drafts
+	}
+
+	mailbox Sent {
+		auto = subscribe
+		special_use = \Sent
+	}
+
+	mailbox Junk {
+		auto = subscribe
+		special_use = \Junk
+	}
+
+	mailbox Trash {
+		auto = subscribe
+		special_use = \Trash
+	}
+}
+
+#
+# Plugins
+#
+
+plugin {
+	sieve = file:~/Mail/dovecot.sieve
+	sieve_global_extensions = +vnd.dovecot.environment
+	sieve_plugins = sieve_imapsieve
+	sieve_user_log = ~/Mail/dovecot.sieve.log
+}
+
+protocol imap {
+	mail_plugins = imap_sieve
+}
+
+protocol lmtp {
+	mail_plugins = quota sieve
+	postmaster_address = postmaster@{{ mail_domain }}
 }
 
 #
@@ -28,15 +85,16 @@ userdb {
 #
 
 service imap-login {
-  inet_listener imaps {
-    port = 993
-    ssl = yes
-  }
+	inet_listener imaps {
+		port = 993
+		ssl = yes
+	}
 }
 
-service pop3-login {
-  inet_listener pop3s {
-    port = 995
-    ssl = yes
-  }
+service lmtp {
+	unix_listener lmtp {
+		user = _smtpd
+		group = _smtpd
+		mode = 0600
+	}
 }

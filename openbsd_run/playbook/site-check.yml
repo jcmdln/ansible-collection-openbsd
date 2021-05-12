@@ -1,6 +1,5 @@
----
 # site-check.yml
-
+---
 - name: check
   gather_facts: false
   hosts: all

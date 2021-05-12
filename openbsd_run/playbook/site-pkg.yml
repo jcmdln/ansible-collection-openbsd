@@ -1,6 +1,5 @@
----
 # site-pkg.yml
-
+---
 - import_playbook: site-check.yml
 
 - name: pkg
