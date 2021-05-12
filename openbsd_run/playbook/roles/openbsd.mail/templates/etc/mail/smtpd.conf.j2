@@ -19,7 +19,7 @@ listen on egress port 465 tls-require pki "mail" auth filter {"dkimsign"}
 listen on egress port 587 tls-require pki "mail" auth filter {"dkimsign"}
 
 action "local_mail" maildir "~/Mail" alias <aliases>
-action "dovecot" lmtp "/var/dovecot/lmtp" rcpt-to alias <aliases>
+action "dovecot" lmtp "/var/dovecot/lmtp" alias <aliases>
 action "outbound" relay
 
 match from local for local action "local_mail"
