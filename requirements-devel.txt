@@ -1,3 +1,5 @@
+# requirements-devel.txt
+
 bandit
 black
 flake8
@@ -9,9 +11,11 @@ mypy
 pycodestyle
 pydocstyle
 pyflakes
-pyls-black
+pyls-flake8
 pyls-isort
 pytest
-python-language-server
+python-lsp-black
+python-lsp-server
 rope
 tox
+types-pyyaml
