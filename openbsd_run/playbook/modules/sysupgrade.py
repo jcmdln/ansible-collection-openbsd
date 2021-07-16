@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: ISCf
+
 from __future__ import annotations
 
 from ansible.module_utils.basic import AnsibleModule

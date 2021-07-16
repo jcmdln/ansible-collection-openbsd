@@ -1,6 +1,5 @@
+# SPDX-License-Identifier: ISC
 ---
-# sample.inventory.yml
-
 all:
   hosts:
     openbsd-1:

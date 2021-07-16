@@ -1,9 +1,10 @@
+# SPDX-License-Identifier: ISC
+# https://man.openbsd.org/pfctl.8
+# https://man.openbsd.org/pfsync.4
+
 from __future__ import annotations
 
 from ansible.module_utils.basic import AnsibleModule
-
-# https://man.openbsd.org/pfctl.8
-# https://man.openbsd.org/pfsync.4
 
 
 class Pfctl:

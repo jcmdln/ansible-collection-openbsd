@@ -1,4 +1,4 @@
-# site-check.yml
+# SPDX-License-Identifier: ISC
 ---
 - name: check
   gather_facts: false

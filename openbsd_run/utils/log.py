@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: ISC
+
 from logging import (
     DEBUG,
     FileHandler,

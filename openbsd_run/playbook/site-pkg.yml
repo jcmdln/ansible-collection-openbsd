@@ -1,4 +1,4 @@
-# site-pkg.yml
+# SPDX-License-Identifier: ISC
 ---
 - import_playbook: site-check.yml
 
