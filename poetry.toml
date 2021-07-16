@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: ISC
+
+[virtualenvs]
+in-project = true
+path = ".venv"

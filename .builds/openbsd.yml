@@ -12,7 +12,7 @@ sources:
 
 tasks:
   - prepare: |
-      python3 -m pip install --progress-bar off --user tox
+      python3 -m pip install --progress-bar off --user tox==3.23.1
   - lint: |
       cd openbsd-run
       ~/.local/bin/tox
