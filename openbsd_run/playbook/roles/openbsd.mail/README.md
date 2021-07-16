@@ -4,9 +4,10 @@ Setup a simple mail server using OpenSMTPD, spamd, and Dovecot.
 
 About
 ----------
-In order to keep things simple, this role associates a [Maildir]() with real
-unix users rather than virtual users. Dovecot only handles IMAP login and
-redelivering filtered mail by LMTP.
+In order to keep things simple this role uses real unix users each with their
+own [Maildir](https://en.wikipedia.org/wiki/Maildir) rather than use virtual
+users or duplicate where mail can end up by leaving an mbox around. Dovecot
+only handles IMAP login and redelivering filtered mail by LMTP.
 
 This may make things _too_ simple for some scenarios though the idea is that
 you are giving trusted users unprivileged accounts by which they are afforded
@@ -39,7 +40,7 @@ Requirements
 | @                     | MX    | 3600 | 10 mail.domain.tld.
 | @                     | TXT   | 3600 | v=spf1 mx -all
 | _autodiscover._tcp    | SRV   | 3600 | 0  1  443  mail.domain.tld.
-| _dmarc                | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rua=mailto:hostmaster@domain.tld
+| _dmarc                | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rf=afrf; rua=mailto:hostmaster@domain.tld; ruf=rua=mailto:hostmaster@domain.tld
 | _imaps._tcp           | SRV   | 3600 | 0  1  993  mail.domain.tld.
 | _submission._tcp      | SRV   | 3600 | 10 1  587  mail.domain.tld.
 | _submissions._tcp     | SRV   | 3600 | 0  1  465  mail.domain.tld.
@@ -48,8 +49,8 @@ Requirements
 | mail                  | AAAA  | 3600 | 2001:db8::1
 
 ### User Sieve Example
-Below is an example of filtering mailing lists to another directory using the
-OpenBSD mailing list as an example:
+Below is an example of filtering mailing lists to a virtual folder using the
+OpenBSD mailing lists as a reference:
 
 ```sieve
 # ~/Mail/dovecot.sieve
@@ -65,6 +66,7 @@ if exists ["List-Id", "X-Loop"] {
   #
   # OpenBSD
   #
+
   if header :contains ["List-Id", "X-Loop"] "@openbsd.org" {
     if header :contains ["List-Id", "X-Loop"] "advocacy@openbsd.org" {
       fileinto :create "OpenBSD/advocacy";
