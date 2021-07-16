@@ -8,3 +8,5 @@ all:
       ansible_python_interpreter: /usr/local/bin/python3
       ansible_ssh_pass: vagrant
       ansible_user: vagrant
+  vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
