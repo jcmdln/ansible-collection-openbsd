@@ -71,6 +71,7 @@ def pkg_delete(context, a: bool, d: str, packages: list[str]) -> None:
         playbook="%s/site-pkg.yml" % playbook_path,
         project_dir=playbook_path,
         quiet=quiet,
+        settings="{}/ansible.cfg".format(playbook_path),
         suppress_ansible_output=True,
         verbosity=3 if verbose else None,
     )

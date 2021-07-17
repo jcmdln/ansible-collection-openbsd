@@ -90,6 +90,7 @@ def pkg_add(context, d: str, packages: list[str], r: bool, u: bool) -> None:
         playbook="{}/site-pkg.yml".format(playbook_path),
         project_dir=playbook_path,
         quiet=quiet,
+        settings="{}/ansible.cfg".format(playbook_path),
         suppress_ansible_output=True,
         verbosity=3 if verbose else None,
     )

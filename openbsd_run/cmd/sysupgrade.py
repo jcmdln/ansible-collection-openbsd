@@ -73,6 +73,7 @@ def sysupgrade(context, f: bool, n: bool, r: bool, s: bool) -> None:
         playbook="%s/site-sysupgrade.yml" % playbook_path,
         project_dir=playbook_path,
         quiet=quiet,
+        settings="{}/ansible.cfg".format(playbook_path),
         suppress_ansible_output=True,
         verbosity=3 if verbose else None,
     )
