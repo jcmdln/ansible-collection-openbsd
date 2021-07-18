@@ -6,3 +6,4 @@ mail_packages:
   - dovecot
   - dovecot-pigeonhole
   - opensmtpd-extras
+  - py3-cryptography
