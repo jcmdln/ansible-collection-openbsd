@@ -1,10 +1,13 @@
 # SPDX-License-Identifier: ISC
 ---
 all:
+  vars:
+    ansible_become: true
+    ansible_become_method: sudo
+    ansible_python_interpreter: /usr/local/bin/python3
+    ansible_ssh_pass: vagrant
+    ansible_user: vagrant
+
+mail:
   hosts:
     openbsd-1:
-      ansible_become: true
-      ansible_become_method: sudo
-      ansible_python_interpreter: /usr/local/bin/python3
-      ansible_ssh_pass: vagrant
-      ansible_user: vagrant
