@@ -15,7 +15,7 @@ Usage
 ==========
 This project only supports OpenBSD. You may test it by using the included
 Vagrantfile or by setting up an instance on a hosting provider. If you are
-looking for a hosting provider that provides OpenBSD, consider using
+looking for a hosting provider that offers OpenBSD hosts, consider using
 [OpenBSD.Amsterdam](https://openbsd.amsterdam) which donates some proceeds to
 [The OpenBSD Foundation](https://www.openbsdfoundation.org/).
 
@@ -95,3 +95,8 @@ the following example:
       syspatch    Patch host(s) using syspatch
       sysupgrade  Upgrade host(s) using sysupgrade
 ```
+
+Also, when testing the [raw playbook](./openbsd_run/playbook/) please ensure
+you are in the same directory as the
+[ansible.cfg](./openbsd_run/playbook/ansible.cfg) and using Ansible 2.9 or
+later.
