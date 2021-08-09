@@ -41,7 +41,7 @@
 
 - name: Generate RSA2048 dkim key
   community.crypto.openssl_privatekey:
-    path: /etc/mail/dkim/{{mail_domain}}.key
+    path: /etc/mail/dkim/{{mail_dkim_selector}}.private.key
     size: 2048
     type: RSA
   vars:
