@@ -33,29 +33,33 @@
 
 - name: Create /etc/mail/dkim directory
   ansible.builtin.file:
+    state: directory
+    path: /etc/mail/dkim
+    owner: _dkimsign
     group: _dkimsign
     mode: 0770
-    owner: _dkimsign
-    path: /etc/mail/dkim
-    state: directory
 
 - name: Generate RSA2048 dkim key
   community.crypto.openssl_privatekey:
     path: /etc/mail/dkim/{{mail_dkim_selector}}.private.key
     size: 2048
     type: RSA
-  vars:
-    ansible_become: true
-    ansible_become_user: _dkimsign
 
+- name: Set owner of dkim key to _dkimsign
+  ansible.builtin.file:
+    path: /etc/mail/dkim/{{mail_dkim_selector}}.private.key
+    state: file
+    owner: _dkimsign
+    group: _dkimsign
+    mode: 0600
 #
 # Dovecot
 #
 
 - name: Enable Dovecot service
   ansible.builtin.service:
-    enabled: true
     name: dovecot
+    enabled: true
 
 - name: Define Dovecot daemon login class in login.conf
   ansible.builtin.blockinfile:
@@ -126,8 +130,8 @@
 
 - name: Enable spamd
   ansible.builtin.service:
-    enabled: true
     name: spamd
+    enabled: true
 
 - name: Set spamd to blacklist-only mode (ie disable greylisting)
   ansible.builtin.raw: >-
