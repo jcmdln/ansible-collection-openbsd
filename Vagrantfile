@@ -8,7 +8,6 @@ Vagrant.configure("2") do |config|
 
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
-  config.hostmanager.manage_guest = true
 
   config.nfs.verify_installed = false
   config.ssh.verify_host_key = false
@@ -25,7 +24,7 @@ Vagrant.configure("2") do |config|
   # Boxes
   #
 
-  config.vm.define :openbsd_1 do |c|
+  config.vm.define "openbsd-1" do |c|
     c.vm.hostname = "openbsd-1"
   end
 end
