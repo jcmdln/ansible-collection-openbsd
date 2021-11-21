@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_version = "3.5.2"
   config.vm.provider "libvirt" do |v|
     v.cpus = 2
-    v.memory = 2048
+    v.memory = 4096
   end
 
   #
