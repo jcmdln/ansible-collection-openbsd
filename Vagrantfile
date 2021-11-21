@@ -13,8 +13,8 @@ Vagrant.configure("2") do |config|
   config.ssh.verify_host_key = false
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
-  config.vm.box = "generic/openbsd6"
-  config.vm.box_version = "3.3.6"
+  config.vm.box = "generic/openbsd7"
+  config.vm.box_version = "3.5.2"
   config.vm.provider "libvirt" do |v|
     v.cpus = 2
     v.memory = 2048
