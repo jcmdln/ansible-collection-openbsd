@@ -6,7 +6,8 @@ all:
     ansible_become_method: sudo
     ansible_python_interpreter: /usr/local/bin/python3
     ansible_ssh_private_key_file: >-
-      {{ lookup('env','PWD') }}/.vagrant/machines/openbsd-1/libvirt/private_key
+      {{ lookup('env','PWD') }}/.vagrant/machines/{{-
+      inventory_hostname -}}/libvirt/private_key
     ansible_user: vagrant
 
 mail:
