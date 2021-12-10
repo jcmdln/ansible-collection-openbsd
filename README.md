@@ -38,7 +38,6 @@ this will greatly reduce the total installation size if you already have
 Ansible, and build time if you already have py3-cryptography. If you intend to
 hack on openbsd-run, please see [Developing](#Developing) for more info.
 
-```sh
     $ virtualenv --system-site-packages .venv
     $ source .venv/bin/activate
     (.venv) $ pip install .
@@ -58,7 +57,6 @@ hack on openbsd-run, please see [Developing](#Developing) for more info.
       pkg_delete  Remove packages
       syspatch    Patch host(s) using syspatch
       sysupgrade  Upgrade host(s) using sysupgrade
-```
 
 
 Contributing
@@ -76,7 +74,6 @@ Developing
 For development, please use [poetry](https://python-poetry.org) as outlined in
 the following example:
 
-```sh
     $ poetry install
     $ poetry run openbsd-run -h
     Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
@@ -94,9 +91,25 @@ the following example:
       pkg_delete  Remove packages
       syspatch    Patch host(s) using syspatch
       sysupgrade  Upgrade host(s) using sysupgrade
-```
 
 Also, when testing the [raw playbook](./openbsd_run/playbook/) please ensure
 you are in the same directory as the
 [ansible.cfg](./openbsd_run/playbook/ansible.cfg) and using Ansible 2.9 or
 later.
+
+### Custom OpenBSD Vagrant box
+I was originally using the `generic/openbsd7` image but Vagrant fully supports
+what is needed for OpenBSD to run without adding additional packages. This
+isn't required for any part of `openbsd-run` to function, test, etc but I like
+having the ability to create a fresh environment to test specific things in.
+
+I'll cover this in more detail later:
+
+    vagrant destroy -f &&
+    vagrant box remove openbsd-run/openbsd &&
+    virsh vol-list --pool default |
+        awk '/openbsd-run/ {print $1}' |
+        xargs virsh vol-delete --pool default --vol &&
+    packer build -force openbsd.pkr.hcl &&
+    vagrant box add openbsd-run/openbsd build/openbsd-70-amd64.box &&
+    vagrant up
