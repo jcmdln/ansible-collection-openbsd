@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: ISC
+
+root = true
+
+[*]
+charset = "utf-8"
+indent_style = "space"
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.json{,c}]
+indent_size  = 2
+tab_width    = 2
+
+[*.m{d,arkdown}]
+indent_size  = 4
+tab_width    = 4
+
+[*.y{,a}ml]
+indent_size  = 2
+tab_width    = 2
