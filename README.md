@@ -1,62 +1,49 @@
-**An OpenBSD-focused Ansible playbook embedded in type-annotated Python**
-
 [openbsd-run](https://github.com/jcmdln/openbsd-run) is an Ansible playbook
-embedded in type-annotated Python which allows for running the Ansible
-playbooks directly or via command line. The goal is to trivialize deploying and
-maintaining OpenBSD-based services.
+embedded in Python for performing actions against OpenBSD hosts.
 
-NOTE: This is a work-in-progress that at times may require you are well-versed
-in Ansible, Python, and OpenBSD.  Things are likely to not work at all or be
-extremely awkward, and until I get Ansible Molecule working with vmm(4) the
-prospect of verifying anything involves manual action.
+If you are looking for a hosting provider that offers OpenBSD, consider using
+[OpenBSD.Amsterdam](https://openbsd.amsterdam) which contributes to
+[The OpenBSD Foundation](https://www.openbsdfoundation.org/).
 
 
 Usage
 ==========
 This project only supports OpenBSD. You may test it by using the included
-Vagrantfile or by setting up an instance on a hosting provider. If you are
-looking for a hosting provider that offers OpenBSD hosts, consider using
-[OpenBSD.Amsterdam](https://openbsd.amsterdam) which donates some proceeds to
-[The OpenBSD Foundation](https://www.openbsdfoundation.org/).
+Vagrantfile or by setting up an instance on a hosting provider.
 
 Playbook
 ----------
-The [raw playbook](./openbsd_run/playbook/) can be used without any atypical
-Ansible setup or intrinsic dependencies to the command line interface for those
-who might prefer it.
+If you would rather use the [raw playbook](./openbsd_run/playbook/) you may do
+so without any atypical setup.
 
 Command Line Interface
 ----------
-The command line interface provides familiar commands for performing actions
-against hosts defined in an [inventory](./sample.inventory.yml). The main
-benefit of this is that you may define a simple inventory that can be
-dynamically acted upon without also needing to define or consume playbooks.
+By wrapping the Ansible playbook and the various plays with a command line
+interface we can provide familiar commands that run in parallel on hosts
+defined in an [inventory](./sample.inventory.yml).
 
 ### Installing
-As shown in the following example, we suggest using `--system-site-packages` as
-this will greatly reduce the total installation size if you already have
-Ansible, and build time if you already have py3-cryptography. If you intend to
-hack on openbsd-run, please see [Developing](#Developing) for more info.
+You may use `pip` instead of `poetry`, though we'll only cover using the
+latter since that's what's used for running, developing and testing.
+```sh
+$ poetry install --no-dev
+$ poetry run openbsd-run -h
+Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
 
-    $ virtualenv --system-site-packages .venv
-    $ source .venv/bin/activate
-    (.venv) $ pip install .
-    (.venv) $ openbsd-run -h
-    Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
+Options:
+  -H, --host_pattern TEXT  Host pattern to match against inventory
+  -i, --inventory TEXT     Ansible inventory file
+  -q, --quiet              Suppress Ansible output
+  -v, --verbose            Increase Ansible output
+  --version                Show the version and exit.
+  -h, --help               Show this message and exit.
 
-    Options:
-      -H, --host_pattern TEXT  Host pattern to match against inventory
-      -i, --inventory TEXT     Inventory file
-      -q, --quiet              Suppress Ansible output
-      -V, --verbose            Increase Ansible output
-      -v, --version            Show the version and exit.
-      -h, --help               Show this message and exit.
-
-    Commands:
-      pkg_add     Add or update packages
-      pkg_delete  Remove packages
-      syspatch    Patch host(s) using syspatch
-      sysupgrade  Upgrade host(s) using sysupgrade
+Commands:
+  pkg_add     Add or update packages
+  pkg_delete  Remove packages
+  syspatch    Patch host(s) using syspatch
+  sysupgrade  Upgrade host(s) using sysupgrade
+```
 
 
 Contributing
@@ -69,47 +56,21 @@ mirror are two good examples, and you're likely to see scaffolding in the
 * If anything seems weird, definitely report it
 * For starting new work, please file an issue so it may be discussed
 
-Developing
-----------
-For development, please use [poetry](https://python-poetry.org) as outlined in
-the following example:
-
-    $ poetry install
-    $ poetry run openbsd-run -h
-    Usage: openbsd-run [OPTIONS] COMMAND [ARGS]...
-
-    Options:
-      -H, --host_pattern TEXT  Host pattern to match against inventory
-      -i, --inventory TEXT     Inventory file
-      -q, --quiet              Suppress Ansible output
-      -V, --verbose            Increase Ansible output
-      -v, --version            Show the version and exit.
-      -h, --help               Show this message and exit.
-
-    Commands:
-      pkg_add     Add or update packages
-      pkg_delete  Remove packages
-      syspatch    Patch host(s) using syspatch
-      sysupgrade  Upgrade host(s) using sysupgrade
-
-Also, when testing the [raw playbook](./openbsd_run/playbook/) please ensure
-you are in the same directory as the
-[ansible.cfg](./openbsd_run/playbook/ansible.cfg) and using Ansible 2.9 or
-later.
-
 ### Custom OpenBSD Vagrant box
 I was originally using the `generic/openbsd7` image but Vagrant fully supports
 what is needed for OpenBSD to run without adding additional packages. This
 isn't required for any part of `openbsd-run` to function, test, etc but I like
 having the ability to create a fresh environment to test specific things in.
 
-I'll cover this in more detail later:
-
-    vagrant destroy -f &&
-    vagrant box remove openbsd-run/openbsd &&
-    virsh vol-list --pool default |
-        awk '/openbsd-run/ {print $1}' |
-        xargs virsh vol-delete --pool default --vol &&
-    packer build -force openbsd.pkr.hcl &&
-    vagrant box add openbsd-run/openbsd build/openbsd-70-amd64.box &&
-    vagrant up
+I'll cover this in more detail later but here is a block of commands that I
+use when building/rebuilding the image, **BUT DON'T RUN THIS VERBATIM**:
+```sh
+vagrant destroy -f &&
+vagrant box remove openbsd-run/openbsd &&
+virsh vol-list --pool default |
+    awk '/openbsd-run/ {print $1}' |
+    xargs virsh vol-delete --pool default --vol &&
+packer build -force openbsd.pkr.hcl &&
+vagrant box add openbsd-run/openbsd build/openbsd-70-amd64.box &&
+vagrant up
+```
