@@ -16,9 +16,7 @@ variable "os_version" {
 }
 
 locals {
-    timestamp = formatdate("YYYYMMDD'T'hhmmssZZZZ", timestamp())
     version_flat = replace("${var.os_version}", ".", "")
-
     image_name = "openbsd-${local.version_flat}-${var.os_arch}"
     iso_name = "cd${local.version_flat}.iso"
     mirror_path = "${var.os_mirror}/${var.os_version}/${var.os_arch}"
@@ -27,9 +25,9 @@ locals {
 source "qemu" "openbsd" {
     accelerator = "kvm"
     boot_command = [
-        "a<enter><wait3>",
-        "http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait3>",
-        "i<enter><wait180>",
+        "a<enter><wait2>",
+        "http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait2>",
+        "i<enter>",
     ]
     boot_wait = "30s"
     cpus = 2
@@ -59,11 +57,10 @@ build {
         inline = [
             "cp /etc/examples/doas.conf /etc/doas.conf",
             "echo 'permit nopass vagrant' >> /etc/doas.conf",
-            "[ -f /etc/doas.conf ] && doas -C /etc/doas.conf || exit 1",
+            "doas -C /etc/doas.conf",
         ]
     }
 
-    # Package the image as a Vagrant box
     post-processor "vagrant" {
         compression_level = 9
         keep_input_artifact = true
