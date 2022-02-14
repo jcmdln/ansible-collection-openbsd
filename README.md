@@ -11,10 +11,12 @@ Usage
 This project only supports OpenBSD. You may test it by using the included
 Vagrantfile or by setting up an instance on a hosting provider.
 
+
 Playbook
 ----------
 If you would rather use the [raw playbook](./openbsd_run/playbook/) you may do
 so without any atypical setup.
+
 
 Command Line Interface
 ----------
@@ -57,20 +59,6 @@ mirror are two good examples, and you're likely to see scaffolding in the
 * For starting new work, please file an issue so it may be discussed
 
 ### Custom OpenBSD Vagrant box
-I was originally using the `generic/openbsd7` image but Vagrant fully supports
-what is needed for OpenBSD to run without adding additional packages. This
-isn't required for any part of `openbsd-run` to function, test, etc but I like
-having the ability to create a fresh environment to test specific things in.
-
-I'll cover this in more detail later but here is a block of commands that I
-use when building/rebuilding the image, **BUT DON'T RUN THIS VERBATIM**:
-```sh
-vagrant destroy -f &&
-vagrant box remove openbsd-run/openbsd &&
-virsh vol-list --pool default |
-    awk '/openbsd-run/ {print $1}' |
-    xargs virsh vol-delete --pool default --vol &&
-packer build -force openbsd.pkr.hcl &&
-vagrant box add openbsd-run/openbsd build/openbsd-70-amd64.box &&
-vagrant up
-```
+If you would like to run OpenBSD via Vagrant for testing locally, please see
+https://github.com/jcmdln/openbsd-vagrant which provides an OpenBSD box that
+only uses what is already provided in a base install.
