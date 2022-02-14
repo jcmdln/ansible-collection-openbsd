@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: ISCf
+# SPDX-License-Identifier: ISC
 
 from __future__ import annotations
 
