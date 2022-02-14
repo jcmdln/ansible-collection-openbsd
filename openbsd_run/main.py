@@ -16,9 +16,9 @@ from openbsd_run.utils.log import Log
 @click.option(
     "--host_pattern",
     "-H",
-    type=str,
     default="",
     help="Host pattern to match against inventory",
+    type=str,
 )
 @click.option(
     "--inventory",
