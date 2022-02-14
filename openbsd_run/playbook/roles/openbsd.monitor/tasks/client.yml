@@ -2,5 +2,5 @@
 
 - name: Install client packages
   pkg:
-    name: "{{ moniter_client_packages }}"
+    name: "{{ monitor_client_packages }}"
     state: present
