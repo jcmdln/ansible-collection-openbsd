@@ -1,15 +1,19 @@
 # SPDX-License-Identifier: ISC
+#
+# This file is intended to simplify testing openbsd-run with openbsd-vagrant
+# and also serves as an example for building your own inventory file.
 ---
 all:
   vars:
     ansible_become: true
     ansible_become_method: doas
     ansible_python_interpreter: /usr/local/bin/python3
+    # The path used in 'ansible_ssh_private_key_file' assumes that adjacent to
+    # your copy of openbsd-run is https://github.com/jcmdln/openbsd-vagrant
     ansible_ssh_private_key_file: >-
-      {{ lookup('env','PWD') }}/.vagrant/machines/{{-
+      {{ lookup("env", "PWD") }}/../openbsd-vagrant/.vagrant/machines/{{-
       inventory_hostname -}}/libvirt/private_key
     ansible_user: vagrant
 
-mail:
   hosts:
     openbsd:
