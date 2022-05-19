@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sys
+
 from logging import Logger
 from sys import exit
 
@@ -45,9 +47,7 @@ from openbsd_run.utils.log import Log
 )
 @click.pass_context
 @click.version_option(None, "--version")
-def cli(
-    context, host_pattern: str, inventory: str, quiet: bool, verbose: bool
-) -> None:
+def cli(context, host_pattern: str, inventory: str, quiet: bool, verbose: bool) -> None:
     log: Logger = Log("openbsd-run")
 
     context.ensure_object(dict)
@@ -56,7 +56,7 @@ def cli(
     context.obj["quiet"] = quiet
     context.obj["verbose"] = verbose
 
-    if "-h" in click.get_os_args() or "--help" in click.get_os_args():
+    if "-h" in sys.argv[1:] or "--help" in sys.argv[1:]:
         pass
     else:
         if not inventory:

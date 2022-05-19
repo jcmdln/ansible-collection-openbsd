@@ -11,6 +11,7 @@ import click
 from ansible_runner import Runner
 
 from openbsd_run.playbook import path as playbook_path
+from openbsd_run.utils import config
 from openbsd_run.utils.log import Log
 
 
@@ -87,10 +88,10 @@ def pkg_add(context, d: str, packages: list[str], r: bool, u: bool) -> None:
         extravars=extra_vars,
         inventory=inventory_contents,
         limit=host_pattern,
-        playbook="{}/site-pkg.yml".format(playbook_path),
+        playbook="{}/site-pkg.yaml".format(playbook_path),
         project_dir=playbook_path,
         quiet=quiet,
-        settings="{}/ansible.cfg".format(playbook_path),
+        settings=config.Read(f"{playbook_path}/ansible.cfg"),
         suppress_ansible_output=True,
         verbosity=3 if verbose else None,
     )

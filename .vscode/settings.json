@@ -1,0 +1,28 @@
+{
+  "files.exclude": {
+    "**/__pycache__/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.tox/**": true,
+    "**/.venv/**": true,
+  },
+  "editor.formatOnSave": true,
+  "editor.minimap.maxColumn": 99,
+  "editor.wordWrapColumn": 99,
+  "evenBetterToml.formatter.columnWidth": 99,
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.banditArgs": [
+    "-c ${workspaceFolder}/pyproject.toml"
+  ],
+  "python.linting.banditEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.linting.pycodestyleEnabled": false,
+  "python.linting.pydocstyleEnabled": false,
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+}

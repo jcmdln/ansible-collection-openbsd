@@ -22,6 +22,5 @@
         command -v python3
       changed_when: not python_check or python_check.rc > 0
       failed_when: false
-      notify:
-        - Install Python 3.x if missing
+      notify: Install Python 3.x if missing
       register: python_check

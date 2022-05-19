@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: ISC
+---
+all:
+  hosts:
+    domain.tld:
+
+  vars:
+    ansible_become: true
+    ansible_become_method: doas
+    ansible_python_interpreter: /usr/local/bin/python3

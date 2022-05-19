@@ -1,4 +1,4 @@
-# openbsd.ntpd/handlers/main.yml
+# openbsd.ntpd/handlers/main.yaml
 
 - name: enable ntpd
   service:

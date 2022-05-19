@@ -1,0 +1,7 @@
+# openbsd.monitor/tasks/main.yaml
+
+- include_tasks: client.yaml
+  tag: [monitor_client]
+
+- include_tasks: server.yaml
+  tag: [monitor_server]

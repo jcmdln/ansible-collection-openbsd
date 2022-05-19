@@ -1,4 +1,4 @@
-# openbsd.unwind/tasks/main.yml
+# openbsd.unwind/tasks/main.yaml
 
 - name: configure dhclient.conf
   ansible.builtin.template:

@@ -11,6 +11,7 @@ import click
 from ansible_runner import Runner
 
 from openbsd_run.playbook import path as playbook_path
+from openbsd_run.utils import config
 from openbsd_run.utils.log import Log
 
 
@@ -27,10 +28,10 @@ def syspatch(context) -> None:
     result: Runner = ansible.run(
         inventory=inventory_contents,
         limit=host_pattern,
-        playbook="%s/site-syspatch.yml" % playbook_path,
+        playbook="%s/site-syspatch.yaml" % playbook_path,
         project_dir=playbook_path,
         quiet=quiet,
-        settings="{}/ansible.cfg".format(playbook_path),
+        settings=config.Read(f"{playbook_path}/ansible.cfg"),
         suppress_ansible_output=True,
         verbosity=3 if verbose else None,
     )

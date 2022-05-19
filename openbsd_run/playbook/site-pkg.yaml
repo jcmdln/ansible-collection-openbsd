@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 ---
-- import_playbook: site-check.yml
+- import_playbook: site-check.yaml
 
 - name: pkg
   hosts: all

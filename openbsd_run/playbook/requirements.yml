@@ -1,5 +1,0 @@
-# SPDX-License-Identifier: ISC
----
-collections:
-  - name: ansible.posix
-    version: ">=1.2.0"

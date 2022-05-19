@@ -1,4 +1,4 @@
-# openbsd.ntpd/tasks/main.yml
+# openbsd.ntpd/tasks/main.yaml
 
 - name: configure ntpd
   ansible.builtin.template:

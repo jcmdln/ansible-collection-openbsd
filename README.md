@@ -22,7 +22,7 @@ Command Line Interface
 ----------
 By wrapping the Ansible playbook and the various plays with a command line
 interface we can provide familiar commands that run in parallel on hosts
-defined in an [inventory](./sample.inventory.yml).
+defined in an [inventory](./sample.inventory.yaml).
 
 ### Installing
 You may use `pip` instead of `poetry`, though we'll only cover using the

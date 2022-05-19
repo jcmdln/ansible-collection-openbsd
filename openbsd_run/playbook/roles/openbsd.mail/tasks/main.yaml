@@ -1,4 +1,4 @@
-# openbsd.mail/tasks/main.yml
+# openbsd.mail/tasks/main.yaml
 ---
 - name: Install required packages
   pkg:
@@ -85,13 +85,13 @@
 - name: (Errata) Comment out ssl_cert from /etc/dovecot/conf.d/10-ssl.conf
   ansible.builtin.replace:
     path: /etc/dovecot/conf.d/10-ssl.conf
-    regexp: '^ssl_cert'
+    regexp: "^ssl_cert"
     replace: "#ssl_cert"
 
 - name: (Errata) Comment out ssl_key from /etc/dovecot/conf.d/10-ssl.conf
   ansible.builtin.replace:
     path: /etc/dovecot/conf.d/10-ssl.conf
-    regexp: '^ssl_key'
+    regexp: "^ssl_key"
     replace: "#ssl_key"
 
 - name: Start Dovecot service

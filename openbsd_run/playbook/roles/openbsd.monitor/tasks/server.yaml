@@ -1,4 +1,4 @@
-# openbsd.monitor/tasks/server.yml
+# openbsd.monitor/tasks/server.yaml
 
 - name: Install server packages
   pkg:

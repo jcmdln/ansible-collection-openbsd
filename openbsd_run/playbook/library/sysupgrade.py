@@ -29,9 +29,7 @@ class Sysupgrade:
         if self.module.params["force"]:
             self.command = "{} -f".format(self.command)
 
-        self.rc, self.stdout, self.stderr = self.module.run_command(
-            self.command, check_rc=False
-        )
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
         if not self.stdout and not self.stderr:
             self.msg = "no actions performed"
@@ -42,9 +40,7 @@ class Sysupgrade:
             return
 
         if "404 not found" in self.stderr.lower():
-            self.msg = "no newer {} available".format(
-                self.module.params["branch"]
-            )
+            self.msg = "no newer {} available".format(self.module.params["branch"])
             self.rc = 0
             return
 

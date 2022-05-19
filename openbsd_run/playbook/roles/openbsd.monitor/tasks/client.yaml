@@ -1,4 +1,4 @@
-# openbsd.monitor/tasks/client.yml
+# openbsd.monitor/tasks/client.yaml
 
 - name: Install client packages
   pkg:

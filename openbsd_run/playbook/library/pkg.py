@@ -59,9 +59,7 @@ class Pkg:
             "updatedepends",
         ]:
             self.command = ""
-            self.msg = "'{}' is invalid when adding packages".format(
-                self.force
-            )
+            self.msg = "'{}' is invalid when adding packages".format(self.force)
             self.rc = 1
             return
 
@@ -126,9 +124,7 @@ class Pkg:
             "scripts",
         ]:
             self.command = ""
-            self.msg = "'{}' is invalid when deleting packages".format(
-                self.force
-            )
+            self.msg = "'{}' is invalid when deleting packages".format(self.force)
             self.rc = 1
             return
 
@@ -156,9 +152,7 @@ class Pkg:
         for package in to_delete:
             self.command = "{} {}".format(self.command, package)
 
-        self.rc, self.stdout, self.stderr = self.module.run_command(
-            self.command, check_rc=False
-        )
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
         if self.rc != 0:
             self.msg = "received a non-zero exit code"
@@ -173,9 +167,7 @@ class Pkg:
 
     def Info(self) -> None:
         self.command = "/usr/sbin/pkg_info -q"
-        self.rc, stdout, stderr = self.module.run_command(
-            self.command, check_rc=False
-        )
+        self.rc, stdout, stderr = self.module.run_command(self.command, check_rc=False)
 
         for pkg in stdout.splitlines():
             if not pkg:

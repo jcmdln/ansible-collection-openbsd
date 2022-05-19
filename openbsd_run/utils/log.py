@@ -1,13 +1,6 @@
 # SPDX-License-Identifier: ISC
 
-from logging import (
-    DEBUG,
-    FileHandler,
-    Formatter,
-    Logger,
-    StreamHandler,
-    getLogger,
-)
+from logging import DEBUG, FileHandler, Formatter, Logger, StreamHandler, getLogger
 
 
 def Log(title: str) -> Logger:

@@ -1,4 +1,4 @@
-# openbsd.mail/handlers/main.yml
+# openbsd.mail/handlers/main.yaml
 ---
 - name: Restart dovecot
   ansible.builtin.service:

@@ -1,4 +1,4 @@
-# openbsd.vmm/defaults/main.yml
+# openbsd.vmm/defaults/main.yaml
 
 vmm_pf_includes:
   - "vmm.conf"

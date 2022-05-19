@@ -22,9 +22,7 @@ class Syspatch:
         Apply all available patches.
         """
 
-        self.rc, self.stdout, self.stderr = self.module.run_command(
-            self.command, check_rc=False
-        )
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
         if self.rc == 2 or (not self.stdout and not self.stderr):
             self.msg = "no action performed"
@@ -48,9 +46,7 @@ class Syspatch:
         if self.module.params["List"].lower() == "installed":
             self.command = "{} -l".format(self.command)
 
-        self.rc, self.stdout, self.stderr = self.module.run_command(
-            self.command, check_rc=False
-        )
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
         if self.rc != 0:
             self.msg = "received a non-zero exit code"
@@ -69,9 +65,7 @@ class Syspatch:
         if self.module.params["list"] == "latest":
             self.command = "{} -r".format(self.command)
 
-        self.rc, self.stdout, self.stderr = self.module.run_command(
-            self.command, check_rc=False
-        )
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
         if self.rc != 0:
             self.msg = "received a non-zero exit code"
