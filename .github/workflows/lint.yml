@@ -2,7 +2,7 @@
 ---
 name: lint
 
-on: [pull, push, workflow_dispatch]
+on: [pull_request, push, workflow_dispatch]
 
 jobs:
   lint:
