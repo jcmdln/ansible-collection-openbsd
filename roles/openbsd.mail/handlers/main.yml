@@ -1,0 +1,16 @@
+# openbsd.mail/handlers/main.yaml
+---
+- name: Restart dovecot
+  ansible.builtin.service:
+    name: dovecot
+    state: restarted
+
+- name: Restart smtpd
+  ansible.builtin.service:
+    name: smtpd
+    state: restarted
+
+- name: Restart spamd
+  ansible.builtin.service:
+    name: spamd
+    state: restarted

@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: ISC
+---
+- name: Mail
+  hosts: mail
+
+  become: true
+
+  roles:
+    - role: openbsd.mail

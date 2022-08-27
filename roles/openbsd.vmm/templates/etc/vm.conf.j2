@@ -1,0 +1,21 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+{% for customer in customers %}
+# name:    {{ customer.name }}
+# email:   {{ customer.email }}
+# plan:    {{ customer.plan }}
+# disk:    {{ vmm_plans[customer.plan].disk }}
+# memory:  {{ vmm_plans[customer.plan].memory }}
+vm "vm{{ loop.index }}" {
+    {{ customer.state }}
+    owner {{ customer.name }}
+    disk "/home/vm/default/{{ customer.name }}.qcow2"
+    memory {{ vmm_plans[customer.plan].memory }}
+    local interface
+}
+{% if not loop.last %}
+{# add a newline between customers #}
+
+{% endif %}
+{% endfor %}

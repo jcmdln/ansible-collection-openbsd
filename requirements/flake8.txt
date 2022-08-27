@@ -1,0 +1,13 @@
+# SPDX-License-Identifier: ISC
+
+black
+flake8
+flake8-black
+flake8-docstrings
+flake8-isort
+isort
+mccabe
+pycodestyle
+pydocstyle
+pyflakes
+rope

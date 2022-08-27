@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: ISC
+
+-r ./ansible-lint.txt
+-r ./ansible.txt
+-r ./bandit.txt
+-r ./flake8.txt
+-r ./mypy.txt
+-r ./tox.txt
+
+pyls-flake8
+pyls-isort
+pylsp-mypy
+pylsp-rope
+python-lsp-black
+python-lsp-server

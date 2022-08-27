@@ -1,0 +1,17 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+# use a random selection of NTP Pool Time Servers
+# see http://support.ntp.org/bin/view/Servers/NTPPoolServers
+servers pool.ntp.org
+
+# time server with excellent global adjacency
+server time.cloudflare.com
+
+# use a specific local timedelta sensor (radio clock, etc)
+sensor nmea0 trusted
+
+# get the time constraint from a well-known HTTPS site
+constraint from "9.9.9.9"               # quad9 v4 without DNS
+constraint from "2620:fe::fe"           # quad9 v6 without DNS
+constraints from "www.google.com"       # intentionally not 8.8.8.

@@ -1,0 +1,7 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+# Allow NAT for local VM's
+match out on egress from 100.64.0.0/10 to any nat-to (egress)
+pass in proto { udp tcp } from 100.64.0.0/10 to any port domain \
+	rdr-to 1.1.1.1 port domain

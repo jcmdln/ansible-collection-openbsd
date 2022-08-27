@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: ISC
+---
+collections:
+  - ansible.posix
+  - ansible.utils
+  - community.crypto
+  - community.general
+roles: []

@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: ISC
+---
+skip_list:
+  # Ignore idempotency issues with ansible.builtin.package.state="latest"
+  - package-latest
+
+warn_list:
+  - name[casing]
+  - no-changed-when
+  - no-handler

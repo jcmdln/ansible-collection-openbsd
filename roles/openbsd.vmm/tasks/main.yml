@@ -1,0 +1,104 @@
+# openbsd.vmm/tasks/main.yaml
+
+#
+# Prerequisites
+#
+
+- name: check dmesg for nested paging support
+  ansible.builtin.raw: >-
+    dmesg | egrep "(VMX/EPT|SVM/RVI)"
+  changed_when: (vmm_supported.stdout_lines | length) == 0
+  register: vmm_supported
+
+- name: fail if host does not support nested paging
+  ansible.builtin.fail:
+    msg: >-
+      Host does not support nested paging!
+  failed_when: vmm_supported.changed
+
+#
+# Setup
+#
+
+- name: create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: wheel
+  with_items:
+    - "/home/vm"
+    - "/home/vm/default"
+
+- name: configure vmm
+  ansible.builtin.template:
+    src: etc/vm.conf.j2
+    dest: /etc/vm.conf
+  notify:
+    - reload vmd
+
+# TODO: move to vmctl module
+- name: create default disk(s)
+  ansible.builtin.raw: >-
+    vmctl create -s {{ item.disk }}
+    /home/vm/default/{{ item.name }}.qcow2
+  changed_when: ("imagefile created" in result.stdout)
+  register: result
+  with_items: "{{ vmm_plans }}"
+
+- name: enable and start vmd service
+  ansible.builtin.service:
+    name: "vmd"
+    state: started
+    enabled: true
+
+# TODO: move to vmctl module
+- name: check vmd
+  ansible.builtin.raw: >-
+    rcctl check vmd
+  changed_when: vmd_check.stdout != "vmd(ok)"
+  register: vmd_check
+
+#
+# Quirks
+#
+
+- name: allow IP forwarding for NAT
+  ansible.posix.sysctl:
+    name: "net.inet.ip.forwarding"
+    value: "1"
+    state: present
+
+# TODO: missing description; needs better name
+# - name: increase the max length of arpq
+#   ansible.posix.sysctl:
+#     name: "net.inet.ip.arpq.maxlen"
+#     value: "1024"
+#     state: present
+
+#
+# pf(8)
+#
+
+- name: add pf includes
+  ansible.builtin.template:
+    src: "etc/pf/includes/{{ item }}.j2"
+    dest: "/etc/pf/includes/{{ item }}"
+    owner: root
+    group: wheel
+    mode: "0644"
+  with_items: "{{ vmm_pf_includes }}"
+
+- name: update pf_includes list
+  ansible.builtin.set_fact:
+    pf_includes: "{{ pf_includes + vmm_pf_includes }}"
+
+- name: adjust /etc/pf/includes.conf
+  ansible.builtin.template:
+    src: etc/pf/includes.conf.j2
+    dest: /etc/pf/includes.conf
+    owner: root
+    group: wheel
+    mode: "0644"
+  notify:
+    - reload pf

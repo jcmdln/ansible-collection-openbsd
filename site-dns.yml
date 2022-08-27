@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: ISC
+---
+- name: Dns
+  hosts: dns
+
+  become: true
+
+  roles:
+    - role: openbsd.nsd
+      tags: [nsd]

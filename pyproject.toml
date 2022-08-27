@@ -1,0 +1,76 @@
+# SPDX-License-Identifier: ISC
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+line_length = 100
+lines_between_types = 1
+profile = "black"
+remove_redundant_aliases = true
+wrap_length = 100
+
+[tool.mypy]
+exclude = ['__pycache__/', '\.git/', '\.mypy_cache/', '\.tox/', '\.venv/']
+ignore_missing_imports = true
+show_error_context = true
+strict = true
+strict_optional = true
+# Disable specific strict checks
+disallow_any_generics = false
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist =
+    ansible-lint
+    bandit
+    flake8
+    mypy
+ignore_basepython_conflict = true
+isolated_build = true
+minversion = 3.20
+skip_missing_interpreters = true
+
+[testenv]
+basepython = python3
+setenv =
+    PYTHONDONTWRITEBYTECODE=true
+    PYTHONPYCACHEPREFIX=/tmp
+    PYTHONUNBUFFERED=true
+skip_install = true
+
+[testenv:ansible-lint]
+commands =
+    ansible-lint --version
+    ansible-lint \
+        site-check.yml \
+        site-dns.yml \
+        site-mail.yml \
+        site-pkg.yml \
+        site-syspatch.yml \
+        site-sysupgrade.yml
+deps =
+    -r {toxinidir}/requirements/ansible-lint.txt
+
+[testenv:bandit]
+commands =
+    bandit --version
+    bandit {toxinidir}/library/
+deps =
+    -r {toxinidir}/requirements/bandit.txt
+
+[testenv:flake8]
+commands =
+    flake8 --version
+    flake8 {toxinidir}/library/
+deps =
+    -r {toxinidir}/requirements/flake8.txt
+
+[testenv:mypy]
+commands =
+    mypy --version
+    mypy {toxinidir}/library/
+deps =
+    -r {toxinidir}/requirements/mypy.txt
+"""

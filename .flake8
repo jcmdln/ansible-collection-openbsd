@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: ISC
+
+[flake8]
+exclude =
+    __pycache__/
+    .cache/
+    .mypy_cache/
+    .pytest_cache/
+    .tox/
+    .venv/
+    *.egg-info/
+
+ignore =
+    D100 # Missing docstring in public module
+    D101 # Missing docstring in public class
+    D102 # Missing docstring in public method
+    D103 # Missing docstring in public function
+    D104 # Missing docstring in public package
+    D105 # Missing docstring in magic method
+    D106 # Missing docstring in public nested class
+    D107 # Missing docstring in __init__
+    E203 # Whitespace before ':'
+    W503 # Line break before binary operator
+
+max-line-length = 100

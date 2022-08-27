@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: ISC
+---
+- name: Sysupgrade
+  hosts: all
+
+  become: true
+
+  tasks:
+    - name: "Upgrade to latest {{ sysupgrade_title | default('release or snapshot') }}"
+      sysupgrade:
+        branch: "{{ sysupgrade_branch | default('auto') }}"
+        force: "{{ sysupgrade_force | default(false) }}"
+      register: sysupgrade_result
+      when: ansible_distribution_version is version("6.6", ">=")
+
+    - name: Reboot if upgraded
+      ansible.builtin.reboot:
+        connect_timeout: "{{ sysupgrade_reboot_timeout | default(600) }}"
+        reboot_timeout: "{{ sysupgrade_reboot_timeout | default(600) }}"
+      when:
+        - sysupgrade_result.changed
+        - sysupgrade_result.reboot
+        - sysupgrade_reboot

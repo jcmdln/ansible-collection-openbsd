@@ -1,0 +1,49 @@
+# openbsd.monitor/defaults/main.yaml
+
+#
+# Server
+#
+
+monitor_server_packages:
+  - grafana
+  - sqlite3
+
+monitor_grafana_analytics_check_for_updates: false
+monitor_grafana_analytics_reporting_enabled: false
+monitor_grafana_database_name: grafana
+monitor_grafana_database_type: sqlite3
+monitor_grafana_security_disable_initial_admin_creation: true
+monitor_grafana_security_admin_password: admin
+monitor_grafana_security_admin_user: admin
+monitor_grafana_security_cookie_secure: false
+monitor_grafana_security_disable_gravatar: true
+monitor_grafana_server_enable_gzip: true
+monitor_grafana_server_http_addr: null
+monitor_grafana_server_http_port: 3000
+monitor_grafana_server_http_protocol: http
+monitor_grafana_smtp_cert_file: ""
+monitor_grafana_smtp_enabled: false
+monitor_grafana_smtp_from_address: ""
+monitor_grafana_smtp_from_name: ""
+monitor_grafana_smtp_host: false
+monitor_grafana_smtp_key_file: ""
+monitor_grafana_smtp_password: false
+monitor_grafana_smtp_skip_verify: false
+monitor_grafana_smtp_user: false
+monitor_grafana_users_default_theme: dark
+monitor_grafana_users_verify_email_enabled: true
+
+#
+# Client
+#
+
+monitor_client_packages:
+  #- alertmanager
+  - loki
+  - node_exporter
+  - prometheus
+
+monitor_alertmanager_enabled: false # Currently not packaged in OpenBSD
+monitor_loki_enabled: true
+monitor_node_exporter_enabled: true
+monitor_prometheus_enabled: true

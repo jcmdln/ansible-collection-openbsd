@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: ISC
+---
+- name: Check
+  hosts: all
+
+  become: true
+  gather_facts: false
+
+  handlers:
+    - name: Install Python 3.x if missing
+      ansible.builtin.raw: pkg_add python3
+      failed_when: install_python.rc != 0
+      register: install_python
+
+  tasks:
+    - name: Confirm host is running OpenBSD
+      ansible.builtin.raw: uname
+      changed_when: false
+      failed_when: ("OpenBSD" not in uname.stdout)
+      register: uname
+
+    - name: Check if Python 3.x is present
+      ansible.builtin.raw: command -v python3
+      changed_when: not python_check or python_check.rc > 0
+      failed_when: false
+      notify: Install Python 3.x if missing
+      register: python_check

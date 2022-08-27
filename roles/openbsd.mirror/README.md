@@ -1,0 +1,2 @@
+openbsd.mirror
+==========

@@ -1,0 +1,6 @@
+# openbsd.monitor/tasks/server.yaml
+
+- name: Install server packages
+  pkg:
+    name: "{{ monitor_server_packages }}"
+    state: present

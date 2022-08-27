@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: ISC
+{
+  "ansible.ansibleLint.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.wordWrap": "on",
+  "evenBetterToml.formatter.reorderKeys": true,
+  "files.associations": {
+    "**/.ini": "properties"
+  },
+  "files.exclude": {
+    "**/__pycache__/**": true,
+    "**/.cache/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.tox/**": true,
+    "**/.venv/**": true,
+    "**/*.egg-info/**": true
+  },
+  "python.defaultInterpreterPath": ".venv/bin/python",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.banditEnabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--config=${workspaceFolder}/.flake8"],
+  "python.linting.mypyEnabled": true,
+  "python.linting.pycodestyleEnabled": false,
+  "python.linting.pydocstyleEnabled": false,
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible.json": [
+      "roles/*/tasks/*.yml",
+      "site.yaml"
+    ],
+    "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-galaxy.json": [
+      "galaxy.yml"
+    ],
+    "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-vars.json": [
+      "roles/*/defaults/*.yml",
+      "roles/*/vars/*.yml"
+    ],
+    "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+  },
+  "[ansible]": {
+    "editor.defaultFormatter": "redhat.ansible"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

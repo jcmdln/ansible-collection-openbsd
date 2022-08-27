@@ -1,0 +1,11 @@
+# openbsd.ntpd/handlers/main.yaml
+
+- name: enable ntpd
+  service:
+    name: ntpd
+    enabled: true
+
+- name: start ntpd
+  service:
+    name: ntpd
+    state: started

@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+---
+name: lint
+
+on: [pull, push, workflow_dispatch]
+
+jobs:
+  lint:
+    strategy:
+      fail-fast: false
+      matrix:
+        linter: ["ansible-lint", "bandit", "flake8", "mypy"]
+        os: [ubuntu-20.04, ubuntu-22.04]
+        # https://endoflife.date/python
+        python: ["3.7", "3.8", "3.9", "3.10", "3.11-dev"]
+
+    name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python }}
+          cache: "pip"
+          cache-dependency-path: |
+            requirements/bandit.txt
+            requirements/flake8.txt
+            requirements/mypy.txt
+            requirements/tox.txt
+
+      - name: Setup venv cache
+        uses: actions/cache@v3
+        id: cache-venv
+        with:
+          key: venv-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('requirements/*.txt') }}
+          path: .venv
+
+      - name: Setup Tox cache
+        uses: actions/cache@v3
+        id: cache-tox
+        with:
+          key: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('requirements/*.txt') }}
+          path: .tox/${{ matrix.linter }}
+
+      - name: Run ${{ matrix.linter }}
+        run: tox -e ${{ matrix.linter }}

@@ -1,0 +1,144 @@
+# openbsd.mail/tasks/main.yaml
+---
+- name: Install required packages
+  pkg:
+    name: "{{ mail_packages }}"
+    state: present
+
+#
+# SSL
+#
+
+- name: Generate an RSA-4096 private key for {{ mail_domain }}
+  community.crypto.openssl_privatekey:
+    path: /etc/ssl/private/{{ mail_domain }}.key
+    size: 4096
+    type: RSA
+
+- name: Generate a self-signed certificate for {{ mail_domain }}
+  community.crypto.x509_certificate:
+    path: /etc/ssl/{{ mail_domain }}.crt
+    privatekey_path: /etc/ssl/private/{{ mail_domain }}.key
+    provider: selfsigned
+
+#
+# dkim
+#
+
+- name: Ensure _dkimsign system user account exists
+  ansible.builtin.user:
+    name: _dkimsign
+    state: present
+    system: true
+
+- name: Create /etc/mail/dkim directory
+  ansible.builtin.file:
+    state: directory
+    path: /etc/mail/dkim
+    owner: _dkimsign
+    group: _dkimsign
+    mode: 0770
+
+- name: Generate RSA2048 dkim key
+  community.crypto.openssl_privatekey:
+    path: /etc/mail/dkim/{{ mail_dkim_selector }}.private.key
+    size: 2048
+    type: RSA
+
+- name: Set owner of dkim key to _dkimsign
+  ansible.builtin.file:
+    path: /etc/mail/dkim/{{ mail_dkim_selector }}.private.key
+    state: file
+    owner: _dkimsign
+    group: _dkimsign
+    mode: 0600
+#
+# Dovecot
+#
+
+- name: Enable Dovecot service
+  ansible.builtin.service:
+    name: dovecot
+    enabled: true
+
+- name: Define Dovecot daemon login class in login.conf
+  ansible.builtin.blockinfile:
+    block: |
+      dovecot:\
+      {{ '\t' }}:openfiles-cur=1024:\
+      {{ '\t' }}:openfiles-max=2048:\
+      {{ '\t' }}:tc=daemon:
+    marker: "# {mark} ANSIBLE MANAGED: openbsd-run.mail: dovecot"
+    path: "/etc/login.conf"
+
+- name: Configure Dovecot
+  ansible.builtin.template:
+    backup: true
+    dest: /etc/dovecot/local.conf
+    group: wheel
+    mode: 0644
+    owner: root
+    src: etc/dovecot/local.conf.j2
+  notify:
+    - Restart dovecot
+
+- name: Comment out ssl_cert from /etc/dovecot/conf.d/10-ssl.conf
+  ansible.builtin.replace:
+    path: /etc/dovecot/conf.d/10-ssl.conf
+    regexp: "^ssl_cert"
+    replace: "#ssl_cert"
+
+- name: Comment out ssl_key from /etc/dovecot/conf.d/10-ssl.conf
+  ansible.builtin.replace:
+    path: /etc/dovecot/conf.d/10-ssl.conf
+    regexp: "^ssl_key"
+    replace: "#ssl_key"
+
+- name: Start Dovecot service
+  ansible.builtin.service:
+    name: dovecot
+    state: started
+
+#
+# OpenSMTPD
+#
+
+- name: Enable smtpd
+  ansible.builtin.service:
+    enabled: true
+    name: smtpd
+
+- name: Configure smtpd
+  ansible.builtin.template:
+    backup: true
+    dest: /etc/mail/smtpd.conf
+    group: wheel
+    mode: 0644
+    owner: root
+    src: etc/mail/smtpd.conf.j2
+  notify:
+    - Restart smtpd
+
+- name: Start smtpd
+  ansible.builtin.service:
+    name: smtpd
+    state: started
+
+#
+# spamd
+#
+
+- name: Enable spamd
+  ansible.builtin.service:
+    name: spamd
+    enabled: true
+
+# FIXME: Create an rcctl module
+- name: Set spamd to blacklist-only mode (ie disable greylisting)
+  ansible.builtin.raw: >-
+    rcctl set spamd flags -b
+
+- name: Start spamd
+  ansible.builtin.service:
+    name: spamd
+    state: started

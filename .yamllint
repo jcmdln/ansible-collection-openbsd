@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: ISC
+---
+ignore: |
+  .mypy_cache/
+  .tox/
+  .vagrant/
+  .venv/
+  .vscode/
+
+rules:
+  braces:
+    max-spaces-inside: 1
+  brackets: enable
+  colons: enable
+  commas: enable
+  comments:
+    level: warning
+  comments-indentation:
+    level: warning
+  document-end: disable
+  document-start:
+    level: warning
+  empty-lines: enable
+  empty-values: disable
+  hyphens: enable
+  indentation: enable
+  key-duplicates: enable
+  key-ordering: disable
+  line-length:
+    allow-non-breakable-inline-mappings: true
+    allow-non-breakable-words: true
+    max: 100
+  new-line-at-end-of-file: enable
+  new-lines: enable
+  octal-values: disable
+  quoted-strings: disable
+  trailing-spaces: enable
+  truthy:
+    allowed-values: ["true", "false"]
+    check-keys: false
+
+yaml-files:
+  - "*.yml"
+  - ".ansible-lint"
+  - ".yamllint"

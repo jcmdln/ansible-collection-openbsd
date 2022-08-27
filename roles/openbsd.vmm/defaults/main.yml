@@ -1,0 +1,27 @@
+# openbsd.vmm/defaults/main.yaml
+
+vmm_pf_includes:
+  - "vmm.conf"
+
+vmm_plans:
+  quark:
+    disk: 5G
+    memory: 256M
+  electron:
+    disk: 25G
+    memory: 1G
+  proton:
+    disk: 50G
+    memory: 2G
+  neutron:
+    disk: 50G
+    memory: 4G
+  atom:
+    disk: 100G
+    memory: 8G
+
+customers:
+  - name: jcmdln
+    email: jcmdln@gmail.com
+    plan: quark
+    state: enable

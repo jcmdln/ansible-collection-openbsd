@@ -1,0 +1,9 @@
+# openbsd.mail/defaults/main.yaml
+---
+mail_dkim_selector: "domain"
+mail_domain: "domain.tld"
+mail_packages:
+  - dovecot
+  - dovecot-pigeonhole
+  - opensmtpd-extras
+  - py3-cryptography
