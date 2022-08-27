@@ -9,10 +9,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: ["ansible-lint", "bandit", "flake8", "mypy"]
-        os: [ubuntu-20.04, ubuntu-22.04]
-        # https://endoflife.date/python
-        python: ["3.7", "3.8", "3.9", "3.10", "3.11-dev"]
+        linter: [ansible-lint, bandit, flake8, mypy]
+        os: [ubuntu-22.04]
+        python: ["3.8", "3.9", "3.10"]
 
     name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
