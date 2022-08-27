@@ -37,6 +37,9 @@ jobs:
           key: venv-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('requirements/*.txt') }}
           path: .venv
 
+      - name: Install Tox
+        run: pip install -r requirements/tox.txt
+
       - name: Setup Tox cache
         uses: actions/cache@v3
         id: cache-tox
