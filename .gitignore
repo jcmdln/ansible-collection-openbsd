@@ -24,6 +24,7 @@
 !site-pkg.yml
 !site-syspatch.yml
 !site-sysupgrade.yml
+!tox.ini
 !Vagrantfile
 
 # Include files from subdirectories
