@@ -1,6 +1,6 @@
-# openbsd.monitor/tasks/server.yaml
-
+# SPDX-License-Identifier: ISC
+---
 - name: Install server packages
-  pkg:
+  jcmdln.openbsd.pkg:
     name: "{{ monitor_server_packages }}"
     state: present

@@ -44,6 +44,7 @@ skip_install = true
 commands =
     ansible-lint --version
     ansible-lint \
+        roles/ \
         site-check.yml \
         site-dns.yml \
         site-mail.yml \

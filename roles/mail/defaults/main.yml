@@ -1,4 +1,4 @@
-# openbsd.mail/defaults/main.yaml
+# SPDX-License-Identifier: ISC
 ---
 mail_dkim_selector: "domain"
 mail_domain: "domain.tld"

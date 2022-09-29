@@ -1,12 +1,12 @@
-# openbsd.vmm/handlers/main.yaml
-
-- name: reload pf
-  shell: >-
+# SPDX-License-Identifier: ISC
+---
+- name: Reload pf
+  ansible.builtin.raw: >-
     pfctl -f /etc/pf.conf
   register: pf_reloaded
   changed_when: (pf_reloaded.stdout_lines | length) > 0
 
-- name: reload vmd
-  service:
-    name: "vmd"
+- name: Reload vmd
+  ansible.builtin.service:
+    name: vmd
     state: reloaded

@@ -1,11 +1,11 @@
-# openbsd.ntpd/handlers/main.yaml
-
-- name: enable ntpd
-  service:
+# SPDX-License-Identifier: ISC
+---
+- name: Enable ntpd
+  ansible.builtin.service:
     name: ntpd
     enabled: true
 
-- name: start ntpd
-  service:
+- name: Start ntpd
+  ansible.builtin.service:
     name: ntpd
     state: started

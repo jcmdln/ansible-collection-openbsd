@@ -1,7 +1,7 @@
-# openbsd.mail/tasks/main.yaml
+# SPDX-License-Identifier: ISC
 ---
 - name: Install required packages
-  pkg:
+  jcmdln.openbsd.pkg:
     name: "{{ mail_packages }}"
     state: present
 

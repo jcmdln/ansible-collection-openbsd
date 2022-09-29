@@ -1,7 +1,7 @@
-# openbsd.monitor/tasks/main.yaml
-
-- include_tasks: client.yaml
+# SPDX-License-Identifier: ISC
+---
+- ansible.builtin.include_tasks: client.yml
   tag: [monitor_client]
 
-- include_tasks: server.yaml
+- ansible.builtin.include_tasks: server.yml
   tag: [monitor_server]

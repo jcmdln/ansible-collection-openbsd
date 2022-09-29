@@ -1,12 +1,12 @@
-# openbsd.ntpd/tasks/main.yaml
-
-- name: configure ntpd
+# SPDX-License-Identifier: ISC
+---
+- name: Configure ntpd
   ansible.builtin.template:
     src: etc/ntpd.conf.j2
     dest: /etc/ntpd.conf
     owner: root
     group: wheel
-    mode: "0600"
+    mode: 0600
   notify:
-    - enable ntpd
-    - start ntpd
+    - Enable ntpd
+    - Start ntpd

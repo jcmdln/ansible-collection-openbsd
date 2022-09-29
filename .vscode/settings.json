@@ -5,7 +5,12 @@
   "editor.wordWrap": "on",
   "evenBetterToml.formatter.reorderKeys": true,
   "files.associations": {
-    "**/.ini": "properties"
+    "**/.ini": "properties",
+    "**/roles/**/defaults/**/*.yml": "ansible",
+    "**/roles/**/handlers/**/*.yml": "ansible",
+    "**/roles/**/tasks/**/*.yml": "ansible",
+    "**/roles/**/vars/**/*.yml": "ansible",
+    "site-*.yml": "ansible"
   },
   "files.exclude": {
     "**/__pycache__/**": true,
@@ -40,9 +45,12 @@
     "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
   },
   "[ansible]": {
-    "editor.defaultFormatter": "redhat.ansible"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

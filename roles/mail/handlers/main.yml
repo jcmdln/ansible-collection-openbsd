@@ -1,4 +1,4 @@
-# openbsd.mail/handlers/main.yaml
+# SPDX-License-Identifier: ISC
 ---
 - name: Restart dovecot
   ansible.builtin.service:

@@ -1,5 +1,5 @@
-# openbsd.monitor/defaults/main.yaml
-
+# SPDX-License-Identifier: ISC
+---
 #
 # Server
 #
@@ -38,12 +38,12 @@ monitor_grafana_users_verify_email_enabled: true
 #
 
 monitor_client_packages:
-  #- alertmanager
+  # - alertmanager
   - loki
   - node_exporter
   - prometheus
 
-monitor_alertmanager_enabled: false # Currently not packaged in OpenBSD
+monitor_alertmanager_enabled: false
 monitor_loki_enabled: true
 monitor_node_exporter_enabled: true
 monitor_prometheus_enabled: true

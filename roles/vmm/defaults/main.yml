@@ -1,7 +1,7 @@
-# openbsd.vmm/defaults/main.yaml
-
+# SPDX-License-Identifier: ISC
+---
 vmm_pf_includes:
-  - "vmm.conf"
+  - vmm.conf
 
 vmm_plans:
   quark:

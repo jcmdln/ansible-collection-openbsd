@@ -3,11 +3,11 @@
   "recommendations": [
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
-    "ms-python.python",
     "ms-python.vscode-pylance",
     "redhat.ansible",
     "redhat.vscode-yaml",
     "tamasfe.even-better-toml",
-    "wayou.vscode-todo-highlight"
+    "wayou.vscode-todo-highlight",
+    "samuelcolvin.jinjahtml"
   ]
 }

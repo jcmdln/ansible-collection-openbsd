@@ -1,6 +1,6 @@
-# openbsd.monitor/tasks/client.yaml
-
+# SPDX-License-Identifier: ISC
+---
 - name: Install client packages
-  pkg:
+  jcmdln.openbsd.pkg:
     name: "{{ monitor_client_packages }}"
     state: present
