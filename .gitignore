@@ -11,6 +11,7 @@
 !.prettierrc.yml
 !.yamllint
 !ansible.cfg
+!CNAME
 !galaxy.yml
 !LICENSE
 !pyproject.toml
