@@ -2,7 +2,36 @@
 ---
 name: lint
 
-on: [pull_request, push, workflow_dispatch]
+on:
+  pull_request:
+    paths:
+      - .github/workflows/lint.yml
+      - .flake8
+      - .yamllint
+      - .prettierrc.yml
+      - galaxy.yml
+      - plugins/modules/*.py
+      - pyproject.toml
+      - requirements.yml
+      - roles/**/*.j2
+      - roles/**/*.md
+      - roles/**/*.yml
+      - site-*.yml
+  push:
+    paths:
+      - .github/workflows/lint.yml
+      - .flake8
+      - .yamllint
+      - .prettierrc.yml
+      - galaxy.yml
+      - plugins/modules/*.py
+      - pyproject.toml
+      - requirements.yml
+      - roles/**/*.j2
+      - roles/**/*.md
+      - roles/**/*.yml
+      - site-*.yml
+  workflow_dispatch:
 
 jobs:
   lint:
