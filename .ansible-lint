@@ -1,10 +1,11 @@
 # SPDX-License-Identifier: ISC
 ---
 skip_list:
+  # Ignore tasks that run when changed which should likely be handlers
+  - no-handler
   # Ignore idempotency issues with ansible.builtin.package.state="latest"
   - package-latest
 
 warn_list:
   - name[casing]
   - no-changed-when
-  - no-handler

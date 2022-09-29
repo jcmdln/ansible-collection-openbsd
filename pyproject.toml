@@ -56,21 +56,21 @@ deps =
 [testenv:bandit]
 commands =
     bandit --version
-    bandit {toxinidir}/library/
+    bandit {toxinidir}/plugins/modules/
 deps =
     -r {toxinidir}/requirements/bandit.txt
 
 [testenv:flake8]
 commands =
     flake8 --version
-    flake8 {toxinidir}/library/
+    flake8 {toxinidir}/plugins/modules/
 deps =
     -r {toxinidir}/requirements/flake8.txt
 
 [testenv:mypy]
 commands =
     mypy --version
-    mypy {toxinidir}/library/
+    mypy {toxinidir}/plugins/modules/
 deps =
     -r {toxinidir}/requirements/mypy.txt
 """
