@@ -6,4 +6,4 @@
   become: true
 
   roles:
-    - role: openbsd.mail
+    - role: jcmdln.openbsd.mail

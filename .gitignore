@@ -4,7 +4,6 @@
 *
 
 # Include specific files
-!__init__.py
 !.ansible-lint
 !.editorconfig
 !.flake8
@@ -13,20 +12,16 @@
 !.yamllint
 !ansible.cfg
 !galaxy.yml
-!poetry.lock
-!poetry.toml
 !pyproject.toml
 !README.md
 !requirements.txt
 !requirements.yml
-!setup.py
 !site-check.yml
 !site-dns.yml
 !site-mail.yml
 !site-pkg.yml
 !site-syspatch.yml
 !site-sysupgrade.yml
-!tox.ini
 !Vagrantfile
 
 # Include files from subdirectories
@@ -40,10 +35,11 @@
 !docs/playbooks.md
 !inventory/
 !inventory/vagrant.yml
-!library/
-!library/pkg.py
-!library/syspatch.py
-!library/sysupgrade.py
+!plugins/
+!plugins/modules/
+!plugins/modules/pkg.py
+!plugins/modules/syspatch.py
+!plugins/modules/sysupgrade.py
 !requirements/
 !requirements/ansible-lint.txt
 !requirements/ansible.txt
