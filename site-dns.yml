@@ -6,5 +6,5 @@
   become: true
 
   roles:
-    - role: openbsd.nsd
+    - role: jcmdln.openbsd.nsd
       tags: [nsd]

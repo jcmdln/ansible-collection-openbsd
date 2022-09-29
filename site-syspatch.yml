@@ -7,7 +7,7 @@
 
   tasks:
     - name: Apply all available patches
-      syspatch:
+      jcmdln.openbsd.syspatch:
         apply: true
       register: syspatch_result
       when:

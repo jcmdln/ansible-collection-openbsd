@@ -7,7 +7,7 @@
 
   tasks:
     - name: "Upgrade to latest {{ sysupgrade_title | default('release or snapshot') }}"
-      sysupgrade:
+      jcmdln.openbsd.sysupgrade:
         branch: "{{ sysupgrade_branch | default('auto') }}"
         force: "{{ sysupgrade_force | default(false) }}"
       register: sysupgrade_result
