@@ -12,6 +12,7 @@
 !.yamllint
 !ansible.cfg
 !galaxy.yml
+!LICENSE
 !pyproject.toml
 !README.md
 !requirements.txt
