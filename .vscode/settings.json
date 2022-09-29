@@ -5,12 +5,14 @@
   "editor.wordWrap": "on",
   "evenBetterToml.formatter.reorderKeys": true,
   "files.associations": {
-    "**/.ini": "properties",
+    ".ansible-lint": "yaml",
+    "requirements/*.txt": "pip-requirements",
+    "site-*.yml": "ansible",
+    "tox.ini": "properties",
     "**/roles/**/defaults/**/*.yml": "ansible",
     "**/roles/**/handlers/**/*.yml": "ansible",
     "**/roles/**/tasks/**/*.yml": "ansible",
-    "**/roles/**/vars/**/*.yml": "ansible",
-    "site-*.yml": "ansible"
+    "**/roles/**/vars/**/*.yml": "ansible"
   },
   "files.exclude": {
     "**/__pycache__/**": true,
