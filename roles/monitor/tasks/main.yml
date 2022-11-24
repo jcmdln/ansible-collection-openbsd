@@ -1,7 +1,0 @@
-# SPDX-License-Identifier: ISC
----
-- ansible.builtin.include_tasks: client.yml
-  tag: [monitor_client]
-
-- ansible.builtin.include_tasks: server.yml
-  tag: [monitor_server]

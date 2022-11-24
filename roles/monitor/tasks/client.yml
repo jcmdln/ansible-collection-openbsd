@@ -1,6 +1,0 @@
-# SPDX-License-Identifier: ISC
----
-- name: Install client packages
-  jcmdln.openbsd.pkg:
-    name: "{{ monitor_client_packages }}"
-    state: present
