@@ -71,7 +71,7 @@
       {{ '\t' }}:openfiles-cur=1024:\
       {{ '\t' }}:openfiles-max=2048:\
       {{ '\t' }}:tc=daemon:
-    marker: "# {mark} ANSIBLE MANAGED: openbsd-run.mail: dovecot"
+    marker: "# {mark} ANSIBLE MANAGED: jcmdln.openbsd.mail"
     path: "/etc/login.conf"
 
 - name: Configure Dovecot
