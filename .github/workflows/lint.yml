@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache@v3
         id: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
         with:
-          key: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('requirements/*.txt') }}
+          key: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('poetry.lock') }}
           path: .tox/${{ matrix.linter }}
 
       - name: Install Poetry
