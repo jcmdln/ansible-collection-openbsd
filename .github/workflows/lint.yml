@@ -67,14 +67,14 @@ jobs:
         uses: actions/cache@v3
         id: venv
         with:
-          key: venv-${{ matrix.linter }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          key: venv-poetry
           path: .venv
 
       - name: Setup Tox cache
         uses: actions/cache@v3
         id: tox
         with:
-          key: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('poetry.lock') }}
+          key: tox-${{ matrix.linter }}-${{ hashFiles('poetry.lock') }}
           path: .tox/${{ matrix.linter }}
 
       - name: Install Poetry
