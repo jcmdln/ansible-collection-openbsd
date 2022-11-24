@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: ISC
+//
+// Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
 {
-  "ansible.ansibleLint.enabled": true,
   "editor.formatOnSave": true,
   "editor.wordWrap": "on",
   "evenBetterToml.formatter.reorderKeys": true,
