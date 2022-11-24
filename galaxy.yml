@@ -4,19 +4,20 @@
 ---
 namespace: jcmdln
 name: openbsd
-version: 0.0.1
+version: 0.0.2
 description: ""
 
 authors:
   - "Johnathan C. Maudlin <jcmdln@gmail.com>"
-dependencies:
-  ansible.posix: "*"
-  ansible.utils: "*"
-  community.crypto: "*"
-  community.general: "*"
 license:
   - ISC
 license_file: LICENSE.md
 readme: README.md
 repository: https://github.com/jcmdln/ansible-collection-openbsd
 tags: []
+
+dependencies:
+  ansible.posix: "*"
+  ansible.utils: "*"
+  community.crypto: "*"
+  community.general: "*"
