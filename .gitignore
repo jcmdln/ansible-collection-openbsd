@@ -16,6 +16,8 @@
 !CNAME
 !galaxy.yml
 !LICENSE
+!poetry.lock
+!poetry.toml
 !pyproject.toml
 !README.md
 !requirements.txt

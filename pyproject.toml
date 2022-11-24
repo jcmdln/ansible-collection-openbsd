@@ -1,4 +1,70 @@
 # SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.3.2"]
+
+[tool.poetry]
+authors = ["Johnathan C. Maudlin <jcmdln@gmail.com>"]
+description = ""
+name = "ansible-collection-openbsd"
+readme = "README.md"
+repository = "https://github.com/jcmdln/ansible-collection-openbsd"
+version = "0.0.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+# packages
+ansible-core = "^2.12"
+netaddr = "^0.8"
+
+[tool.poetry.group.ansible-lint.dependencies]
+ansible-lint = "^6.8.7"
+
+[tool.poetry.group.bandit.dependencies]
+bandit = { version = "^1.7.4", extras = ["toml"] }
+importlib-metadata = { version = "*", python = "<3.8" }
+
+[tool.poetry.group.coverage.dependencies]
+coverage = "^6.4.2"
+
+[tool.poetry.group.flake8.dependencies]
+black = "^22.6.0"
+flake8 = "^4.0.1"
+flake8-black = "^0.3.3"
+flake8-docstrings = "^1.6.0"
+flake8-isort = "^4.1.2"
+isort = "^5.10.1"
+mccabe = "*"
+pycodestyle = "*"
+pydocstyle = "*"
+pyflakes = "*"
+rope = "*"
+
+[tool.poetry.group.lsp.dependencies]
+pyls-flake8 = "^0.4.0"
+pyls-isort = "^0.2.2"
+pylsp-mypy = "^0.6.2"
+pylsp-rope = "^0.1.9"
+python-lsp-black = "^1.2.1"
+python-lsp-server = { version = "^1.5.0", extras = ["all"] }
+
+[tool.poetry.group.pytest.dependencies]
+pytest = "^7.1.2"
+
+[tool.poetry.group.mypy.dependencies]
+mypy = ">=0.982"
+types-cryptography = "^3.3.23.1"
+types-pyyaml = "^6.0.7"
+
+[tool.poetry.group.tox.dependencies]
+tox = "^3.25.0"
+
+#
+# Tools
+#
 
 [tool.black]
 line-length = 100
@@ -18,3 +84,57 @@ strict = true
 strict_optional = true
 # Disable specific strict checks
 disallow_any_generics = false
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist =
+    ansible-lint
+    bandit
+    flake8
+    mypy
+ignore_basepython_conflict = true
+isolated_build = true
+minversion = 3.20
+skip_missing_interpreters = true
+
+[testenv]
+allowlist_externals = poetry
+basepython = python3
+setenv =
+    PYTHONDONTWRITEBYTECODE=true
+    PYTHONPYCACHEPREFIX=/tmp
+    PYTHONUNBUFFERED=true
+skip_install = true
+
+[testenv:ansible-lint]
+commands =
+    poetry install --no-root --only ansible-lint
+    poetry run ansible-lint --version
+    poetry run ansible-lint --offline \
+        roles/ \
+        site-check.yml \
+        site-dns.yml \
+        site-mail.yml \
+        site-pkg.yml \
+        site-syspatch.yml \
+        site-sysupgrade.yml
+
+[testenv:bandit]
+commands =
+    poetry install --no-root --only bandit
+    poetry run bandit --version
+    poetry run bandit -qrc "{toxinidir}/pyproject.toml" {toxinidir}/plugins/modules/
+
+[testenv:flake8]
+commands =
+    poetry install --no-root --only flake8
+    poetry run flake8 --version
+    poetry run flake8 {toxinidir}/plugins/modules/
+
+[testenv:mypy]
+commands =
+    poetry install --no-root --only mypy
+    poetry run mypy --version
+    poetry run mypy {toxinidir}/plugins/modules/
+"""

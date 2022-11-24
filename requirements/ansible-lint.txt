@@ -1,6 +1,0 @@
-# SPDX-License-Identifier: ISC
-
--r ./ansible.txt
-
-ansible-lint
-yamllint

@@ -2,5 +2,6 @@
 #
 # Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
 
-ansible-core
-netaddr
+[virtualenvs]
+in-project = true
+path = ".venv"
