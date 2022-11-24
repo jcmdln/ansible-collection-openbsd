@@ -13,6 +13,8 @@ on:
       - .prettierrc.yml
       - galaxy.yml
       - plugins/modules/*.py
+      - poetry.lock
+      - poetry.toml
       - pyproject.toml
       - requirements.yml
       - roles/**/*.j2
@@ -28,6 +30,8 @@ on:
       - .prettierrc.yml
       - galaxy.yml
       - plugins/modules/*.py
+      - poetry.lock
+      - poetry.toml
       - pyproject.toml
       - requirements.yml
       - roles/**/*.j2
@@ -43,8 +47,8 @@ jobs:
       fail-fast: false
       matrix:
         linter: [ansible-lint, bandit, flake8, mypy]
-        os: [ubuntu-22.04]
-        python: ["3.8", "3.9", "3.10"]
+        os: [ubuntu-latest]
+        python: ["3.8", "3.9", "3.10", "3.11"]
 
     name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -57,27 +61,27 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: "pip"
           cache-dependency-path: |
-            requirements/bandit.txt
-            requirements/flake8.txt
-            requirements/mypy.txt
-            requirements/tox.txt
+            poetry.lock
 
       - name: Setup venv cache
         uses: actions/cache@v3
-        id: cache-venv
+        id: venv-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
         with:
-          key: venv-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('requirements/*.txt') }}
+          key: venv-${{ matrix.linter }}-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
           path: .venv
-
-      - name: Install Tox
-        run: pip install -r requirements/tox.txt
 
       - name: Setup Tox cache
         uses: actions/cache@v3
-        id: cache-tox
+        id: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
         with:
           key: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('requirements/*.txt') }}
           path: .tox/${{ matrix.linter }}
 
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install Tox
+        run: poetry install --only tox
+
       - name: Run ${{ matrix.linter }}
-        run: tox -e ${{ matrix.linter }}
+        run: poetry run tox -e ${{ matrix.linter }}
