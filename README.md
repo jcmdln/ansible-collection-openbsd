@@ -16,7 +16,7 @@ source .venv/bin/activate
 # Install Python dependencies
 pip install -r requirements.txt
 # Install Ansible dependencies
-ansible-galaxy install -r requirements.yml
+ansible-galaxy collection install .
 ```
 
 ## Inventory
@@ -38,21 +38,11 @@ ansible-playbook -i inventory.yml \
     site-check.yml site-syspatch.yml site-sysupgrade.yml site-pkg.yml
 ```
 
-# Requirements
+## Vagrant
 
-This section outlines requirements for using this Ansible collection.
+### Fedora
 
-## Inventory
-
-```yml
-# SPDX-License-Identifier: ISC
----
-all:
-  vars:
-    # Setting 'ansible_python_interpreter' silences warnings about automatic
-    # discovery of Python.
-    ansible_python_interpreter: "/usr/bin/env python3"
-
-  hosts:
-    domain.tld:
+```sh
+sudo dnf install libvirt-devel rubygems-rexml vagrant --excludepkgs vagrant-libvirt
+vagrant plugin install
 ```
