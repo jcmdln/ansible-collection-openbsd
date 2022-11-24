@@ -66,6 +66,8 @@ tox = "^3.25.0"
 # Tools
 #
 
+[tool.bandit]
+
 [tool.black]
 line-length = 100
 
