@@ -23,12 +23,10 @@
 !requirements.txt
 !requirements.yml
 !site-check.yml
-!site-dns.yml
 !site-mail.yml
 !site-pkg.yml
 !site-syspatch.yml
 !site-sysupgrade.yml
-!tox.ini
 !Vagrantfile
 
 # Include files from subdirectories
