@@ -41,8 +41,6 @@
 !plugins/
 !plugins/modules/
 !plugins/modules/*.py
-!requirements/
-!requirements/*.txt
 !roles/
 !roles/**/
 !roles/**/*.j2

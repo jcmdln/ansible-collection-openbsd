@@ -13,7 +13,6 @@
     "**/roles/**/handlers/**/*.yml": "ansible",
     "**/roles/**/tasks/**/*.yml": "ansible",
     "**/roles/**/vars/**/*.yml": "ansible",
-    "requirements/*.txt": "pip-requirements",
     "site-*.yml": "ansible",
     "tox.ini": "properties"
   },
