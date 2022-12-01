@@ -2,6 +2,7 @@
 //
 // Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
 {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.wordWrap": "on",
   "evenBetterToml.formatter.reorderKeys": true,
@@ -47,13 +48,10 @@
     ],
     "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
   },
-  "[ansible]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
   }
 }
