@@ -2,12 +2,7 @@
 #
 # Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
-# TODO: skip fewer things
-skip_list:
-  - no-handler
-  - name[casing]
+skip_list: []
+warn_list:
   - no-changed-when
-  - package-latest
-  - yaml[comments]
-
-warn_list: []
+  - no-handler
