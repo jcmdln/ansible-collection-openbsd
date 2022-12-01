@@ -24,9 +24,8 @@ netaddr = "^0.8"
 ansible-lint = "^6.8.7"
 
 [tool.poetry.group.bandit.dependencies]
-bandit = { version = "^1.7.4" }
+bandit = { version = "^1.7.4", extras = ["toml"] }
 importlib-metadata = { version = "*", python = "<3.8" }
-tomli = { version = "*", python = "<3.11" }
 
 [tool.poetry.group.flake8.dependencies]
 black = "^22.10.0"
@@ -110,7 +109,9 @@ skip_install = true
 commands =
     poetry install --no-root --only ansible-lint
     poetry run ansible-lint --version
-    poetry run ansible-lint --offline galaxy.yml roles/ site-*.yml
+    poetry run ansible-lint --offline \
+        galaxy.yml roles/ \
+        site-check.yml site-mail.yml site-pkg.yml site-syspatch.yml site-sysupgrade.yml
 
 [testenv:bandit]
 commands =
