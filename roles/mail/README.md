@@ -35,25 +35,21 @@ system resources as well as a mailbox to get work done.
 - https://tools.ietf.org/html/rfc6376
 - https://tools.ietf.org/html/rfc7489
 
-| Host/Service            | Type  | TTL  | Value                                 |
-| ----------------------- | ----- | ---- | ------------------------------------- |
-| @                       | A     | 3600 | 0.0.0.0                               |
-| @                       | AAAA  | 3600 | ::1                                   |
-| @                       | MX    | 3600 | 10 mail.domain.tld.                   |
-| @                       | TXT   | 3600 | v=spf1 mx -all                        |
-| autoconfig.domain.tld   | CNAME | 3600 | mail.domain.tld                       |
-| autodiscover.domain.tld | CNAME | 3600 | mail.domain.tld                       |
-| \_autodiscover.\_tcp    | SRV   | 3600 | 0 1 443 mail.domain.tld.              |
-| \_imaps.\_tcp           | SRV   | 3600 | 0 1 993 imap.domain.tld.              |
-| \_submissions.\_tcp     | SRV   | 3600 | 0 1 465 smtp.domain.tld.              |
-| \_dmarc                 | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rf=afrf; |
-|                         |       |      | rua=mailto:hostmaster@domain.tld;     |
-|                         |       |      | ruf=mailto:hostmaster@domain.tld      |
-| $SELECTOR.\_domainkey   | TXT   | 3600 | v=DKIM1; k=rsa; p=<2048 key>          |
-| imap                    | A     | 3600 | 0.0.0.0                               |
-| imap                    | AAAA  | 3600 | ::1                                   |
-| smtp                    | A     | 3600 | 0.0.0.0                               |
-| smtp                    | AAAA  | 3600 | ::1                                   |
+| Host/Service             | Type  | TTL  | Value                                 |
+| ------------------------ | ----- | ---- | ------------------------------------- |
+| @                        | A     | 3600 | 0.0.0.0                               |
+| @                        | AAAA  | 3600 | ::1                                   |
+| @                        | MX    | 3600 | 10 domain.tld.                        |
+| @                        | TXT   | 3600 | v=spf1 mx -all                        |
+| autoconfig.domain.tld    | CNAME | 3600 | domain.tld                            |
+| autodiscover.domain.tld  | CNAME | 3600 | domain.tld                            |
+| \_autodiscover.\_tcp     | SRV   | 3600 | 0 1 443 domain.tld.                   |
+| \_dmarc                  | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rf=afrf; |
+|                          |       |      | rua=mailto:hostmaster@domain.tld;     |
+|                          |       |      | ruf=mailto:hostmaster@domain.tld      |
+| \_imaps.\_tcp            | SRV   | 3600 | 0 1 993 domain.tld.                   |
+| \_submissions.\_tcp      | SRV   | 3600 | 0 1 465 domain.tld.                   |
+| < selector >.\_domainkey | TXT   | 3600 | v=DKIM1; k=rsa; p=< rsa2048 pubkey >  |
 
 ### User Sieve Example
 
