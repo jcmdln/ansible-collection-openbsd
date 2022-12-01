@@ -8,13 +8,14 @@
   "evenBetterToml.formatter.reorderKeys": true,
   "files.associations": {
     ".ansible-lint": "yaml",
-    "requirements/*.txt": "pip-requirements",
-    "site-*.yml": "ansible",
-    "tox.ini": "properties",
+    "*.conf.j2": "jinja-properties",
     "**/roles/**/defaults/**/*.yml": "ansible",
     "**/roles/**/handlers/**/*.yml": "ansible",
     "**/roles/**/tasks/**/*.yml": "ansible",
-    "**/roles/**/vars/**/*.yml": "ansible"
+    "**/roles/**/vars/**/*.yml": "ansible",
+    "requirements/*.txt": "pip-requirements",
+    "site-*.yml": "ansible",
+    "tox.ini": "properties"
   },
   "files.exclude": {
     "**/__pycache__/**": true,

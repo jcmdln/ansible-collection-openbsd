@@ -2,7 +2,8 @@
 #
 # Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
-skip_list: []
+skip_list:
+  - no-tabs
 warn_list:
   - no-changed-when
   - no-handler
