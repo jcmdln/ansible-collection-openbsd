@@ -17,7 +17,6 @@ on:
       - poetry.lock
       - poetry.toml
       - pyproject.toml
-      - requirements.yml
       - roles/**/*.j2
       - roles/**/*.yml
       - site-*.yml
@@ -33,7 +32,6 @@ on:
       - poetry.lock
       - poetry.toml
       - pyproject.toml
-      - requirements.yml
       - roles/**/*.j2
       - roles/**/*.yml
       - site-*.yml

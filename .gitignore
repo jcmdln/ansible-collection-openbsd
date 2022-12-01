@@ -20,8 +20,6 @@
 !poetry.toml
 !pyproject.toml
 !README.md
-!requirements.txt
-!requirements.yml
 !site-check.yml
 !site-mail.yml
 !site-pkg.yml
