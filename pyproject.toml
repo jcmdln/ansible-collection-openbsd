@@ -110,7 +110,7 @@ skip_install = true
 commands =
     poetry install --no-root --only ansible-lint
     poetry run ansible-lint --version
-    poetry run ansible-lint --offline roles/ site-*.yml
+    poetry run ansible-lint --offline galaxy.yml roles/ site-*.yml
 
 [testenv:bandit]
 commands =

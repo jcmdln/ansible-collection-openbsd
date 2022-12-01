@@ -7,10 +7,11 @@ name: lint
 on:
   pull_request:
     paths:
-      - .github/workflows/lint.yml
+      - .ansible-lint
       - .flake8
-      - .yamllint
+      - .github/workflows/lint.yml
       - .prettierrc.yml
+      - .yamllint
       - galaxy.yml
       - plugins/modules/*.py
       - poetry.lock
@@ -18,16 +19,15 @@ on:
       - pyproject.toml
       - requirements.yml
       - roles/**/*.j2
-      - roles/**/*.md
       - roles/**/*.yml
       - site-*.yml
-      - tox.ini
   push:
     paths:
-      - .github/workflows/lint.yml
+      - .ansible-lint
       - .flake8
-      - .yamllint
+      - .github/workflows/lint.yml
       - .prettierrc.yml
+      - .yamllint
       - galaxy.yml
       - plugins/modules/*.py
       - poetry.lock
@@ -35,10 +35,8 @@ on:
       - pyproject.toml
       - requirements.yml
       - roles/**/*.j2
-      - roles/**/*.md
       - roles/**/*.yml
       - site-*.yml
-      - tox.ini
   workflow_dispatch:
 
 jobs:
