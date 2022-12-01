@@ -14,7 +14,7 @@ If you are looking for a hosting provider that offers OpenBSD, consider using
 ```sh
 python3 -m venv .venv/bin/activate
 . .venv/bin/activate
-pip install -r requirements.txt
+pip install .
 ansible-galaxy collection install .
 ```
 
