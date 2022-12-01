@@ -6,19 +6,20 @@
   hosts: all
   become: true
 
-  tasks:
-    - name: Apply all available patches
-      jcmdln.openbsd.syspatch:
-        apply: true
-      register: syspatch_result
-      when:
-        - ansible_distribution_version is version("6.1", ">=")
-        - ansible_distribution_release not in ["current", "beta"]
-
+  handlers:
     - name: Reboot host if patched and a reboot is required
       ansible.builtin.reboot:
         connect_timeout: "{{ syspatch_reboot_timeout | default(600) }}"
         reboot_timeout: "{{ syspatch_reboot_timeout | default(600) }}"
+      when: syspatch_result.reboot
+
+  tasks:
+    - name: Apply all available patches
+      jcmdln.openbsd.syspatch:
+        apply: true
+      notify:
+        - Reboot host if patched and a reboot is required
+      register: syspatch_result
       when:
-        - syspatch_result.changed
-        - syspatch_result.reboot
+        - ansible_distribution_version is version("6.1", ">=")
+        - ansible_distribution_release not in ["current", "beta"]
