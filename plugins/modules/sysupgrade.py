@@ -11,6 +11,7 @@ class Sysupgrade:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
 
+        # Return values
         self.changed: bool = False
         self.command: str = "/usr/sbin/sysupgrade -n"
         self.msg: str = ""

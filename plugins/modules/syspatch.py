@@ -11,6 +11,7 @@ class Syspatch:
     def __init__(self, module: AnsibleModule) -> None:
         self.module: AnsibleModule = module
 
+        # Return values
         self.changed: bool = False
         self.command: str = "/usr/sbin/syspatch"
         self.msg: str = ""
@@ -102,7 +103,6 @@ def main() -> None:
     elif module.params["revert"]:
         syspatch.Revert()
 
-    # Convert specific properties to a dict so we return specific data
     result: dict[str, bool | int | str] = {
         "changed": syspatch.changed,
         "command": syspatch.command,
