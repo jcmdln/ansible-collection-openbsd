@@ -7,7 +7,7 @@ mail_domain: "domain.tld"
 mail_packages:
   - dovecot
   - dovecot-pigeonhole
-  - opensmtpd-extras
+  - opensmtpd-filter-dkimsign
   - py3-cryptography
 
 #
