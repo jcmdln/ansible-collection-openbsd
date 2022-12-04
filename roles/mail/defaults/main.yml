@@ -2,8 +2,9 @@
 #
 # Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
-mail_dkim_selector: "domain"
-mail_domain: "domain.tld"
+mail_aliases_root: root
+mail_dkim_selector: domain
+mail_domain: domain.tld
 mail_packages:
   - dovecot
   - dovecot-pigeonhole

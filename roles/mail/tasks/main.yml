@@ -134,6 +134,28 @@
   notify:
     - Restart smtpd
 
+- name: Define well-known mail aliases for root@
+  ansible.builtin.blockinfile:
+    block: |
+      # Well-known aliases
+      root: {{ mail_aliases_root }}
+      contact: root
+      dumper: root
+      info: root
+      manager: root
+      privacy: root
+
+      # RFC 2142
+      abuse: root
+      hostmaster: root
+      security: root
+      webmaster: root
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.mail"
+    path: "/etc/mail/aliases"
+  when:
+    - mail_aliases_root is defined
+    - mail_aliases_root != "root"
+
 - name: Start smtpd
   ansible.builtin.service:
     name: smtpd
@@ -150,8 +172,7 @@
 
 # FIXME: Create an rcctl module
 - name: Set spamd to blacklist-only mode (ie disable greylisting)
-  ansible.builtin.raw: >-
-    rcctl set spamd flags -b
+  ansible.builtin.raw: rcctl set spamd flags -b
 
 - name: Start spamd
   ansible.builtin.service:

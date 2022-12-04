@@ -5,9 +5,14 @@
 all:
   vars:
     ansible_python_interpreter: "/usr/bin/env python3"
+    # Vagrant-specific vars
     ansible_ssh_extra_args: -o StrictHostKeyChecking=no
     ansible_ssh_private_key_file: ".vagrant/machines/{{ inventory_hostname }}/libvirt/private_key"
     ansible_user: vagrant
 
 mail:
-  ac-openbsd:
+  hosts:
+    ac-openbsd:
+      mail_aliases_root: "vagrant"
+      mail_dkim_selector: "ac-openbsd"
+      mail_domain: "ac-openbsd.localhost"
