@@ -8,10 +8,10 @@
   gather_facts: false
 
   handlers:
-    - name: Install Python 3.x if missing
+    - name: Install Python
       ansible.builtin.raw: pkg_add python3
-      failed_when: install_python.rc != 0
-      register: install_python
+      failed_when: python_install.rc != 0
+      register: python_install
 
   tasks:
     - name: Confirm host is running OpenBSD
@@ -24,5 +24,5 @@
       ansible.builtin.raw: command -v python3
       changed_when: not python_check or python_check.rc > 0
       failed_when: false
-      notify: Install Python 3.x if missing
+      notify: Install Python
       register: python_check
