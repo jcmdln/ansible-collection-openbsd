@@ -9,3 +9,12 @@ mail_packages:
   - dovecot-pigeonhole
   - opensmtpd-extras
   - py3-cryptography
+
+#
+# SSL
+#
+
+mail_csr_common_name: "{{ mail_domain }}"
+mail_csr_country_name: US
+mail_csr_email_address: "postmaster@{{ mail_domain }}"
+mail_csr_organization_name: "{{ mail_dkim_selector }}"

@@ -11,17 +11,26 @@
 # SSL
 #
 
-- name: Generate an RSA-4096 private key for {{ mail_domain }}
+- name: Create SSL private key for {{ mail_domain }}
   community.crypto.openssl_privatekey:
-    path: /etc/ssl/private/{{ mail_domain }}.key
-    size: 4096
+    path: "/etc/ssl/private/{{ mail_domain }}.key"
     type: RSA
 
-- name: Generate a self-signed certificate for {{ mail_domain }}
+- name: Create Certificate Signing Request (CSR) for {{ mail_domain }}
+  community.crypto.openssl_csr:
+    path: "/etc/ssl/{{ mail_domain }}.csr"
+    privatekey_path: "/etc/ssl/private/{{ mail_domain }}.key"
+    common_name: "{{ mail_csr_common_name }}"
+    country_name: "{{ mail_csr_country_name }}"
+    email_address: "{{ mail_csr_email_address }}"
+    organization_name: "{{ mail_csr_organization_name }}"
+
+- name: Create self-signed certificate for {{ mail_domain }}
   community.crypto.x509_certificate:
-    path: /etc/ssl/{{ mail_domain }}.crt
-    privatekey_path: /etc/ssl/private/{{ mail_domain }}.key
+    path: "/etc/ssl/{{ mail_domain }}.crt"
+    privatekey_path: "/etc/ssl/private/{{ mail_domain }}.key"
     provider: selfsigned
+    csr_path: "/etc/ssl/{{ mail_domain }}.csr"
 
 #
 # DKIM

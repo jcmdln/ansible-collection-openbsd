@@ -15,8 +15,8 @@ filter "dkimsign" proc-exec "filter-dkimsign \
 listen on socket
 listen on lo0
 listen on egress port 25 tls pki "mail" filter {"dkimsign"}
-listen on egress port 465 tls-require pki "mail" auth filter {"dkimsign"}
-listen on egress port 587 tls-require pki "mail" auth filter {"dkimsign"}
+listen on egress port 465 smtps pki "mail" auth filter {"dkimsign"}
+listen on egress port 587 tls pki "mail" auth filter {"dkimsign"}
 
 action "local_mail" maildir "~/Mail" alias <aliases>
 action "dovecot" lmtp "/var/dovecot/lmtp" alias <aliases>
