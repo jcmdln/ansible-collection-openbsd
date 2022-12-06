@@ -9,8 +9,9 @@
   "files.associations": {
     ".ansible-lint": "yaml",
     "*.conf.j2": "jinja-properties",
+    "**/handlers/**/*.yml": "ansible",
+    "**/inventory/**/*.yml": "ansible",
     "**/roles/**/defaults/**/*.yml": "ansible",
-    "**/roles/**/handlers/**/*.yml": "ansible",
     "**/roles/**/tasks/**/*.yml": "ansible",
     "**/roles/**/vars/**/*.yml": "ansible",
     "site-*.yml": "ansible",
@@ -35,9 +36,11 @@
   "python.linting.pycodestyleEnabled": false,
   "python.linting.pydocstyleEnabled": false,
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible.json": [
+    "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json": [
+      "handlers/*.yml",
       "roles/*/tasks/*.yml",
-      "site.yaml"
+      "roles/*/handlers/*.yml",
+      "site-*.yaml"
     ],
     "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-galaxy.json": [
       "galaxy.yml"
