@@ -12,13 +12,12 @@ on:
       - .github/workflows/lint.yml
       - .prettierrc.yml
       - .yamllint
+      - ansible.cfg
       - galaxy.yml
-      - plugins/modules/*.py
       - poetry.lock
       - poetry.toml
       - pyproject.toml
-      - roles/**/*.j2
-      - roles/**/*.yml
+      - roles/
       - site-*.yml
   push:
     paths:
@@ -27,13 +26,12 @@ on:
       - .github/workflows/lint.yml
       - .prettierrc.yml
       - .yamllint
+      - ansible.cfg
       - galaxy.yml
-      - plugins/modules/*.py
       - poetry.lock
       - poetry.toml
       - pyproject.toml
-      - roles/**/*.j2
-      - roles/**/*.yml
+      - roles/
       - site-*.yml
   workflow_dispatch:
 

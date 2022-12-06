@@ -30,6 +30,8 @@
 !.vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
+!handlers/
+!handlers/main.yml
 !inventory/
 !inventory/vagrant.yml
 !plugins/

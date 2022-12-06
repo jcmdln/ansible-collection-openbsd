@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Reboot
+  ansible.builtin.reboot:
+
+#
+# PF
+#
+
+- name: Enable pf
+  ansible.builtin.service:
+    name: pf
+    state: enabled
+
+# FIXME: Create a pfctl module
+- name: Reload pf
+  ansible.builtin.raw: pfctl -f /etc/pf.conf
+  changed_when: (pf_reloaded.stdout_lines | length) > 0
+  register: pf_reloaded
+
+- name: Restart pf
+  ansible.builtin.service:
+    name: pf
+    state: restarted
+
+- name: Start pf
+  ansible.builtin.service:
+    name: pf
+    state: started
+
+- name: Stop pf
+  ansible.builtin.service:
+    name: pf
+    state: stopped

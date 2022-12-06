@@ -110,14 +110,22 @@ commands =
     poetry install --no-root --only ansible-lint
     poetry run ansible-lint --version
     poetry run ansible-lint --offline \
-        galaxy.yml roles/ \
-        site-check.yml site-mail.yml site-pkg.yml site-syspatch.yml site-sysupgrade.yml
+        {toxinidir}/galaxy.yml \
+        {toxinidir}/handlers/ \
+        {toxinidir}/inventory/ \
+        {toxinidir}/plugins/ \
+        {toxinidir}/roles/ \
+        {toxinidir}/site-check.yml \
+        {toxinidir}/site-mail.yml \
+        {toxinidir}/site-pkg.yml \
+        {toxinidir}/site-syspatch.yml \
+        {toxinidir}/site-sysupgrade.yml
 
 [testenv:bandit]
 commands =
     poetry install --no-root --only bandit
     poetry run bandit --version
-    poetry run bandit -qrc "{toxinidir}/pyproject.toml" {toxinidir}/plugins/modules/
+    poetry run bandit -qrc {toxinidir}/pyproject.toml {toxinidir}/plugins/modules/
 
 [testenv:flake8]
 commands =
