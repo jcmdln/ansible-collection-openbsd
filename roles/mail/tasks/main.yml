@@ -178,3 +178,13 @@
   ansible.builtin.service:
     name: spamd
     state: started
+
+- name: Enable spamlogd
+  ansible.builtin.service:
+    name: spamlogd
+    state: started
+
+- name: Start spamlogd
+  ansible.builtin.service:
+    name: spamlogd
+    state: started
