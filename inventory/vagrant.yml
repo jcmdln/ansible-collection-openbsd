@@ -13,6 +13,6 @@ all:
 mail:
   hosts:
     ac-openbsd:
-      mail_aliases_root: "vagrant"
-      mail_dkim_selector: "ac-openbsd"
-      mail_domain: "ac-openbsd.localhost"
+      mail_aliases_root: vagrant
+      mail_dkim_selector: ac-openbsd
+      mail_domain: ac-openbsd.localhost
