@@ -10,8 +10,6 @@
   handlers:
     - name: Install Python
       ansible.builtin.raw: pkg_add python3
-      failed_when: python_install.rc != 0
-      register: python_install
 
   tasks:
     - name: Confirm host is running OpenBSD

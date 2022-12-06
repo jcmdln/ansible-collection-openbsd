@@ -20,11 +20,7 @@
 !poetry.toml
 !pyproject.toml
 !README.md
-!site-check.yml
-!site-mail.yml
-!site-pkg.yml
-!site-syspatch.yml
-!site-sysupgrade.yml
+!site-*.yml
 !Vagrantfile
 
 # Include files from subdirectories

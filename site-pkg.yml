@@ -7,10 +7,7 @@
   become: true
 
   tasks:
-    - name: "{{ pkg_title | default('Update packages') }}"
+    - name: Update packages
       jcmdln.openbsd.pkg:
-        delete_unused: "{{ pkg_delete_unused | default(false) }}"
-        force: "{{ pkg_force | default(omit) }}"
-        name: "{{ pkg_packages | default('*') }}"
-        replace_existing: "{{ pkg_replace_existing | default(false) }}"
-        state: "{{ pkg_state | default('latest') }}"
+        name: "*"
+        state: latest

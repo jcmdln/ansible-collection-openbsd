@@ -6,18 +6,8 @@
   hosts: all
   become: true
 
-  handlers:
-    - name: Reboot if upgraded
-      ansible.builtin.reboot:
-        connect_timeout: "{{ sysupgrade_reboot_timeout | default(600) }}"
-        reboot_timeout: "{{ sysupgrade_reboot_timeout | default(600) }}"
-      when: sysupgrade_result.reboot
-
   tasks:
-    - name: "Upgrade to latest {{ sysupgrade_title | default('release or snapshot') }}"
+    - name: Upgrade to latest release or snapshot
       jcmdln.openbsd.sysupgrade:
-        branch: "{{ sysupgrade_branch | default('auto') }}"
-        force: "{{ sysupgrade_force | default(false) }}"
-      notify: Reboot if upgraded
-      register: sysupgrade_result
-      when: ansible_distribution_version is version("6.6", ">=")
+        branch: auto
+      notify: Reboot
