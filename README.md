@@ -37,11 +37,27 @@ vi inventory.yml
 
 ## Run
 
-For documentation and examples of how to use each playbook, please see
-[docs/playbooks.md](docs/playbooks.md) for more information.
+### Modules
+
+Ansible allows running modules in an adhoc fashion for one-off tasks:
 
 ```sh
-# Example of chaining playbooks to patch/upgrade hosts and update packages
+ansible -i <inventory> all -m jcmdln.openbsd.pkg -a "name=htop state=present"
+```
+
+For more info, see the following:
+
+- https://docs.ansible.com/ansible/latest/command_guide/intro_adhoc.html
+
+### Playbooks
+
+In this example we chain playbooks to patch/upgrade hosts and update packages:
+
+```sh
 ansible-playbook -i inventory.yml \
     site-check.yml site-syspatch.yml site-sysupgrade.yml site-pkg.yml
 ```
+
+For more info, see the following:
+
+- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_intro.html

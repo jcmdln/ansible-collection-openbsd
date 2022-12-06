@@ -30,8 +30,6 @@
 !.vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
-!docs/
-!docs/playbooks.md
 !inventory/
 !inventory/vagrant.yml
 !plugins/
