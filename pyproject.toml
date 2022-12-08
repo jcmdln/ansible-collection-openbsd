@@ -25,7 +25,6 @@ ansible-lint = "^6.8.7"
 
 [tool.poetry.group.bandit.dependencies]
 bandit = { version = "^1.7.4", extras = ["toml"] }
-importlib-metadata = { version = "*", python = "<3.8" }
 
 [tool.poetry.group.flake8.dependencies]
 black = "^22.10.0"
