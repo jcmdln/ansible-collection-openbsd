@@ -53,7 +53,7 @@ The table below outlines which DNS records are required (or suggested):
 | [rfc7208]             |
 | @                     | TXT   | 3600 | v=spf1 mx -all                        |
 | [rfc6376]             |
-| $SELECTOR.\_domainkey | TXT   | 3600 | v=DKIM1; k=rsa; p=$RSAKEY             |
+| $SELECTOR.\_domainkey | TXT   | 3600 | v=DKIM1; k=rsa; p=$RSA_PUBLIC_KEY     |
 | [rfc7489]             |
 | \_dmarc               | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rf=afrf; |
 |                       |       |      | rua=mailto:hostmaster@domain.tld;     |
