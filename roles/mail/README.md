@@ -78,26 +78,26 @@ Consider enabling DNSSEC:
 require ["fileinto", "mailbox"];
 
 if exists ["List-Id", "X-Loop"] {
-    if header :contains ["List-Id", "X-Loop"] "@lists.alpinelinux.org" {
-        if header :contains ["List-Id", "X-Loop"] "~alpine/announce@" {
+    if header :contains ["List-Id", "X-Loop"] "lists.alpinelinux.org" {
+        if header :contains ["List-Id", "X-Loop"] "~alpine/announce" {
             fileinto :create "alpine-announce";
-        } elsif header :contains ["List-Id", "X-Loop"] "~alpine/aports@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "~alpine/aports" {
             fileinto :create "alpine-aports";
-        } elsif header :contains ["List-Id", "X-Loop"] "~alpine/devel@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "~alpine/devel" {
             fileinto :create "alpine-devel";
         }
-    } elsif header :contains ["List-Id", "X-Loop"] "@openbsd.org" {
-        if header :contains ["List-Id", "X-Loop"] "advocacy@" {
+    } elsif header :contains ["List-Id", "X-Loop"] "openbsd.org" {
+        if header :contains ["List-Id", "X-Loop"] "advocacy" {
             fileinto :create "openbsd-advocacy";
-        } elsif header :contains ["List-Id", "X-Loop"] "announce@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "announce" {
             fileinto :create "openbsd-announce";
-        } elsif header :contains ["List-Id", "X-Loop"] "bugs@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "bugs" {
             fileinto :create "openbsd-bugs";
-        } elsif header :contains ["List-Id", "X-Loop"] "misc@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "misc" {
             fileinto :create "openbsd-misc";
-        } elsif header :contains ["List-Id", "X-Loop"] "ports@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "ports" {
             fileinto :create "openbsd-ports";
-        } elsif header :contains ["List-Id", "X-Loop"] "tech@" {
+        } elsif header :contains ["List-Id", "X-Loop"] "tech" {
             fileinto :create "openbsd-tech";
         }
     }
