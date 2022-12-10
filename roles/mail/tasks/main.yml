@@ -94,8 +94,7 @@
     mode: 0644
     owner: root
     src: etc/dovecot/local.conf.j2
-  notify:
-    - Restart dovecot
+  notify: Restart dovecot
 
 - name: Comment out ssl_cert from /etc/dovecot/conf.d/10-ssl.conf
   ansible.builtin.replace:
@@ -131,8 +130,7 @@
     mode: 0644
     owner: root
     src: etc/mail/smtpd.conf.j2
-  notify:
-    - Restart smtpd
+  notify: Restart smtpd
 
 - name: Define well-known mail aliases for root@
   ansible.builtin.blockinfile:
