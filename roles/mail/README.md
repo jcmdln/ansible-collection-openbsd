@@ -31,11 +31,11 @@ system resources as well as a mailbox to get work done.
 
 The table below outlines which DNS records are required (or suggested):
 
-[rfc5321]: https://datatracker.ietf.org/doc/rfc5321
-[rfc6186]: https://datatracker.ietf.org/doc/rfc6186
-[rfc6376]: https://datatracker.ietf.org/doc/rfc6376
-[rfc7208]: https://datatracker.ietf.org/doc/rfc7208
-[rfc7489]: https://datatracker.ietf.org/doc/rfc7489
+[rfc5321]: https://datatracker.ietf.org/doc/html/rfc5321
+[rfc6186]: https://datatracker.ietf.org/doc/html/rfc6186
+[rfc6376]: https://datatracker.ietf.org/doc/html/rfc6376
+[rfc7208]: https://datatracker.ietf.org/doc/html/rfc7208
+[rfc7489]: https://datatracker.ietf.org/doc/html/rfc7489
 
 | Host/Service          | Type  | TTL  | Value                                 |
 | --------------------- | ----- | ---- | ------------------------------------- |
