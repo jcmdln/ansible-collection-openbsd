@@ -17,7 +17,7 @@ on:
       - poetry.lock
       - poetry.toml
       - pyproject.toml
-      - roles/
+      - roles/**/*.yml
       - site-*.yml
   push:
     paths:
@@ -31,7 +31,7 @@ on:
       - poetry.lock
       - poetry.toml
       - pyproject.toml
-      - roles/
+      - roles/**/*.yml
       - site-*.yml
   workflow_dispatch:
 
