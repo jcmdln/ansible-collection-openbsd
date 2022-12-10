@@ -10,6 +10,7 @@ hostname = {{ mail_domain }}
 lda_mailbox_autocreate = yes
 lda_mailbox_autosubscribe = yes
 mail_location = maildir:~/Mail
+mail_max_userip_connections = 50
 postmaster_address = postmaster@{{ mail_domain }}
 protocols = imap lmtp
 ssl = required
