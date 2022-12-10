@@ -72,32 +72,32 @@ Consider enabling DNSSEC:
 
 ### Examples
 
-```perl
+```ruby
 # ~/Mail/dovecot.sieve
 
 require ["fileinto", "mailbox"];
 
-if exists ["List-ID"] {
-    if header :contains "List-ID" "alpinelinux.org" {
-        if header :contains "List-ID" "~alpine/announce" {
+if exists "list-id" {
+    if header :contains "list-id" "alpinelinux.org" {
+        if header :contains "list-id" "~alpine/announce" {
             fileinto :create "alpine-announce";
-        } elsif header :contains "List-ID" "~alpine/aports" {
+        } elsif header :contains "list-id" "~alpine/aports" {
             fileinto :create "alpine-aports";
-        } elsif header :contains "List-ID" "~alpine/devel" {
+        } elsif header :contains "list-id" "~alpine/devel" {
             fileinto :create "alpine-devel";
         }
-    } elsif header :contains "List-ID" "openbsd.org" {
-        if header :contains "List-ID" "advocacy" {
+    } elsif header :contains "list-id" "openbsd.org" {
+        if header :contains "list-id" "advocacy" {
             fileinto :create "openbsd-advocacy";
-        } elsif header :contains "List-ID" "announce" {
+        } elsif header :contains "list-id" "announce" {
             fileinto :create "openbsd-announce";
-        } elsif header :contains "List-ID" "bugs" {
+        } elsif header :contains "list-id" "bugs" {
             fileinto :create "openbsd-bugs";
-        } elsif header :contains "List-ID" "misc" {
+        } elsif header :contains "list-id" "misc" {
             fileinto :create "openbsd-misc";
-        } elsif header :contains "List-ID" "ports" {
+        } elsif header :contains "list-id" "ports" {
             fileinto :create "openbsd-ports";
-        } elsif header :contains "List-ID" "tech" {
+        } elsif header :contains "list-id" "tech" {
             fileinto :create "openbsd-tech";
         }
     }
