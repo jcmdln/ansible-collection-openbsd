@@ -40,11 +40,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: [ansible-lint, bandit, flake8, mypy]
-        os: [ubuntu-latest]
-        python: ["3.8", "3.9", "3.10", "3.11"]
+        os: [ubuntu-20.04, ubuntu-22.04]
+        python: ["3.9", "3.10", "3.11"]
 
-    name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
+    name: ${{ matrix.python }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -55,21 +54,22 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
           cache-dependency-path: |
+            pyproject.toml
             poetry.lock
 
       - name: Setup venv cache
         uses: actions/cache@v3
         id: venv
         with:
-          key: venv-poetry
-          path: .venv
+          key: venv-${{ hashFiles('pyproject.toml', 'poetry.lock') }}
+          path: .venv/
 
       - name: Setup Tox cache
         uses: actions/cache@v3
         id: tox
         with:
-          key: tox-${{ matrix.linter }}-${{ hashFiles('poetry.lock') }}
-          path: .tox/${{ matrix.linter }}
+          key: tox-${{ hashFiles('pyproject.toml', 'poetry.lock') }}
+          path: .tox/
 
       - name: Install Poetry
         run: pip install poetry
@@ -77,5 +77,5 @@ jobs:
       - name: Install Tox
         run: poetry install --only tox
 
-      - name: Run ${{ matrix.linter }}
-        run: poetry run tox -e ${{ matrix.linter }}
+      - name: Run tox
+        run: poetry run tox
