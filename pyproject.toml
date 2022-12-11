@@ -15,7 +15,7 @@ repository = "https://github.com/jcmdln/ansible-collection-openbsd"
 version = "0.0.0"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 # packages
 ansible-core = "^2.12.0"
 netaddr = "^0.8"
