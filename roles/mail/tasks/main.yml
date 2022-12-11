@@ -36,16 +36,17 @@
 # DKIM
 #
 
-- name: Ensure _dkimsign system user account exists
+- name: Create _dkimsign system user account
   ansible.builtin.user:
     name: _dkimsign
     state: present
     system: true
+    create_home: false
 
 - name: Create /etc/mail/dkim directory
   ansible.builtin.file:
-    state: directory
     path: /etc/mail/dkim
+    state: directory
     owner: _dkimsign
     group: _dkimsign
     mode: 0770
