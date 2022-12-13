@@ -102,6 +102,7 @@ skip_missing_interpreters = true
 [testenv]
 allowlist_externals = poetry
 basepython = python3
+install_command = poetry install --no-root --only {packages}
 setenv =
     PYTHONDONTWRITEBYTECODE=true
     PYTHONPYCACHEPREFIX=/tmp
@@ -110,7 +111,6 @@ skip_install = true
 
 [testenv:ansible-lint]
 commands =
-    poetry install --no-root --only ansible-lint
     poetry run ansible-lint --version
     poetry run ansible-lint --offline \
         {toxinidir}/galaxy.yml \
@@ -123,28 +123,29 @@ commands =
         {toxinidir}/site-pkg.yml \
         {toxinidir}/site-syspatch.yml \
         {toxinidir}/site-sysupgrade.yml
+deps = ansible-lint
 
 [testenv:bandit]
 commands =
-    poetry install --no-root --only bandit
     poetry run bandit --version
     poetry run bandit -qrc {toxinidir}/pyproject.toml {toxinidir}/plugins/modules/
+deps = bandit
 
 [testenv:flake8]
 commands =
-    poetry install --no-root --only flake8
     poetry run flake8 --version
     poetry run flake8 {toxinidir}/plugins/modules/
+deps = flake8
 
 [testenv:mypy]
 commands =
-    poetry install --no-root --only mypy
     poetry run mypy --version
     poetry run mypy {toxinidir}/plugins/modules/
+deps = mypy
 
 [testenv:pip-audit]
 commands =
-    poetry install --no-root --only pip-audit
     poetry run pip-audit --version
     poetry run pip-audit
+deps = pip-audit
 """
