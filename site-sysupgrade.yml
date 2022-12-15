@@ -6,6 +6,11 @@
   hosts: all
   become: true
 
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+
   tasks:
     - name: Upgrade to latest release or snapshot
       jcmdln.openbsd.sysupgrade:

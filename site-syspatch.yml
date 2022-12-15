@@ -6,6 +6,11 @@
   hosts: all
   become: true
 
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+
   tasks:
     - name: Apply all available patches
       jcmdln.openbsd.syspatch:
