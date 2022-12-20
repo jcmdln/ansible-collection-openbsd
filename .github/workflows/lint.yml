@@ -40,10 +40,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        linter:
+          - ansible-lint
+          #- bandit
+          - flake8
+          - mypy
+          - pip-audit
         os: [ubuntu-latest]
         python: ["3.9", "3.10", "3.11"]
 
-    name: python${{ matrix.python }}-${{ matrix.os }}
+    name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -77,5 +83,5 @@ jobs:
       - name: Install Tox
         run: poetry install --only tox
 
-      - name: Run tox
-        run: poetry run tox
+      - name: Run ${{ matrix.linter }}
+        run: poetry run tox -e ${{ matrix.linter }}
