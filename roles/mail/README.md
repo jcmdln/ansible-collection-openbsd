@@ -31,11 +31,12 @@ system resources as well as a mailbox to get work done.
 
 The table below outlines which DNS records are required (or suggested):
 
-[rfc5321]: https://datatracker.ietf.org/doc/html/rfc5321
-[rfc6186]: https://datatracker.ietf.org/doc/html/rfc6186
-[rfc6376]: https://datatracker.ietf.org/doc/html/rfc6376
-[rfc7208]: https://datatracker.ietf.org/doc/html/rfc7208
-[rfc7489]: https://datatracker.ietf.org/doc/html/rfc7489
+[rfc5321]: https://www.rfc-editor.org/rfc/rfc5321
+[rfc6186]: https://www.rfc-editor.org/rfc/rfc6186
+[rfc6376]: https://www.rfc-editor.org/rfc/rfc6376
+[rfc7208]: https://www.rfc-editor.org/rfc/rfc7208
+[rfc7489]: https://www.rfc-editor.org/rfc/rfc7489
+[rfc8657]: https://www.rfc-editor.org/rfc/rfc8657
 
 | Host/Service          | Type  | TTL  | Value                                 |
 | --------------------- | ----- | ---- | ------------------------------------- |
@@ -63,12 +64,12 @@ The table below outlines which DNS records are required (or suggested):
 
 Consider enabling DNSSEC:
 
-- https://datatracker.ietf.org/doc/html/rfc4035
+- https://www.rfc-editor.org/rfc/rfc4035
 
 ## Sieve
 
-- https://datatracker.ietf.org/doc/html/rfc5228
-- https://datatracker.ietf.org/doc/html/rfc5233
+- https://www.rfc-editor.org/rfc/rfc5228
+- https://www.rfc-editor.org/rfc/rfc5233
 
 ### Examples
 
@@ -85,6 +86,10 @@ if exists "list-id" {
             fileinto :create "alpine-aports";
         } elsif header :contains "list-id" "~alpine/devel" {
             fileinto :create "alpine-devel";
+        }
+    } elsif header :contains "list-id" "freelists.org" {
+        if header :contains "list-id" "bootstrappable" {
+            fileinto :create "bootstrappable";
         }
     } elsif header :contains "list-id" "openbsd.org" {
         if header :contains "list-id" "advocacy" {
@@ -106,7 +111,7 @@ if exists "list-id" {
 
 ## Supplemental Reading
 
-- [DOMAIN NAMES - CONCEPTS AND FACILITIES [1987]](https://datatracker.ietf.org/doc/html/rfc1034)
-- [Simple Mail Transfer Protocol (2008)](https://datatracker.ietf.org/doc/html/rfc5321)
-- [Internet Message Format [2008]](https://datatracker.ietf.org/doc/html/rfc5322)
-- [Internet Message Access Protocol (IMAP) - Version 4rev2 [2021]](https://datatracker.ietf.org/doc/html/rfc9051)
+- [DOMAIN NAMES - CONCEPTS AND FACILITIES [1987]](https://www.rfc-editor.org/rfc/rfc1034)
+- [Simple Mail Transfer Protocol (2008)](https://www.rfc-editor.org/rfc/rfc5321)
+- [Internet Message Format [2008]](https://www.rfc-editor.org/rfc/rfc5322)
+- [Internet Message Access Protocol (IMAP) - Version 4rev2 [2021]](https://www.rfc-editor.org/rfc/rfc9051)
