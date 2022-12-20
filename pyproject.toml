@@ -23,8 +23,9 @@ netaddr = "^0.8"
 [tool.poetry.group.ansible-lint.dependencies]
 ansible-lint = "^6.8.7"
 
-[tool.poetry.group.bandit.dependencies]
-bandit = { version = "^1.7.4", extras = ["toml"] }
+# [tool.poetry.group.bandit.dependencies]
+# bandit = { version = "^1.7.4", extras = ["toml"] }
+# gitpython = ">3.1.29"
 
 [tool.poetry.group.flake8.dependencies]
 black = "^22.10.0"
@@ -90,7 +91,7 @@ legacy_tox_ini = """
 [tox]
 envlist =
     ansible-lint
-    bandit
+    #bandit
     flake8
     mypy
     pip-audit
@@ -125,11 +126,11 @@ commands =
         {toxinidir}/site-sysupgrade.yml
 deps = ansible-lint
 
-[testenv:bandit]
-commands =
-    poetry run bandit --version
-    poetry run bandit -qrc {toxinidir}/pyproject.toml {toxinidir}/plugins/modules/
-deps = bandit
+# [testenv:bandit]
+# commands =
+#     poetry run bandit --version
+#     poetry run bandit -qrc {toxinidir}/pyproject.toml {toxinidir}/plugins/modules/
+# deps = bandit
 
 [testenv:flake8]
 commands =
