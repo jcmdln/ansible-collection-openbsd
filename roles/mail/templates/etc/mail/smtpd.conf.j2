@@ -11,8 +11,8 @@ filter "dkimsign" proc-exec "filter-dkimsign \
 	-k /etc/mail/dkim/{{ mail_dkim_selector }}.private.key" \
 	user _dkimsign group _dkimsign
 
-listen on socket
-listen on lo0
+listen on socket filter {"dkimsign"}
+listen on lo0 filter {"dkimsign"}
 listen on egress port 25 tls pki "mail" filter {"dkimsign"}
 listen on egress port 465 smtps pki "mail" auth filter {"dkimsign"}
 listen on egress port 587 tls pki "mail" auth filter {"dkimsign"}
