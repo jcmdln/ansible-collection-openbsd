@@ -22,6 +22,6 @@ action "dovecot" lmtp "/var/dovecot/lmtp" alias <aliases>
 action "outbound" relay
 
 match from local for local action "local_mail"
-match from any for domain "{{ mail_domain }}" action "dovecot"
 match from local for any action "outbound"
+match from any for domain "{{ mail_domain }}" action "dovecot"
 match auth from any for any action "outbound"
