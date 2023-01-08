@@ -69,7 +69,7 @@ jobs:
         uses: actions/cache@v3
         id: tox
         with:
-          key: tox-${{ hashFiles('poetry.lock'. 'tox.ini') }}
+          key: tox-${{ hashFiles('poetry.lock', 'tox.ini') }}
           path: .tox/${{ matrix.linter }}
 
       - name: Install Poetry
