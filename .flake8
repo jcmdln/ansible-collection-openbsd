@@ -11,17 +11,8 @@ exclude =
     .tox/
     .venv/
     *.egg-info/
-
 ignore =
-    D100 # Missing docstring in public module
-    D101 # Missing docstring in public class
-    D102 # Missing docstring in public method
-    D103 # Missing docstring in public function
-    D104 # Missing docstring in public package
-    D105 # Missing docstring in magic method
-    D106 # Missing docstring in public nested class
-    D107 # Missing docstring in __init__
-    E203 # Whitespace before ':'
-    W503 # Line break before binary operator
-
+    D100,D101,D102,D103,D104,D105,D106,D107
+    E203
+    W503
 max-line-length = 100
