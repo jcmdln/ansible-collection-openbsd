@@ -19,6 +19,7 @@ on:
       - pyproject.toml
       - roles/**/*.yml
       - site-*.yml
+      - tox.ini
   push:
     paths:
       - .ansible-lint
@@ -33,24 +34,20 @@ on:
       - pyproject.toml
       - roles/**/*.yml
       - site-*.yml
+      - tox.ini
   workflow_dispatch:
 
 jobs:
   lint:
+    name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: false
       matrix:
-        linter:
-          - ansible-lint
-          #- bandit
-          - flake8
-          - mypy
-          - pip-audit
+        linter: [ansible-lint, bandit, flake8, mypy, pip-audit]
         os: [ubuntu-latest]
         python: ["3.9", "3.10", "3.11"]
-
-    name: ${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v3
@@ -59,23 +56,21 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-          cache-dependency-path: |
-            pyproject.toml
-            poetry.lock
+          cache-dependency-path: poetry.lock
 
       - name: Setup venv cache
         uses: actions/cache@v3
         id: venv
         with:
-          key: venv-${{ hashFiles('pyproject.toml', 'poetry.lock') }}
+          key: venv-${{ hashFiles('poetry.lock') }}
           path: .venv/
 
       - name: Setup Tox cache
         uses: actions/cache@v3
         id: tox
         with:
-          key: tox-${{ hashFiles('pyproject.toml', 'poetry.lock') }}
-          path: .tox/
+          key: tox-${{ hashFiles('poetry.lock'. 'tox.ini') }}
+          path: .tox/${{ matrix.linter }}
 
       - name: Install Poetry
         run: pip install poetry

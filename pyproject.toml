@@ -23,9 +23,8 @@ netaddr = "^0.8"
 [tool.poetry.group.ansible-lint.dependencies]
 ansible-lint = "^6.8.7"
 
-# [tool.poetry.group.bandit.dependencies]
-# bandit = { version = "^1.7.4", extras = ["toml"] }
-# gitpython = ">3.1.29"
+[tool.poetry.group.bandit.dependencies]
+bandit = { version = "^1.7.4", extras=["toml"] }
 
 [tool.poetry.group.flake8.dependencies]
 black = "^22.10.0"
@@ -52,9 +51,12 @@ python-lsp-server = { version = "^1.6.0", extras = ["all"] }
 
 [tool.poetry.group.mypy.dependencies]
 mypy = ">=0.982"
+# Type stubs
 types-cryptography = "*"
 types-pyyaml = "*"
 
+[tool.poetry.group.pip-audit]
+optional = true
 [tool.poetry.group.pip-audit.dependencies]
 pip-audit = "^2.4.8"
 
@@ -71,10 +73,12 @@ tox = "^4.0.0"
 line-length = 100
 
 [tool.isort]
+remove_redundant_aliases = true
+skip_gitignore = true
+# Black compatibility
 line_length = 100
 lines_between_types = 1
 profile = "black"
-remove_redundant_aliases = true
 wrap_length = 100
 
 [tool.mypy]
@@ -85,68 +89,3 @@ strict = true
 strict_optional = true
 # Disable specific strict checks
 disallow_any_generics = false
-
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist =
-    ansible-lint
-    #bandit
-    flake8
-    mypy
-    pip-audit
-ignore_basepython_conflict = true
-isolated_build = true
-minversion = 3.20
-skip_missing_interpreters = true
-
-[testenv]
-allowlist_externals = poetry
-basepython = python3
-install_command = poetry install --no-root --only {packages}
-setenv =
-    PYTHONDONTWRITEBYTECODE=true
-    PYTHONPYCACHEPREFIX=/tmp
-    PYTHONUNBUFFERED=true
-skip_install = true
-
-[testenv:ansible-lint]
-commands =
-    poetry run ansible-lint --version
-    poetry run ansible-lint --offline \
-        {toxinidir}/galaxy.yml \
-        {toxinidir}/handlers/ \
-        {toxinidir}/inventory/ \
-        {toxinidir}/plugins/ \
-        {toxinidir}/roles/ \
-        {toxinidir}/site-check.yml \
-        {toxinidir}/site-mail.yml \
-        {toxinidir}/site-pkg.yml \
-        {toxinidir}/site-syspatch.yml \
-        {toxinidir}/site-sysupgrade.yml
-deps = ansible-lint
-
-# [testenv:bandit]
-# commands =
-#     poetry run bandit --version
-#     poetry run bandit -qrc {toxinidir}/pyproject.toml {toxinidir}/plugins/modules/
-# deps = bandit
-
-[testenv:flake8]
-commands =
-    poetry run flake8 --version
-    poetry run flake8 {toxinidir}/plugins/modules/
-deps = flake8
-
-[testenv:mypy]
-commands =
-    poetry run mypy --version
-    poetry run mypy {toxinidir}/plugins/modules/
-deps = mypy
-
-[testenv:pip-audit]
-commands =
-    poetry run pip-audit --version
-    poetry run pip-audit
-deps = pip-audit
-"""
