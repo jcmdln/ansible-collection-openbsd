@@ -23,12 +23,11 @@ netaddr = "^0.8"
 [tool.poetry.group.ansible-lint.dependencies]
 ansible-lint = "^6.8.7"
 
-[tool.poetry.group.bandit.dependencies]
-bandit = { version = "^1.7.4", extras=["toml"] }
-
 [tool.poetry.group.flake8.dependencies]
+bandit = { version = "^1.7.4", extras = ["toml"] }
 black = "^22.10.0"
-flake8 = "*"
+flake8 = "^6.0.0"
+flake8-bandit = "^4.1.1"
 flake8-black = "^0.3.3"
 flake8-docstrings = "^1.6.0"
 flake8-isort = "^5.0.3"
@@ -38,6 +37,7 @@ pycodestyle = "*"
 pydocstyle = "*"
 pyflakes = "*"
 rope = "*"
+tomli = { version = "*", python = "<3.11" }
 
 [tool.poetry.group.lsp]
 optional = true
@@ -47,16 +47,14 @@ pyls-isort = "^0.2.2"
 pylsp-mypy = "^0.6.3"
 pylsp-rope = "^0.1.10"
 python-lsp-black = "^1.2.1"
-python-lsp-server = { version = "^1.6.0", extras = ["all"] }
+python-lsp-server = { version = "^1.7.1", extras = ["all"] }
 
 [tool.poetry.group.mypy.dependencies]
-mypy = ">=0.982"
+mypy = "^1.0.0"
 # Type stubs
 types-cryptography = "*"
 types-pyyaml = "*"
 
-[tool.poetry.group.pip-audit]
-optional = true
 [tool.poetry.group.pip-audit.dependencies]
 pip-audit = "^2.4.8"
 
@@ -66,8 +64,6 @@ tox = "^4.0.0"
 #
 # Tools
 #
-
-[tool.bandit]
 
 [tool.black]
 line-length = 100
@@ -82,7 +78,7 @@ profile = "black"
 wrap_length = 100
 
 [tool.mypy]
-exclude = ['__pycache__/', '\.git/', '\.mypy_cache/', '\.tox/', '\.venv/']
+exclude = [".git", ".tox", ".venv"]
 ignore_missing_imports = true
 show_error_context = true
 strict = true
