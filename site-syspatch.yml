@@ -4,7 +4,6 @@
 ---
 - name: Syspatch
   hosts: all
-  become: true
 
   handlers:
     - name: Reboot

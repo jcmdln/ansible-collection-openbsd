@@ -4,7 +4,6 @@
 ---
 - name: Check
   hosts: all
-  become: true
   gather_facts: false
 
   handlers:
