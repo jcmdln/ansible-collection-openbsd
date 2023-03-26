@@ -8,9 +8,6 @@ Vagrant.configure("2") do |config|
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
 
-  config.nfs.verify_installed = false
-  config.vm.synced_folder '.', '/vagrant', disabled: true
-
   config.vm.box = "jcmdln/openbsd"
   config.vm.box_version = "7.2"
   config.vm.define "openbsd"
@@ -19,4 +16,7 @@ Vagrant.configure("2") do |config|
     v.cpus = 2
     v.memory = 2048
   end
+
+  config.nfs.verify_installed = false
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 end

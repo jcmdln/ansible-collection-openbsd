@@ -6,4 +6,4 @@
   hosts: mail
 
   roles:
-    - role: jcmdln.openbsd.mail
+    - role: mail

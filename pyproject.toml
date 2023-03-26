@@ -4,7 +4,7 @@
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.3.2"]
+requires = ["poetry-core>=1.2"]
 
 [tool.poetry]
 authors = ["Johnathan C. Maudlin <jcmdln@gmail.com>"]
@@ -17,49 +17,26 @@ version = "0.0.0"
 [tool.poetry.dependencies]
 python = "^3.9"
 # packages
-ansible-core = "^2.12.0"
-netaddr = "^0.8"
+ansible-core = "^2"
+netaddr = "^0"
 
 [tool.poetry.group.ansible-lint.dependencies]
-ansible-lint = "^6.8.7"
-
-[tool.poetry.group.flake8.dependencies]
-bandit = { version = "^1.7.4", extras = ["toml"] }
-black = "^22.10.0"
-flake8 = "^6.0.0"
-flake8-bandit = "^4.1.1"
-flake8-black = "^0.3.3"
-flake8-docstrings = "^1.6.0"
-flake8-isort = "^5.0.3"
-isort = "^5.10.1"
-mccabe = "*"
-pycodestyle = "*"
-pydocstyle = "*"
-pyflakes = "*"
-rope = "*"
-tomli = { version = "*", python = "<3.11" }
-
-[tool.poetry.group.lsp]
-optional = true
-[tool.poetry.group.lsp.dependencies]
-pyls-flake8 = "^0.4.0"
-pyls-isort = "^0.2.2"
-pylsp-mypy = "^0.6.3"
-pylsp-rope = "^0.1.10"
-python-lsp-black = "^1.2.1"
-python-lsp-server = { version = "^1.7.1", extras = ["all"] }
+ansible-lint = "^6"
 
 [tool.poetry.group.mypy.dependencies]
-mypy = "^1.0.0"
-# Type stubs
-types-cryptography = "*"
-types-pyyaml = "*"
+mypy = "^1"
 
+[tool.poetry.group.pip-audit]
+optional = true
 [tool.poetry.group.pip-audit.dependencies]
-pip-audit = "^2.4.8"
+pip-audit = "^2"
+
+[tool.poetry.group.ruff.dependencies]
+black = "^23"
+ruff = "^0"
 
 [tool.poetry.group.tox.dependencies]
-tox = "^4.0.0"
+tox = "^4"
 
 #
 # Tools
@@ -67,15 +44,6 @@ tox = "^4.0.0"
 
 [tool.black]
 line-length = 100
-
-[tool.isort]
-remove_redundant_aliases = true
-skip_gitignore = true
-# Black compatibility
-line_length = 100
-lines_between_types = 1
-profile = "black"
-wrap_length = 100
 
 [tool.mypy]
 exclude = [".git", ".tox", ".venv"]
@@ -85,3 +53,14 @@ strict = true
 strict_optional = true
 # Disable specific strict checks
 disallow_any_generics = false
+
+[tool.ruff]
+ignore = [
+    "D",       # Ignore all documentation lints
+    "ANN101",  # Missing type annotation for `self` in method
+    "COM812",  # Trailing comma missing
+    "INP001",  # File is part of an implicit namespace package. Add an `__init__.py`
+    "PLR2004", # Magic value used in comparison, consider replacing with a constant variable
+]
+line-length = 100
+select = ["ALL"]

@@ -5,7 +5,11 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.wordWrap": "on",
+
+  "evenBetterToml.formatter.columnWidth": 100,
   "evenBetterToml.formatter.reorderKeys": true,
+  "evenBetterToml.schema.enabled": false,
+
   "files.associations": {
     ".ansible-lint": "yaml",
     "*.conf.j2": "jinja-properties",
@@ -26,15 +30,30 @@
     "**/.venv/**": true,
     "**/*.egg-info/**": true
   },
-  "python.defaultInterpreterPath": ".venv/bin/python",
+
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
-  "python.linting.banditEnabled": true,
-  "python.linting.flake8Enabled": true,
-  "python.linting.flake8Args": ["--config=${workspaceFolder}/.flake8"],
   "python.linting.mypyEnabled": true,
-  "python.linting.pycodestyleEnabled": false,
-  "python.linting.pydocstyleEnabled": false,
+  "ruff.organizeImports": true,
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.defaultFormatter": "ms-python.python"
+  },
+
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+
   "yaml.schemas": {
     "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json": [
       "handlers/*.yml",
@@ -50,11 +69,5 @@
       "roles/*/vars/*.yml"
     ],
     "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.python"
   }
 }

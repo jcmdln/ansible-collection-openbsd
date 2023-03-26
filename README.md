@@ -7,49 +7,19 @@ If you are looking for a hosting provider that offers OpenBSD, consider using
 
 # Using
 
-## Install
-
-### pip
+## As a Playbook
 
 ```sh
-python3 -m venv .venv/bin/activate
-. .venv/bin/activate
-pip install .
-ansible-galaxy collection install .
-```
+# Install Ansible
+sudo dnf -y install ansible-core
 
-### poetry
-
-```sh
-poetry install --only root
-poetry run ansible-galaxy collection install .
-```
-
-## Prepare
-
-### Inventory
-
-```sh
-# Create an Ansible inventory
+# Create an inventory
 cp inventory/vagrant.yml inventory.yml
 vi inventory.yml
+
+# Run a playbook
+ansible-playbook -i inventory.yml site-check.yml
 ```
-
-## Run
-
-### Modules
-
-Ansible allows running modules in an adhoc fashion for one-off tasks:
-
-```sh
-ansible -i <inventory> all -m jcmdln.openbsd.pkg -a "name=htop state=present"
-```
-
-For more info, see the following:
-
-- https://docs.ansible.com/ansible/latest/command_guide/intro_adhoc.html
-
-### Playbooks
 
 In this example we chain playbooks to patch/upgrade hosts and update packages:
 
@@ -61,3 +31,19 @@ ansible-playbook -i inventory.yml \
 For more info, see the following:
 
 - https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_intro.html
+
+## As a Collection
+
+```sh
+ansible-galaxy collection install git+https://github.com/jcmdln/ansible-collection-openbsd
+```
+
+Ansible allows running modules in an adhoc fashion for one-off tasks:
+
+```sh
+ansible -i <inventory> all -m jcmdln.openbsd.pkg -a "name=htop state=present"
+```
+
+For more info, see the following:
+
+- https://docs.ansible.com/ansible/latest/command_guide/intro_adhoc.html

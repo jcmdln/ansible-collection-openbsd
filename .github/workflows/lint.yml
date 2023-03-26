@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: [ansible-lint, bandit, flake8, mypy, pip-audit]
+        linter: [ansible-lint, mypy, pip-audit, ruff]
         os: [ubuntu-latest]
         python: ["3.9", "3.10", "3.11"]
 

@@ -31,7 +31,7 @@ class Pkg:
         self.stdout: str = ""
         self.stderr: str = ""
 
-    def Add(self) -> None:
+    def add(self) -> None:  # noqa: C901, PLR0912
         self.command = "/usr/sbin/pkg_add -I -x"
         __latest_cmd: str = ""
         __present_cmd: str = ""
@@ -40,7 +40,7 @@ class Pkg:
         to_update: dict[str, None] = {}
 
         if self.replace_existing:
-            self.command = "{} -r".format(self.command)
+            self.command = f"{self.command} -r"
 
         if self.force and self.force not in [
             "allversions",
@@ -61,35 +61,35 @@ class Pkg:
             "updatedepends",
         ]:
             self.command = ""
-            self.msg = "'{}' is invalid when adding packages".format(self.force)
+            self.msg = f"'{self.force}' is invalid when adding packages"
             self.rc = 1
             return
 
         if self.force:
-            self.command = "{} -D {}".format(self.command, self.force)
+            self.command = f"{self.command} -D {self.force}".format()
 
         for pkg in self.packages:
             package = self.packages[pkg]["name"]
             if pkg in pkgs or package in pkgs:
                 to_update[package] = None
-                pkgs = list(set(pkgs) - set([pkg]) - set([package]))
+                pkgs = list(set(pkgs) - {pkg} - {package})
 
         if self.state == "latest":
             if to_update or "*" in self.name:
-                __latest_cmd = "{} -u".format(self.command)
+                __latest_cmd = f"{self.command} -u"
 
             if "*" not in self.name:
-                for p in to_update.keys():
-                    __latest_cmd = "{} {}".format(__latest_cmd, p)
+                for p in to_update:
+                    __latest_cmd = f"{__latest_cmd} {p}"
 
         if pkgs and "*" not in self.name:
-            __present_cmd = "{} -v".format(self.command)
+            __present_cmd = f"{self.command} -v"
             for p in pkgs:
-                __present_cmd = "{} {}".format(__present_cmd, p)
+                __present_cmd = f"{__present_cmd} {p}"
 
         if __latest_cmd or (pkgs and __present_cmd):
             if __latest_cmd and __present_cmd:
-                self.command = "{} && {}".format(__latest_cmd, __present_cmd)
+                self.command = f"{__latest_cmd} && {__present_cmd}"
             elif __latest_cmd:
                 self.command = __latest_cmd
             elif __present_cmd:
@@ -111,12 +111,12 @@ class Pkg:
         self.changed = True
         self.msg = "completed successfully"
 
-    def Delete(self) -> None:
+    def delete(self) -> None:  # noqa: C901
         self.command = "/usr/sbin/pkg_delete -I -v -x"
         to_delete: dict[str, None] = {}
 
         if self.delete_unused:
-            self.command = "{} -a".format(self.command)
+            self.command = f"{self.command} -a"
 
         if self.force and self.force not in [
             "baddepend",
@@ -126,12 +126,12 @@ class Pkg:
             "scripts",
         ]:
             self.command = ""
-            self.msg = "'{}' is invalid when deleting packages".format(self.force)
+            self.msg = f"'{self.force}' is invalid when deleting packages"
             self.rc = 1
             return
 
         if self.force:
-            self.command = "{} -D {}".format(self.command, self.force)
+            self.command = f"{self.command} -D {self.force}"
 
         if "*" in self.name:
             self.command = ""
@@ -152,7 +152,7 @@ class Pkg:
             return
 
         for package in to_delete:
-            self.command = "{} {}".format(self.command, package)
+            self.command = f"{self.command} {package}"
 
         self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
@@ -167,7 +167,7 @@ class Pkg:
         self.changed = True
         self.msg = "packages removed successfully"
 
-    def Info(self) -> None:
+    def info(self) -> None:
         self.command = "/usr/sbin/pkg_info -q"
         self.rc, stdout, stderr = self.module.run_command(self.command, check_rc=False)
 
@@ -180,7 +180,7 @@ class Pkg:
             if _version:
                 version = _version.group(1)
 
-            self.packages[pkg] = {"name": name, "version": "{}".format(version)}
+            self.packages[pkg] = {"name": name, "version": f"{version}"}
 
 
 def main() -> None:
@@ -222,19 +222,19 @@ def main() -> None:
     )
 
     pkg: Pkg = Pkg(module)
-    pkg.Info()
+    pkg.info()
 
     if pkg.state == "absent":
         if not pkg.replace_existing:
-            pkg.Delete()
+            pkg.delete()
         else:
             pkg.msg = "cannot mix 'replace_existing' with 'state: absent'"
             pkg.rc = 1
     elif pkg.state in ["latest", "present"]:
         if not pkg.delete_unused:
-            pkg.Add()
+            pkg.add()
         else:
-            pkg.msg = "cannot mix 'delete' with 'state: {}'".format(pkg.state)
+            pkg.msg = f"cannot mix 'delete' with 'state: {pkg.state}'"
             pkg.rc = 1
 
     result: dict[str, bool | int | str] = {

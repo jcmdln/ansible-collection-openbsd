@@ -7,6 +7,6 @@
 
   tasks:
     - name: Update packages
-      jcmdln.openbsd.pkg:
+      pkg:
         name: "*"
         state: latest

@@ -12,6 +12,6 @@
 
   tasks:
     - name: Upgrade to latest release or snapshot
-      jcmdln.openbsd.sysupgrade:
+      sysupgrade:
         branch: auto
       notify: Reboot

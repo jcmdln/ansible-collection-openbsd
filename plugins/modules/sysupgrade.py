@@ -20,14 +20,14 @@ class Sysupgrade:
         self.stdout: str = ""
         self.stderr: str = ""
 
-    def Update(self) -> None:
+    def update(self) -> None:
         if self.module.params["branch"] == "release":
-            self.command = "{} -r".format(self.command)
+            self.command = f"{self.command} -r"
         elif self.module.params["branch"] == "snapshot":
-            self.command = "{} -s".format(self.command)
+            self.command = f"{self.command} -s"
 
         if self.module.params["force"]:
-            self.command = "{} -f".format(self.command)
+            self.command = f"{self.command} -f"
 
         self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
@@ -72,7 +72,7 @@ def main() -> None:
     )
 
     sysupgrade: Sysupgrade = Sysupgrade(module)
-    sysupgrade.Update()
+    sysupgrade.update()
 
     result: dict[str, bool | int | str] = {
         "changed": sysupgrade.changed,

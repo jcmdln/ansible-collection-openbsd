@@ -10,6 +10,7 @@
     "redhat.vscode-yaml",
     "samuelcolvin.jinjahtml",
     "tamasfe.even-better-toml",
-    "wayou.vscode-todo-highlight"
+    "wayou.vscode-todo-highlight",
+    "charliermarsh.ruff"
   ]
 }

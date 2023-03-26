@@ -12,6 +12,6 @@
 
   tasks:
     - name: Apply all available patches
-      jcmdln.openbsd.syspatch:
+      syspatch:
         apply: true
       notify: Reboot

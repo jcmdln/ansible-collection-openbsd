@@ -18,7 +18,7 @@ trim_trailing_whitespace = true
 indent_size = 2
 tab_width = 2
 
-[*.{yaml,ansible-}lint]
+[*.{ansible-,yaml}lint]
 indent_size = 2
 tab_width = 2
 
