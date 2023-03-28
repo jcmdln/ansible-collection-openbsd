@@ -6,13 +6,15 @@ name: lint
 
 on:
   pull_request:
+    branches:
+      - "**"
     paths-ignore:
       - "**.md"
   push:
+    branches:
+      - "**"
     paths-ignore:
       - "**.md"
-    tags-ignore:
-      - "*"
   workflow_dispatch:
 
 jobs:
