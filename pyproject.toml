@@ -1,46 +1,6 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
-
-[build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.2"]
-
-[tool.poetry]
-authors = ["Johnathan C. Maudlin <jcmdln@gmail.com>"]
-description = ""
-name = "ansible-collection-openbsd"
-readme = "README.md"
-repository = "https://github.com/jcmdln/ansible-collection-openbsd"
-version = "0.0.0"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-# packages
-ansible-core = "^2"
-netaddr = "^0"
-
-[tool.poetry.group.ansible-lint.dependencies]
-ansible-lint = "^6"
-
-[tool.poetry.group.mypy.dependencies]
-mypy = "^1"
-
-[tool.poetry.group.pip-audit]
-optional = true
-[tool.poetry.group.pip-audit.dependencies]
-pip-audit = "^2"
-
-[tool.poetry.group.ruff.dependencies]
-black = "^23"
-ruff = "^0"
-
-[tool.poetry.group.tox.dependencies]
-tox = "^4"
-
-#
-# Tools
-#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 
 [tool.black]
 line-length = 100

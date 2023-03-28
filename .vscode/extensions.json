@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: ISC
 //
-// Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+// Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 {
   "recommendations": [
+    "charliermarsh.ruff",
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
+    "ms-python.python",
     "ms-python.vscode-pylance",
     "redhat.ansible",
     "redhat.vscode-yaml",
     "samuelcolvin.jinjahtml",
-    "tamasfe.even-better-toml",
-    "wayou.vscode-todo-highlight",
-    "charliermarsh.ruff"
+    "wayou.vscode-todo-highlight"
   ]
 }

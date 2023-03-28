@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 
 root = true
 
 [*]
-charset = utf-8
-end_of_line = lf
+charset = "utf-8"
+end_of_line = "lf"
 indent_size = 4
-indent_style = space
+indent_style = "space"
 insert_final_newline = true
 max_line_length = 100
 tab_width = 4

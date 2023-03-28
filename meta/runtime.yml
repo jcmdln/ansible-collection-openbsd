@@ -2,10 +2,4 @@
 #
 # Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
-options:
-  editorconfig: true
-
-overrides:
-  - files: "*.md"
-    options:
-      tabWidth: 2
+requires_ansible: ">=2.9.10"

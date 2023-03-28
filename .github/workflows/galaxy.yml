@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install Ansible
+        run: pip install ansible-core
+
+      - name: Import into Ansible Galaxy
+        run: >
+          ansible-galaxy role import
+          --api-key ${{ secrets.GALAXY_API_KEY }}
+          ${{ github.repository_owner }}
+          ${GITHUB_REPOSITORY#*/}

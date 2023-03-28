@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 name: lint
 
@@ -8,33 +8,21 @@ on:
   pull_request:
     paths:
       - .ansible-lint
-      - .flake8
-      - .github/workflows/lint.yml
-      - .prettierrc.yml
       - .yamllint
-      - ansible.cfg
       - galaxy.yml
-      - poetry.lock
-      - poetry.toml
       - pyproject.toml
-      - roles/**/*.yml
-      - site-*.yml
+      - "**/*.yml"
       - tox.ini
   push:
     paths:
       - .ansible-lint
-      - .flake8
-      - .github/workflows/lint.yml
-      - .prettierrc.yml
       - .yamllint
-      - ansible.cfg
       - galaxy.yml
-      - poetry.lock
-      - poetry.toml
       - pyproject.toml
-      - roles/**/*.yml
-      - site-*.yml
+      - "**/*.yml"
       - tox.ini
+    tags-ignore:
+      - "*"
   workflow_dispatch:
 
 jobs:
@@ -45,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        linter: [ansible-lint, mypy, pip-audit, ruff]
+        linter: [ansible-lint, mypy, ruff]
         os: [ubuntu-latest]
         python: ["3.9", "3.10", "3.11"]
 
@@ -56,27 +44,17 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-          cache-dependency-path: poetry.lock
-
-      - name: Setup venv cache
-        uses: actions/cache@v3
-        id: venv
-        with:
-          key: venv-${{ hashFiles('poetry.lock') }}
-          path: .venv/
+          cache-dependency-path: tox.ini
 
       - name: Setup Tox cache
         uses: actions/cache@v3
         id: tox
         with:
-          key: tox-${{ hashFiles('poetry.lock', 'tox.ini') }}
+          key: tox-${{ matrix.linter }}-${{ matrix.python }}-${{ matrix.os }}-${{ hashFiles('tox.ini') }}
           path: .tox/${{ matrix.linter }}
 
-      - name: Install Poetry
-        run: pip install poetry
-
       - name: Install Tox
-        run: poetry install --only tox
+        run: pip install tox
 
       - name: Run ${{ matrix.linter }}
-        run: poetry run tox -e ${{ matrix.linter }}
+        run: tox -e ${{ matrix.linter }}

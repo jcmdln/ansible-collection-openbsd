@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 namespace: jcmdln
 name: openbsd
-version: 0.0.3
+version: 1.0.0
 description: ""
 
 authors:
@@ -14,10 +14,6 @@ license:
 license_file: LICENSE.md
 readme: README.md
 repository: https://github.com/jcmdln/ansible-collection-openbsd
-tags: []
-
-dependencies:
-  ansible.posix: "*"
-  ansible.utils: "*"
-  community.crypto: "*"
-  community.general: "*"
+tags:
+  - openbsd
+  - tools

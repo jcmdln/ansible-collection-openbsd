@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: ISC
 //
-// Copyright (c) 2022 Johnathan C. Maudlin <jcmdln@gmail.com>
+// Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
@@ -12,20 +12,13 @@
 
   "files.associations": {
     ".ansible-lint": "yaml",
-    "*.conf.j2": "jinja-properties",
-    "**/handlers/**/*.yml": "ansible",
-    "**/inventory/**/*.yml": "ansible",
-    "**/roles/**/defaults/**/*.yml": "ansible",
-    "**/roles/**/tasks/**/*.yml": "ansible",
-    "**/roles/**/vars/**/*.yml": "ansible",
-    "site-*.yml": "ansible",
-    "tox.ini": "properties"
+    "**/.github/workflows/galaxy.yml": "yaml",
+    "galaxy.yml": "ansible"
   },
   "files.exclude": {
     "**/__pycache__/**": true,
-    "**/.cache/**": true,
     "**/.mypy_cache/**": true,
-    "**/.pytest_cache/**": true,
+    "**/.ruff_cache/**": true,
     "**/.tox/**": true,
     "**/.venv/**": true,
     "**/*.egg-info/**": true
@@ -38,7 +31,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
   "python.formatting.provider": "black",
   "python.linting.enabled": true,
   "python.linting.mypyEnabled": true,
@@ -50,24 +42,12 @@
     "editor.defaultFormatter": "ms-python.python"
   },
 
-  "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml"
-  },
-
   "yaml.schemas": {
-    "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json": [
-      "handlers/*.yml",
-      "roles/*/tasks/*.yml",
-      "roles/*/handlers/*.yml",
-      "site-*.yaml"
-    ],
     "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-galaxy.json": [
-      "galaxy.yml"
+      "{workspaceFolder}/galaxy.yml"
     ],
-    "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-vars.json": [
-      "roles/*/defaults/*.yml",
-      "roles/*/vars/*.yml"
-    ],
-    "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+    "https://json.schemastore.org/github-workflow.json": [
+      "{workspaceFolder}/.github/workflows/*.yml"
+    ]
   }
 }
