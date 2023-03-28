@@ -8,10 +8,7 @@ on:
   push:
     tags:
       - "*"
-
-defaults:
-  run:
-    working-directory: jcmdln.openbsd
+  workflow_dispatch:
 
 jobs:
   release:
@@ -19,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          path: jcmdln.openbsd
 
       - uses: actions/setup-python@v4
         with:
@@ -36,4 +31,4 @@ jobs:
         run: >
           ansible-galaxy collection publish
           --api-key ${{ secrets.GALAXY_API_KEY }}
-          ${{ github.repository_owner }}-${GITHUB_REPOSITORY#*/}-${{ github.ref_name }}.tar.gz
+          jcmdln-openbsd-${{ github.ref_name }}.tar.gz
