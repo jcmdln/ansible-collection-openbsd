@@ -9,17 +9,19 @@ on:
     paths:
       - .ansible-lint
       - .yamllint
+      - "**.py"
+      - "**.yml"
       - galaxy.yml
       - pyproject.toml
-      - "**/*.yml"
       - tox.ini
   push:
     paths:
       - .ansible-lint
       - .yamllint
+      - "**.py"
+      - "**.yml"
       - galaxy.yml
       - pyproject.toml
-      - "**/*.yml"
       - tox.ini
     tags-ignore:
       - "*"
