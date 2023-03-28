@@ -13,6 +13,7 @@
   "files.associations": {
     ".ansible-lint": "yaml",
     "**/.github/workflows/galaxy.yml": "yaml",
+    "**/meta/**/*.yml": "ansible",
     "galaxy.yml": "ansible"
   },
   "files.exclude": {
