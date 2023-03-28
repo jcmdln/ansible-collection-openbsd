@@ -9,12 +9,18 @@ on:
     tags:
       - "*"
 
+defaults:
+  run:
+    working-directory: jcmdln.openbsd
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          path: jcmdln.openbsd
 
       - uses: actions/setup-python@v4
         with:
