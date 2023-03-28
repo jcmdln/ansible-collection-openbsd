@@ -6,6 +6,8 @@ name: lint
 
 on:
   pull_request:
+    paths-ignore:
+      - "**.md"
   push:
     paths-ignore:
       - "**.md"
