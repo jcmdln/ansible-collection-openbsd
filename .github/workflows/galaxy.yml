@@ -29,9 +29,11 @@ jobs:
       - name: Install Ansible
         run: pip install ansible-core
 
-      - name: Import into Ansible Galaxy
+      - name: Build collection
+        run: ansible-galaxy collection build
+
+      - name: Publish collection to Ansible Galaxy
         run: >
-          ansible-galaxy role import
+          ansible-galaxy collection publish
           --api-key ${{ secrets.GALAXY_API_KEY }}
-          ${{ github.repository_owner }}
-          ${GITHUB_REPOSITORY#*/}
+          ${{ github.repository_owner }}-${GITHUB_REPOSITORY#*/}-${{ github.ref_name }}.tar.gz
