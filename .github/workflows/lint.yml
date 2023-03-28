@@ -6,23 +6,7 @@ name: lint
 
 on:
   pull_request:
-    paths:
-      - .ansible-lint
-      - .yamllint
-      - "**.py"
-      - "**.yml"
-      - galaxy.yml
-      - pyproject.toml
-      - tox.ini
   push:
-    paths:
-      - .ansible-lint
-      - .yamllint
-      - "**.py"
-      - "**.yml"
-      - galaxy.yml
-      - pyproject.toml
-      - tox.ini
     tags-ignore:
       - "*"
   workflow_dispatch:
