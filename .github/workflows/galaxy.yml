@@ -24,7 +24,9 @@ jobs:
         run: pip install ansible-core
 
       - name: Build collection
-        run: ansible-galaxy collection build
+        run: >
+          ansible-galaxy collection build
+          -o jcmdln-openbsd-${{ github.ref_name }}.tar.gz
 
       - name: Publish collection to Ansible Galaxy
         run: >
