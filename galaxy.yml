@@ -9,9 +9,7 @@ description: ""
 
 authors:
   - "Johnathan C. Maudlin <jcmdln@gmail.com>"
-license:
-  - ISC
-license_file: LICENSE.md
+license_file: LICENSE
 readme: README.md
 repository: https://github.com/jcmdln/ansible-collection-openbsd
 tags:
