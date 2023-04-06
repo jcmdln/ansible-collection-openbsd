@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Check
+  hosts: all
+  gather_facts: false
+
+  handlers:
+    - name: Install Python
+      ansible.builtin.raw: pkg_add python3
+
+  tasks:
+    - name: Confirm host is running OpenBSD
+      ansible.builtin.raw: uname
+      changed_when: false
+      failed_when: ("OpenBSD" not in uname.stdout)
+      register: uname
+
+    - name: Check if Python 3.x is present
+      ansible.builtin.raw: command -v python3
+      changed_when: not python_check or python_check.rc > 0
+      failed_when: false
+      notify: Install Python
+      register: python_check

@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+mail_aliases_root: root
+mail_dkim_selector: domain
+mail_domain: domain.tld
+mail_packages:
+  - dovecot
+  - dovecot-pigeonhole
+  - opensmtpd-filter-dkimsign
+  - py3-cryptography
+
+#
+# SSL
+#
+
+mail_csr_common_name: "{{ mail_domain }}"
+mail_csr_country_name: US
+mail_csr_email_address: "postmaster@{{ mail_domain }}"
+mail_csr_organization_name: "{{ mail_dkim_selector }}"

@@ -2,7 +2,8 @@
 #
 # Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
-skip_list:
-  - no-changed-when
-  - no-handler
-  - no-tabs
+- name: Mail
+  hosts: mail
+
+  roles:
+    - role: jcmdln.openbsd.mail

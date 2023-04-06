@@ -13,8 +13,10 @@
   "files.associations": {
     ".ansible-lint": "yaml",
     "**/.github/workflows/galaxy.yml": "yaml",
+    "**/inventory/**/*.yml": "ansible",
     "**/meta/**/*.yml": "ansible",
-    "galaxy.yml": "ansible"
+    "galaxy.yml": "ansible",
+    "site-*.yml": "ansible"
   },
   "files.exclude": {
     "**/__pycache__/**": true,
@@ -44,6 +46,9 @@
   },
 
   "yaml.schemas": {
+    "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json": [
+      "{workspaceFolder}/site-*.yml"
+    ],
     "https://raw.githubusercontent.com/ansible-community/schemas/main/f/ansible-galaxy.json": [
       "{workspaceFolder}/galaxy.yml"
     ],

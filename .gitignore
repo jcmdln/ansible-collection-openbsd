@@ -17,6 +17,11 @@
 !notes.md
 !pyproject.toml
 !README.md
+!site-check.yml
+!site-mail.yml
+!site-pkg.yml
+!site-syspatch.yml
+!site-sysupgrade.yml
 !tox.ini
 
 # Include files from subdirectories
@@ -28,9 +33,18 @@
 !.vscode/extensions.json
 !.vscode/settings.json
 
+!inventory/
+!inventory/localhost.yml
+
 !meta/
 !meta/runtime.yml
 
 !plugins/
 !plugins/modules/
 !plugins/modules/*.py
+
+!roles/
+!roles/**/
+!roles/**/*.j2
+!roles/**/*.md
+!roles/**/*.yml

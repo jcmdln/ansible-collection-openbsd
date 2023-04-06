@@ -1,0 +1,27 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+pki "mail" cert "/etc/ssl/{{ mail_domain }}.crt"
+pki "mail" key "/etc/ssl/private/{{ mail_domain }}.key"
+
+table aliases file:/etc/mail/aliases
+
+filter "dkimsign" proc-exec "filter-dkimsign \
+	-d {{ mail_domain }} -s {{ mail_dkim_selector }} \
+	-k /etc/mail/dkim/{{ mail_dkim_selector }}.private.key" \
+	user _dkimsign group _dkimsign
+
+listen on socket filter {"dkimsign"}
+listen on lo0 filter {"dkimsign"}
+listen on egress port 25 tls pki "mail" filter {"dkimsign"}
+listen on egress port 465 smtps pki "mail" auth filter {"dkimsign"}
+listen on egress port 587 tls pki "mail" auth filter {"dkimsign"}
+
+action "local_mail" maildir "~/Mail" alias <aliases>
+action "dovecot" lmtp "/var/dovecot/lmtp" alias <aliases>
+action "outbound" relay
+
+match from local for local action "local_mail"
+match from local for any action "outbound"
+match from any for domain "{{ mail_domain }}" action "dovecot"
+match auth from any for any action "outbound"

@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Sysupgrade
+  hosts: all
+
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+
+  tasks:
+    - name: Upgrade to latest release or snapshot
+      jcmdln.openbsd.sysupgrade:
+        branch: auto
+      notify: Reboot

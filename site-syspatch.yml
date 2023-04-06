@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Syspatch
+  hosts: all
+
+  handlers:
+    - name: Reboot
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+
+  tasks:
+    - name: Apply all available patches
+      jcmdln.openbsd.syspatch:
+        apply: true
+      notify: Reboot

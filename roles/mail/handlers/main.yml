@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Restart dovecot
+  ansible.builtin.service:
+    name: dovecot
+    state: restarted
+
+- name: Restart smtpd
+  ansible.builtin.service:
+    name: smtpd
+    state: restarted
+
+- name: Restart spamd
+  ansible.builtin.service:
+    name: spamd
+    state: restarted

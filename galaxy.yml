@@ -4,7 +4,7 @@
 ---
 namespace: jcmdln
 name: openbsd
-version: 1.0.1
+version: 1.1.0
 description: ""
 
 authors:
@@ -15,3 +15,7 @@ repository: https://github.com/jcmdln/ansible-collection-openbsd
 tags:
   - openbsd
   - tools
+
+dependencies:
+  community.crypto: ">=1.0.0"
+  community.general: ">=1.0.0"

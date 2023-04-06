@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Pkg
+  hosts: all
+
+  tasks:
+    - name: Update packages
+      jcmdln.openbsd.pkg:
+        name: "*"
+        state: latest
