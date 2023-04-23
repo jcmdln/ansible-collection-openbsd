@@ -4,8 +4,8 @@
 ---
 namespace: jcmdln
 name: openbsd
-version: 1.1.0
-description: ""
+version: 1.1.1
+description: "An Ansible collection for performing actions against OpenBSD hosts"
 
 authors:
   - "Johnathan C. Maudlin <jcmdln@gmail.com>"
