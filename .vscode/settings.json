@@ -13,8 +13,12 @@
   "files.associations": {
     ".ansible-lint": "yaml",
     "**/.github/workflows/galaxy.yml": "yaml",
+    "**/defaults/**/*.yml": "ansible",
+    "**/handlers/**/*.yml": "ansible",
     "**/inventory/**/*.yml": "ansible",
     "**/meta/**/*.yml": "ansible",
+    "**/tasks/**/*.yml": "ansible",
+    "**/vars/**/*.yml": "ansible",
     "galaxy.yml": "ansible",
     "site-*.yml": "ansible"
   },
