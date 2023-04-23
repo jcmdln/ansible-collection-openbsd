@@ -1,4 +1,4 @@
-# jcmdln.opensmtpd
+# jcmdln.openbsd.mail
 
 Setup a simple mail server using OpenSMTPD, spamd, and Dovecot.
 
