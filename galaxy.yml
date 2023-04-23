@@ -9,13 +9,13 @@ description: ""
 
 authors:
   - "Johnathan C. Maudlin <jcmdln@gmail.com>"
+dependencies:
+  community.crypto: ">=1.0.0"
+  community.general: ">=1.0.0"
 license_file: LICENSE
 readme: README.md
 repository: https://github.com/jcmdln/ansible-collection-openbsd
 tags:
   - openbsd
+  - infrastructure
   - tools
-
-dependencies:
-  community.crypto: ">=1.0.0"
-  community.general: ">=1.0.0"
