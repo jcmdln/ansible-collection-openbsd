@@ -6,7 +6,7 @@
 line-length = 100
 
 [tool.mypy]
-exclude = [".git", ".tox", ".venv"]
+exclude = [".git/", ".github/", ".mypy_cache/", ".ruff_cache/", ".tox/", ".venv/", ".vscode/"]
 ignore_missing_imports = true
 show_error_context = true
 strict = true
@@ -18,8 +18,10 @@ disallow_any_generics = false
 ignore = [
     "D",       # Ignore all documentation lints
     "ANN101",  # Missing type annotation for `self` in method
+    "C901",    # Method is too complex
     "COM812",  # Trailing comma missing
     "INP001",  # File is part of an implicit namespace package. Add an `__init__.py`
+    "PLR0912", # Too many branches
     "PLR2004", # Magic value used in comparison, consider replacing with a constant variable
 ]
 line-length = 100

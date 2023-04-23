@@ -31,7 +31,7 @@ class Pkg:
         self.stdout: str = ""
         self.stderr: str = ""
 
-    def add(self) -> None:  # noqa: C901, PLR0912
+    def add(self) -> None:
         self.command = "/usr/sbin/pkg_add -I -x"
         __latest_cmd: str = ""
         __present_cmd: str = ""
@@ -111,7 +111,7 @@ class Pkg:
         self.changed = True
         self.msg = "completed successfully"
 
-    def delete(self) -> None:  # noqa: C901
+    def delete(self) -> None:
         self.command = "/usr/sbin/pkg_delete -I -v -x"
         to_delete: dict[str, None] = {}
 
