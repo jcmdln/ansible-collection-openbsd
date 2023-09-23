@@ -11,6 +11,8 @@
     "redhat.ansible",
     "redhat.vscode-yaml",
     "samuelcolvin.jinjahtml",
-    "wayou.vscode-todo-highlight"
+    "wayou.vscode-todo-highlight",
+    "github.vscode-github-actions",
+    "tamasfe.even-better-toml"
   ]
 }
