@@ -1,14 +1,13 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 all:
+  hosts:
+    localhost:
+      ansible_connection: local
   vars:
     ansible_python_interpreter: "/usr/bin/env python3"
 
 mail:
   hosts:
-    openbsd:
-      mail_aliases_root: example
-      mail_dkim_selector: openbsd
-      mail_domain: openbsd.localhost

@@ -1,9 +1,12 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 - name: Sysupgrade
-  hosts: all
+  hosts: "{{ target | default('all') }}"
+
+  any_errors_fatal: true
+  gather_facts: false
 
   handlers:
     - name: Reboot
@@ -12,6 +15,6 @@
 
   tasks:
     - name: Upgrade to latest release or snapshot
+      notify: Reboot
       jcmdln.openbsd.sysupgrade:
         branch: auto
-      notify: Reboot

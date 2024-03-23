@@ -1,10 +1,6 @@
 # {{ template_destpath }}
 # {{ ansible_managed }}
 
-#
-# Authentication
-#
-
 auth_username_format = %Ln
 hostname = {{ mail_domain }}
 lda_mailbox_autocreate = yes
@@ -18,19 +14,6 @@ ssl_cert = </etc/ssl/{{ mail_domain }}.crt
 ssl_key = </etc/ssl/private/{{ mail_domain }}.key
 ssl_prefer_server_ciphers = yes
 
-#
-# Databases
-#
-
-userdb {
-	driver = passwd
-	args = blocking=no
-}
-
-#
-# Folders
-#
-
 namespace inbox {
 	inbox = yes
 	separator = /
@@ -39,31 +22,23 @@ namespace inbox {
 		auto = subscribe
 		special_use = \Archive
 	}
-
 	mailbox Drafts {
 		auto = subscribe
 		special_use = \Drafts
 	}
-
 	mailbox Sent {
 		auto = subscribe
 		special_use = \Sent
 	}
-
 	mailbox Junk {
 		auto = subscribe
 		special_use = \Junk
 	}
-
 	mailbox Trash {
 		auto = subscribe
 		special_use = \Trash
 	}
 }
-
-#
-# Plugins
-#
 
 plugin {
 	sieve = file:~/Mail/dovecot.sieve
@@ -81,15 +56,10 @@ protocol lmtp {
 	postmaster_address = postmaster@{{ mail_domain }}
 }
 
-#
-# Services
-#
-
 service imap-login {
 	inet_listener imap {
 		port = 143
 	}
-
 	inet_listener imaps {
 		port = 993
 		ssl = yes
@@ -102,4 +72,9 @@ service lmtp {
 		group = _smtpd
 		mode = 0600
 	}
+}
+
+userdb {
+	driver = passwd
+	args = blocking=no
 }

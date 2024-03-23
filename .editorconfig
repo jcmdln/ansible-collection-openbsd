@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 
 root = true
 
@@ -19,9 +19,5 @@ indent_size = 2
 tab_width = 2
 
 [*.{ansible-,yaml}lint]
-indent_size = 2
-tab_width = 2
-
-[Vagrantfile]
 indent_size = 2
 tab_width = 2

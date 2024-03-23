@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 - name: Install required packages
   jcmdln.openbsd.pkg:
@@ -53,7 +53,7 @@
 
 - name: Generate RSA2048 dkim private key
   community.crypto.openssl_privatekey:
-    path: /etc/mail/dkim/{{ mail_dkim_selector }}.private.key
+    path: "/etc/mail/dkim/{{ mail_dkim_selector }}.private.key"
     size: 2048
     type: RSA
     owner: _dkimsign
@@ -62,8 +62,8 @@
 
 - name: Generate RSA2048 dkim public key
   community.crypto.openssl_publickey:
-    path: /etc/mail/dkim/{{ mail_dkim_selector }}.public.key
-    privatekey_path: /etc/mail/dkim/{{ mail_dkim_selector }}.private.key
+    path: "/etc/mail/dkim/{{ mail_dkim_selector }}.public.key"
+    privatekey_path: "/etc/mail/dkim/{{ mail_dkim_selector }}.private.key"
     owner: _dkimsign
     group: _dkimsign
     mode: 0600
@@ -88,6 +88,7 @@
     path: "/etc/login.conf"
 
 - name: Configure Dovecot
+  notify: Restart dovecot
   ansible.builtin.template:
     backup: true
     dest: /etc/dovecot/local.conf
@@ -95,7 +96,6 @@
     mode: 0644
     owner: root
     src: etc/dovecot/local.conf.j2
-  notify: Restart dovecot
 
 - name: Comment out ssl_cert from /etc/dovecot/conf.d/10-ssl.conf
   ansible.builtin.replace:
@@ -124,6 +124,7 @@
     name: smtpd
 
 - name: Configure smtpd
+  notify: Restart smtpd
   ansible.builtin.template:
     backup: true
     dest: /etc/mail/smtpd.conf
@@ -131,18 +132,20 @@
     mode: 0644
     owner: root
     src: etc/mail/smtpd.conf.j2
-  notify: Restart smtpd
 
 - name: Define well-known mail aliases for root@
+  when:
+    - mail_aliases_root is defined
+    - mail_aliases_root != "root"
   ansible.builtin.blockinfile:
     block: |
       # Well-known aliases
-      root: {{ mail_aliases_root }}
       contact: root
       dumper: root
       info: root
       manager: root
       privacy: root
+      root: {{ mail_aliases_root }}
 
       # RFC 2142
       abuse: root
@@ -151,9 +154,6 @@
       webmaster: root
     marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.mail"
     path: "/etc/mail/aliases"
-  when:
-    - mail_aliases_root is defined
-    - mail_aliases_root != "root"
 
 - name: Start smtpd
   ansible.builtin.service:

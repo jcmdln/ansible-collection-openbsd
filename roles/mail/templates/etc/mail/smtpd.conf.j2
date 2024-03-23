@@ -7,9 +7,11 @@ pki "mail" key "/etc/ssl/private/{{ mail_domain }}.key"
 table aliases file:/etc/mail/aliases
 
 filter "dkimsign" proc-exec "filter-dkimsign \
-	-d {{ mail_domain }} -s {{ mail_dkim_selector }} \
+	-d {{ mail_domain }} \
 	-k /etc/mail/dkim/{{ mail_dkim_selector }}.private.key" \
-	user _dkimsign group _dkimsign
+	-s {{ mail_dkim_selector }} \
+	user _dkimsign \
+	group _dkimsign
 
 listen on socket filter {"dkimsign"}
 listen on lo0 filter {"dkimsign"}

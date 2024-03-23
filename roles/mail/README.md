@@ -73,7 +73,7 @@ Consider enabling DNSSEC:
 
 ### Examples
 
-```ruby
+```perl
 # ~/Mail/dovecot.sieve
 
 require ["fileinto", "mailbox"];

@@ -1,14 +1,10 @@
 // SPDX-License-Identifier: ISC
 //
-// Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+// Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.wordWrap": "on",
-
-  "evenBetterToml.formatter.columnWidth": 100,
-  "evenBetterToml.formatter.reorderKeys": true,
-  "evenBetterToml.schema.enabled": false,
 
   "files.associations": {
     ".ansible-lint": "yaml",
@@ -19,6 +15,7 @@
     "**/meta/**/*.yml": "ansible",
     "**/tasks/**/*.yml": "ansible",
     "**/vars/**/*.yml": "ansible",
+    "**/roles/*/templates/**/*.conf.j2": "jinja-properties",
     "galaxy.yml": "ansible",
     "site-*.yml": "ansible"
   },
@@ -26,28 +23,30 @@
     "**/__pycache__/**": true,
     "**/.mypy_cache/**": true,
     "**/.ruff_cache/**": true,
+    "**/.pytest_cache/**": true,
     "**/.tox/**": true,
-    "**/.venv/**": true,
-    "**/*.egg-info/**": true
+    "**/.venv/**": true
   },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
 
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
+  //
+  // Extensions
+  //
 
-  "python.formatting.provider": "black",
-  "python.linting.enabled": true,
-  "python.linting.mypyEnabled": true,
+  "ansible.python.interpreterPath": "/bin/python",
+
+  "evenBetterToml.formatter.columnWidth": 100,
+  "evenBetterToml.formatter.reorderKeys": true,
+  "evenBetterToml.schema.enabled": false,
+
+  "python.testing.pytestArgs": ["test"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+
+  "ruff.enable": true,
   "ruff.organizeImports": true,
-  "[python]": {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-    },
-    "editor.defaultFormatter": "ms-python.python"
-  },
 
   "yaml.schemas": {
     "https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json": [
@@ -59,5 +58,22 @@
     "https://json.schemastore.org/github-workflow.json": [
       "{workspaceFolder}/.github/workflows/*.yml"
     ]
-  }
+  },
+
+  //
+  // Languages
+  //
+
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" }
 }

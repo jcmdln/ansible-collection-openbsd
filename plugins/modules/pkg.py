@@ -2,11 +2,35 @@
 #
 # Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
 
-from __future__ import annotations
+from __future__ import absolute_import, annotations, division, print_function
+
+__metaclass__ = type
 
 import re
 
 from ansible.module_utils.basic import AnsibleModule
+
+DOCUMENTATION = r"""
+---
+module: pkg
+short_description: Manage packages using pkg_* suite
+version_added: "1.2.0"
+
+author: Johnathan Craig Maudlin (@jcmdln) <jcmdln@gmail.com>
+description: []
+
+options:
+  delete_unused:
+    description: thing
+  force:
+    description: thing
+  name:
+    description: thing
+  replace_existing:
+    description: thing
+  state:
+    description: thing
+"""
 
 
 class Pkg:
@@ -69,7 +93,7 @@ class Pkg:
             self.command = f"{self.command} -D {self.force}".format()
 
         for pkg in self.packages:
-            package = self.packages[pkg]["name"]
+            package: str = self.packages[pkg]["name"]
             if pkg in pkgs or package in pkgs:
                 to_update[package] = None
                 pkgs = list(set(pkgs) - {pkg} - {package})
@@ -140,7 +164,7 @@ class Pkg:
             return
 
         for pkg in self.packages:
-            package = self.packages[pkg]["name"]
+            package: str = self.packages[pkg]["name"]
             if pkg in self.name:
                 to_delete[pkg] = None
             elif package in self.name:
@@ -151,8 +175,8 @@ class Pkg:
             self.msg = "no action performed"
             return
 
-        for package in to_delete:
-            self.command = f"{self.command} {package}"
+        for pkg in to_delete:
+            self.command = f"{self.command} {pkg}"
 
         self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
@@ -178,7 +202,7 @@ class Pkg:
             name = re.sub(r"-[0-9].*$", "", pkg)
             _version = re.search(r"-([\d.]+.*$)", pkg)
             if _version:
-                version = _version.group(1)
+                version: str = _version.group(1)
 
             self.packages[pkg] = {"name": name, "version": f"{version}"}
 

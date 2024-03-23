@@ -1,10 +1,12 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 exclude_paths:
-  - .github
+  - .github/
+  - .vscode/
 skip_list:
+  - meta-runtime[unsupported-version]
   - no-changed-when
   - no-handler
   - no-tabs

@@ -1,11 +1,33 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 
 # Ignore everything
 *
 
-# Include specific files
+# Include directories
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+!.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!inventory/
+!inventory/localhost.yml
+!meta/
+!meta/runtime.yml
+!playbooks/
+!playbooks/*.yml
+!plugins/
+!plugins/modules/
+!plugins/modules/*.py
+!roles/
+!roles/**/
+!roles/**/*.md
+!roles/**/*.yml
+!roles/**/templates/**/*.j2
+
+# Include files
 !.ansible-lint
 !.editorconfig
 !.gitignore
@@ -16,34 +38,4 @@
 !LICENSE
 !pyproject.toml
 !README.md
-!site-check.yml
-!site-mail.yml
-!site-pkg.yml
-!site-syspatch.yml
-!site-sysupgrade.yml
 !tox.ini
-
-# Include files from subdirectories
-!.github/
-!.github/workflows/
-!.github/workflows/*.yml
-
-!.vscode/
-!.vscode/extensions.json
-!.vscode/settings.json
-
-!inventory/
-!inventory/localhost.yml
-
-!meta/
-!meta/runtime.yml
-
-!plugins/
-!plugins/modules/
-!plugins/modules/*.py
-
-!roles/
-!roles/**/
-!roles/**/*.j2
-!roles/**/*.md
-!roles/**/*.yml

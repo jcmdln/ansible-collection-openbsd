@@ -1,9 +1,12 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 - name: Pkg
-  hosts: all
+  hosts: "{{ target | default('all') }}"
+
+  any_errors_fatal: true
+  gather_facts: false
 
   tasks:
     - name: Update packages

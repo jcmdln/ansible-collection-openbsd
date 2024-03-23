@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 
 [tool.black]
 line-length = 100
 
 [tool.mypy]
-exclude = [".git/", ".github/", ".mypy_cache/", ".ruff_cache/", ".tox/", ".venv/", ".vscode/"]
+mypy_path = ["plugins/modules/"]
 ignore_missing_imports = true
 show_error_context = true
 strict = true
@@ -15,6 +15,14 @@ strict_optional = true
 disallow_any_generics = false
 
 [tool.ruff]
+line-length = 100
+src = ["plugins/modules/"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 80
+
+[tool.ruff.lint]
 ignore = [
     "D",       # Ignore all documentation lints
     "ANN101",  # Missing type annotation for `self` in method
@@ -24,5 +32,3 @@ ignore = [
     "PLR0912", # Too many branches
     "PLR2004", # Magic value used in comparison, consider replacing with a constant variable
 ]
-line-length = 100
-select = ["ALL"]

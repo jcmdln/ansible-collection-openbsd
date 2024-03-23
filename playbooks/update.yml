@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Python
+  import_playbook: jcmdln.openbsd.python
+
+- name: Pkg
+  import_playbook: jcmdln.openbsd.pkg
+
+- name: Syspatch
+  import_playbook: jcmdln.openbsd.syspatch

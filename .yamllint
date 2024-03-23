@@ -1,27 +1,16 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
-ignore: |
-  .mypy_cache/
-  .tox/
-  .vagrant/
-  .venv/
-  .vscode/
-
 rules:
-  braces:
-    max-spaces-inside: 1
+  braces: { max-spaces-inside: 1 }
   brackets: enable
   colons: enable
   commas: enable
-  comments:
-    level: warning
-  comments-indentation:
-    level: warning
+  comments: { level: warning }
+  comments-indentation: { level: warning }
   document-end: disable
-  document-start:
-    level: warning
+  document-start: { level: warning }
   empty-lines: enable
   empty-values: disable
   hyphens: enable

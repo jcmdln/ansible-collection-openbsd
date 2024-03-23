@@ -1,60 +1,80 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 
-from __future__ import annotations
+from __future__ import absolute_import, annotations, division, print_function
+
+__metaclass__ = type
 
 from ansible.module_utils.basic import AnsibleModule
 
+DOCUMENTATION = r"""
+---
+module: sysupgrade
+short_description: Update to the next release or snapshot with sysupgrade
+version_added: "1.2.0"
 
-class Sysupgrade:
-    def __init__(self, module: AnsibleModule) -> None:
-        self.module: AnsibleModule = module
+author: Johnathan Craig Maudlin (@jcmdln) <jcmdln@gmail.com>
+description: []
 
-        # Return values
-        self.changed: bool = False
-        self.command: str = "/usr/sbin/sysupgrade -n"
-        self.msg: str = ""
-        self.rc: int = 0
-        self.reboot: bool = False
-        self.stdout: str = ""
-        self.stderr: str = ""
+options:
+  branch:
+    description:
+    default:
+  force:
+    description:
+    default:
+  keep:
+    description:
+    default:
+"""
 
-    def update(self) -> None:
-        if self.module.params["branch"] == "release":
-            self.command = f"{self.command} -r"
-        elif self.module.params["branch"] == "snapshot":
-            self.command = f"{self.command} -s"
 
-        if self.module.params["force"]:
-            self.command = f"{self.command} -f"
+class Result:
+    changed: bool = False
+    command: str = "/usr/sbin/sysupgrade -n"
+    msg: str = ""
+    rc: int = 0
+    reboot: bool = False
+    stdout: str = ""
+    stderr: str = ""
 
-        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
 
-        if not self.stdout and not self.stderr:
-            self.msg = "no actions performed"
-            return
+def sysupgrade(module: AnsibleModule) -> Result:
+    r: Result = Result()
 
-        if "already on latest" in self.stdout.lower():
-            self.msg = self.stdout.split("\n")[-1].strip(".").lower()
-            return
+    if module.params["branch"] == "release":
+        r.command = f"{r.command} -r"
+    elif module.params["branch"] == "snapshot":
+        r.command = f"{r.command} -s"
 
-        if "404 not found" in self.stderr.lower():
-            self.msg = "no newer {} available".format(self.module.params["branch"])
-            self.rc = 0
-            return
+    if module.params["force"]:
+        r.command = f"{r.command} -f"
 
-        if self.rc != 0 or "failed" in [
-            self.stderr.lower(),
-            self.stdout.lower(),
-        ]:
-            self.msg = "failed to upgrade host"
-            self.rc = 1 if self.rc == 0 else self.rc
-            return
+    r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
 
-        self.changed = True
-        self.msg = "upgrade performed successfully"
-        self.reboot = True
+    if not r.stdout and not r.stderr:
+        r.msg = "no actions performed"
+        return r
+    if "already on latest" in r.stdout.lower():
+        r.msg = r.stdout.split("\n")[-1].strip(".").lower()
+        return r
+    if "404 not found" in r.stderr.lower():
+        r.msg = "no newer {} available".format(module.params["branch"])
+        r.rc = 0
+        return r
+    if r.rc != 0 or "failed" in [
+        r.stderr.lower(),
+        r.stdout.lower(),
+    ]:
+        r.msg = "failed to upgrade host"
+        r.rc = 1 if r.rc == 0 else r.rc
+        return r
+
+    r.changed = True
+    r.msg = "upgrade performed successfully"
+    r.reboot = True
+    return r
 
 
 def main() -> None:
@@ -71,23 +91,10 @@ def main() -> None:
         supports_check_mode=False,
     )
 
-    sysupgrade: Sysupgrade = Sysupgrade(module)
-    sysupgrade.update()
-
-    result: dict[str, bool | int | str] = {
-        "changed": sysupgrade.changed,
-        "command": sysupgrade.command,
-        "msg": sysupgrade.msg,
-        "reboot": sysupgrade.reboot,
-        "rc": sysupgrade.rc,
-        "stdout": sysupgrade.stdout,
-        "stderr": sysupgrade.stderr,
-    }
-
-    if sysupgrade.rc > 0:
-        module.fail_json(**result)
-
-    module.exit_json(**result)
+    result: Result = sysupgrade(module)
+    if result.rc > 0:
+        module.fail_json(**result.__dict__)
+    module.exit_json(**result.__dict__)
 
 
 if __name__ == "__main__":

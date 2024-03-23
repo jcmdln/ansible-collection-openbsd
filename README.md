@@ -7,43 +7,27 @@ If you are looking for a hosting provider that offers OpenBSD, consider using
 
 # Using
 
-## Collection
-
 ```sh
+# Install the collection
 ansible-galaxy collection install git+https://github.com/jcmdln/ansible-collection-openbsd
-```
 
-Ansible allows running modules in an adhoc fashion for one-off tasks:
-
-```sh
+# Adhoc use of a module
 ansible -i <inventory> all -m jcmdln.openbsd.pkg -a "name=htop state=present"
+
+# Use a provided playbook to ensure Python is installed
+ansible-playbook -i <inventory> jcmdln.openbsd.python
+
+# Chain playbooks to patch hosts and update packages
+ansible-playbook -i <inventory> jcmdln.openbsd.{syspatch,pkg}
 ```
 
-For more info, see the following:
+# Developing
 
-- https://docs.ansible.com/ansible/latest/command_guide/intro_adhoc.html
-
-## Playbook
-
-```sh
-# Install this collection and its dependencies
-ansible-galaxy collection install .
-
-# Create a symlink to this collection so changes don't require reinstalling
-rm -fr ~/.ansible/collections/ansible_collections/jcmdln/openbsd
-ln -fs $PWD ~/.ansible/collections/ansible_collections/jcmdln/openbsd
-
-# Create an inventory
-cp inventory/localhost.yml inventory/example.yml
-vi inventory/example.yml
-
-# Run a playbook
-ansible-playbook -i inventory/example.yml site-check.yml
-```
-
-In this example we chain playbooks to patch/upgrade hosts and update packages:
+To avoid reinstalling the collection during each change, create a symbolic link
+to your user's collections path instead of installing the collection:
 
 ```sh
-ansible-playbook -i inventory/example.yml \
-    site-check.yml site-syspatch.yml site-sysupgrade.yml site-pkg.yml
+mkdir -pv $HOME/.ansible/collections/ansible_collections/jcmdln &&
+rm -frv $HOME/.ansible/collections/ansible_collections/jcmdln/openbsd &&
+ln -fs $PWD $HOME/.ansible/collections/ansible_collections/jcmdln/openbsd
 ```

@@ -1,10 +1,36 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 
-from __future__ import annotations
+from __future__ import absolute_import, annotations, division, print_function
+
+__metaclass__ = type
 
 from ansible.module_utils.basic import AnsibleModule
+
+DOCUMENTATION = r"""
+---
+module: syspatch
+short_description: Apply patches using syspatch
+version_added: "1.2.0"
+
+author: Johnathan Craig Maudlin (@jcmdln) <jcmdln@gmail.com>
+description: []
+
+options:
+  apply:
+    description:
+    default:
+  list:
+    description:
+    default:
+  reboot:
+    description:
+    default:
+  revert:
+    description:
+    default:
+"""
 
 
 class Syspatch:

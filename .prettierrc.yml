@@ -1,11 +1,10 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 options:
   editorconfig: true
 
 overrides:
   - files: "*.md"
-    options:
-      tabWidth: 2
+    options: { tabWidth: 2 }
