@@ -6,10 +6,11 @@ pki "mail" key "/etc/ssl/private/{{ mail_domain }}.key"
 
 table aliases file:/etc/mail/aliases
 
-filter "dkimsign" proc-exec "filter-dkimsign \
-	-d {{ mail_domain }} \
-	-k /etc/mail/dkim/{{ mail_dkim_selector }}.private.key" \
-	-s {{ mail_dkim_selector }} \
+filter "dkimsign" proc-exec \
+	"filter-dkimsign \
+		-d {{ mail_domain }} \
+		-k /etc/mail/dkim/{{ mail_dkim_selector }}.private.key \
+		-s {{ mail_dkim_selector }}" \
 	user _dkimsign \
 	group _dkimsign
 
