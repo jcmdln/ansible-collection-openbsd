@@ -77,16 +77,6 @@
     name: dovecot
     enabled: true
 
-- name: Define Dovecot daemon login class in login.conf
-  ansible.builtin.blockinfile:
-    block: |
-      dovecot:\
-      	:openfiles-cur=1024:\
-      	:openfiles-max=2048:\
-      	:tc=daemon:
-    marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.mail"
-    path: "/etc/login.conf"
-
 - name: Configure Dovecot
   notify: Restart dovecot
   ansible.builtin.template:
