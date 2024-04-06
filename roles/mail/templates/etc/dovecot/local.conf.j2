@@ -70,7 +70,10 @@ service lmtp {
 	unix_listener lmtp {
 		user = _smtpd
 		group = _smtpd
-		mode = 0600
+		# OpenSMTPD forks lmtp process as user.
+		# https://github.com/OpenSMTPD/OpenSMTPD/commit/f682a707ff6e72011db359c7cc72697a82ef4299
+		# TODO: jcmdln: Use a forward file? Per user?
+		mode = 0666
 	}
 }
 
