@@ -12,13 +12,13 @@ If you are looking for a hosting provider that offers OpenBSD, consider using
 ansible-galaxy collection install git+https://github.com/jcmdln/ansible-collection-openbsd
 
 # Adhoc use of a module
-ansible -i <inventory> all -m jcmdln.openbsd.pkg -a "name=htop state=present"
+ansible -i $INVENTORY all -m jcmdln.openbsd.pkg -a "name=htop state=present"
 
 # Use a provided playbook to ensure Python is installed
-ansible-playbook -i <inventory> jcmdln.openbsd.python
+ansible-playbook -i $INVENTORY jcmdln.openbsd.python
 
-# Chain playbooks to patch hosts and update packages
-ansible-playbook -i <inventory> jcmdln.openbsd.{syspatch,pkg}
+# Chain playbooks to update packages and patch hosts
+ansible-playbook -i $INVENTORY jcmdln.openbsd.{pkg,syspatch}
 ```
 
 # Developing
