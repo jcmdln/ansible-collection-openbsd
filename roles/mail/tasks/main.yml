@@ -105,6 +105,20 @@
     state: started
 
 #
+# Rspamd
+#
+
+- name: Enable rspamd
+  ansible.builtin.service:
+    name: rspamd
+    enabled: true
+
+- name: Start rspamd
+  ansible.builtin.service:
+    name: rspamd
+    state: started
+
+#
 # OpenSMTPD
 #
 
@@ -148,32 +162,4 @@
 - name: Start smtpd
   ansible.builtin.service:
     name: smtpd
-    state: started
-
-#
-# spamd
-#
-
-- name: Enable spamd
-  ansible.builtin.service:
-    name: spamd
-    enabled: true
-
-# FIXME: Create an rcctl module
-- name: Set spamd to blacklist-only mode (ie disable greylisting)
-  ansible.builtin.raw: rcctl set spamd flags -b
-
-- name: Start spamd
-  ansible.builtin.service:
-    name: spamd
-    state: started
-
-- name: Enable spamlogd
-  ansible.builtin.service:
-    name: spamlogd
-    state: started
-
-- name: Start spamlogd
-  ansible.builtin.service:
-    name: spamlogd
     state: started

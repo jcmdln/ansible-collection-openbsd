@@ -1,6 +1,6 @@
 # jcmdln.openbsd.mail
 
-Setup a simple mail server using OpenSMTPD, spamd, and Dovecot.
+Setup a simple mail server using OpenSMTPD, Dovecot and Rspamd.
 
 ## About
 
@@ -17,6 +17,7 @@ system resources as well as a mailbox to get work done.
 
 - Dovecot
   - https://www.dovecot.org
+  - https://www.rspamd.com/
 - OpenBSD
   - https://man.openbsd.org/acme-client.1
   - https://man.openbsd.org/openssl.1
@@ -24,8 +25,6 @@ system resources as well as a mailbox to get work done.
   - https://man.openbsd.org/pf.conf.5
   - https://man.openbsd.org/smtpd.8
   - https://man.openbsd.org/smtpd.conf.5
-  - https://man.openbsd.org/spamd.8
-  - https://man.openbsd.org/spamd.conf.5
 
 ### DNS Records
 
@@ -73,39 +72,39 @@ Consider enabling DNSSEC:
 
 ### Examples
 
-```perl
+```ruby
 # ~/Mail/dovecot.sieve
 
 require ["fileinto", "mailbox"];
 
 if exists "list-id" {
-    if header :contains "list-id" "alpinelinux.org" {
-        if header :contains "list-id" "~alpine/announce" {
-            fileinto :create "alpine-announce";
-        } elsif header :contains "list-id" "~alpine/aports" {
-            fileinto :create "alpine-aports";
-        } elsif header :contains "list-id" "~alpine/devel" {
-            fileinto :create "alpine-devel";
-        }
-    } elsif header :contains "list-id" "freelists.org" {
-        if header :contains "list-id" "bootstrappable" {
-            fileinto :create "bootstrappable";
-        }
-    } elsif header :contains "list-id" "openbsd.org" {
-        if header :contains "list-id" "advocacy" {
-            fileinto :create "openbsd-advocacy";
-        } elsif header :contains "list-id" "announce" {
-            fileinto :create "openbsd-announce";
-        } elsif header :contains "list-id" "bugs" {
-            fileinto :create "openbsd-bugs";
-        } elsif header :contains "list-id" "misc" {
-            fileinto :create "openbsd-misc";
-        } elsif header :contains "list-id" "ports" {
-            fileinto :create "openbsd-ports";
-        } elsif header :contains "list-id" "tech" {
-            fileinto :create "openbsd-tech";
-        }
-    }
+	if header :contains "list-id" "alpinelinux.org" {
+		if header :contains "list-id" "~alpine/announce" {
+			fileinto :create "alpine-announce";
+		} elsif header :contains "list-id" "~alpine/aports" {
+			fileinto :create "alpine-aports";
+		} elsif header :contains "list-id" "~alpine/devel" {
+			fileinto :create "alpine-devel";
+		}
+	} elsif header :contains "list-id" "freelists.org" {
+		if header :contains "list-id" "bootstrappable" {
+			fileinto :create "bootstrappable";
+		}
+	} elsif header :contains "list-id" "openbsd.org" {
+		if header :contains "list-id" "advocacy" {
+			fileinto :create "openbsd-advocacy";
+		} elsif header :contains "list-id" "announce" {
+			fileinto :create "openbsd-announce";
+		} elsif header :contains "list-id" "bugs" {
+			fileinto :create "openbsd-bugs";
+		} elsif header :contains "list-id" "misc" {
+			fileinto :create "openbsd-misc";
+		} elsif header :contains "list-id" "ports" {
+			fileinto :create "openbsd-ports";
+		} elsif header :contains "list-id" "tech" {
+			fileinto :create "openbsd-tech";
+		}
+	}
 }
 ```
 
