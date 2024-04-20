@@ -37,27 +37,33 @@ The table below outlines which DNS records are required (or suggested):
 [rfc7489]: https://www.rfc-editor.org/rfc/rfc7489
 [rfc8657]: https://www.rfc-editor.org/rfc/rfc8657
 
-| Host/Service          | Type  | TTL  | Value                                 |
-| --------------------- | ----- | ---- | ------------------------------------- |
-| @                     | A     | 3600 | 0.0.0.0                               |
-| @                     | AAAA  | 3600 | ::1                                   |
-| imap.domain.tld       | CNAME | 3600 | domain.tld                            |
-| smtp.domain.tld       | CNAME | 3600 | domain.tld                            |
+| Host/Service          | Type  | TTL  | Value                             |
+| --------------------- | ----- | ---- | --------------------------------- |
+| @                     | A     | 3600 | 0.0.0.0                           |
+| @                     | AAAA  | 3600 | ::1                               |
+| imap.domain.tld       | CNAME | 3600 | domain.tld                        |
+| smtp.domain.tld       | CNAME | 3600 | domain.tld                        |
 | [rfc5321]             |
-| @                     | MX    | 3600 | 10 smtp.domain.tld.                   |
+| @                     | MX    | 3600 | 10 smtp.domain.tld.               |
 | [rfc6186]             |
-| \_imap.\_tcp          | SRV   | 3600 | 0 1 143 imap.domain.tld.              |
-| \_imaps.\_tcp         | SRV   | 3600 | 0 1 993 imap.domain.tld.              |
-| \_submission.\_tcp    | SRV   | 3600 | 0 1 587 smtp.domain.tld.              |
-| \_submissions.\_tcp   | SRV   | 3600 | 0 1 465 smtp.domain.tld.              |
+| \_imap.\_tcp          | SRV   | 3600 | 0 1 143 imap.domain.tld.          |
+| \_imaps.\_tcp         | SRV   | 3600 | 0 1 993 imap.domain.tld.          |
+| \_submission.\_tcp    | SRV   | 3600 | 0 1 587 smtp.domain.tld.          |
+| \_submissions.\_tcp   | SRV   | 3600 | 0 1 465 smtp.domain.tld.          |
 | [rfc7208]             |
-| @                     | TXT   | 3600 | v=spf1 mx -all                        |
+| @                     | TXT   | 3600 | v=spf1 mx -all                    |
 | [rfc6376]             |
-| $SELECTOR.\_domainkey | TXT   | 3600 | v=DKIM1; k=rsa; p=$RSA_PUBLIC_KEY     |
+| $SELECTOR.\_domainkey | TXT   | 3600 | v=DKIM1;                          |
+|                       |       |      | d=domain.tld;                     |
+|                       |       |      | k=rsa;                            |
+|                       |       |      | p=$RSA_PUBLIC_KEY                 |
 | [rfc7489]             |
-| \_dmarc               | TXT   | 3600 | v=DMARC1; p=reject; pct=100; rf=afrf; |
-|                       |       |      | rua=mailto:hostmaster@domain.tld;     |
-|                       |       |      | ruf=mailto:hostmaster@domain.tld      |
+| \_dmarc               | TXT   | 3600 | v=DMARC1;                         |
+|                       |       |      | p=reject;                         |
+|                       |       |      | pct=100;                          |
+|                       |       |      | rf=afrf;                          |
+|                       |       |      | rua=mailto:hostmaster@domain.tld; |
+|                       |       |      | ruf=mailto:hostmaster@domain.tld  |
 
 #### DNSSEC
 
@@ -77,7 +83,11 @@ Consider enabling DNSSEC:
 
 require ["fileinto", "mailbox"];
 
-if exists "list-id" {
+if exists "x-spam" {
+	if header :contains "x-spam" "yes" {
+		fileinto :create "Junk";
+	}
+} elsif exists "list-id" {
 	if header :contains "list-id" "alpinelinux.org" {
 		if header :contains "list-id" "~alpine/announce" {
 			fileinto :create "alpine-announce";
