@@ -3,8 +3,8 @@
 # Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 ---
 mail_packages:
-  - dovecot
-  - dovecot-pigeonhole
+  - dovecot--
+  - dovecot-pigeonhole--
   - opensmtpd-filter-rspamd
   - py3-cryptography
   - rspamd--hyperscan
