@@ -9,7 +9,7 @@ If you are looking for a hosting provider that offers OpenBSD, consider using
 
 ```sh
 # Install the collection
-ansible-galaxy collection install git+https://github.com/jcmdln/ansible-collection-openbsd
+ansible-galaxy collection install jcmdln.openbsd
 
 # Adhoc use of a module
 ansible -i $INVENTORY all -m jcmdln.openbsd.pkg -a "name=htop state=present"
