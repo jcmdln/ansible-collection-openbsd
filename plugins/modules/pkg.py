@@ -82,27 +82,27 @@ EXAMPLES = r"""
 
 - name: Install a package
   jcmdln.openbsd.pkg:
-  name: cmake
-  state: present
+    name: cmake
+    state: present
 
 - name: Update existing packages and install missing packages
   jcmdln.openbsd.pkg:
-  name:
-    - cmake
-    - nano
-  state: latest
+    name:
+      - cmake
+      - nano
+    state: latest
 
 - name: Delete a package
   jcmdln.openbsd.pkg:
-  name: cmake
-  state: absent
+    name: cmake
+    state: absent
 
 - name: Delete existing packages
   jcmdln.openbsd.pkg:
-  name:
-    - cmake
-    - nano
-  state: absent
+    name:
+      - cmake
+      - nano
+    state: absent
 """
 
 
@@ -115,7 +115,7 @@ class Result:
         rc: int = 0,
         stdout: str = "",
         stderr: str = "",
-    ) -> Result:
+    ) -> None:
         self.changed: bool = changed
         self.command: str = command
         self.msg: str = msg
@@ -168,7 +168,7 @@ def pkg_add(
         r.command = f"{r.command} -r"
 
     # When updating all packages, skip all other package semantics.
-    if name == "*" or "*" in name:
+    if "*" in name:
         r.command = f"{r.command} -u"
         r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
         r.changed = False if module.check_mode else True if "installing" in r.stdout else False
@@ -257,7 +257,7 @@ def pkg_delete(
 
     # Collect to_delete packages
     to_delete: dict[str, None] = {}
-    for p in [p for p in packages if p in name or packages.get(p).get("name") in name]:
+    for p in [p for p in packages if p in name or packages.get(p, {}).get("name") in name]:
         to_delete[p] = None
     if not to_delete:
         return r
