@@ -31,13 +31,23 @@ options:
 
 
 class Result:
-    changed: bool = False
-    command: str = "/usr/sbin/sysupgrade -n"
-    msg: str = ""
-    rc: int = 0
-    reboot: bool = False
-    stdout: str = ""
-    stderr: str = ""
+    def __init__(
+        self,
+        changed: bool = False,
+        command: str = "/usr/sbin/sysupgrade -n",
+        msg: str = "no action required",
+        rc: int = 0,
+        reboot: bool = False,
+        stdout: str = "",
+        stderr: str = "",
+    ) -> None:
+        self.changed: bool = changed
+        self.command: str = command
+        self.msg: str = msg
+        self.rc: int = rc
+        self.reboot: bool = reboot
+        self.stdout: str = stdout
+        self.stderr: str = stderr
 
 
 def sysupgrade(module: AnsibleModule) -> Result:
