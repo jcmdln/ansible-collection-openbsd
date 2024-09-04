@@ -51,17 +51,19 @@ options:
             - snap
             - snapshot
             - unsigned
-        default: ""
 
     name:
         description:
-            - A package name.
+            - A package name or list of packages.
         type: list
         element: str
         default: []
 
     replace_existing:
-        description: thing
+        description:
+            - thing
+        type: bool
+        default: false
 
     state:
         description:
@@ -171,7 +173,7 @@ def pkg_add(
     if "*" in name:
         r.command = f"{r.command} -u"
         r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-        r.changed = False if module.check_mode else True if "installing" in r.stdout else False
+        r.changed = False if module.check_mode else "installing" in r.stdout
         r.msg = "Updated packages."
         return r
 
@@ -179,7 +181,7 @@ def pkg_add(
     if state == "present":
         r.command = f"{r.command} {' '.join(name)}"
         r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-        r.changed = False if module.check_mode else True if "installing" in r.stdout else False
+        r.changed = False if module.check_mode else "installing" in r.stdout
         r.msg = "Installed packages."
         return r
 
@@ -213,7 +215,7 @@ def pkg_add(
         r.msg = "Updated packages."
 
     r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-    r.changed = False if module.check_mode else True if "installing" in r.stdout else False
+    r.changed = "installing" in r.stdout
     return r
 
 
@@ -248,7 +250,7 @@ def pkg_delete(
     # When deleting all unused packages, skip all other package semantics.
     if not name and delete_unused:
         r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-        r.changed = False if module.check_mode else True if "Deleting" in r.stdout else False
+        r.changed = False if module.check_mode else "Deleting" in r.stdout
         r.msg = "Deleted packages."
         return r
 
@@ -266,7 +268,7 @@ def pkg_delete(
 
     r.command = f"{r.command} {' '.join(to_delete.keys())}"
     r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-    r.changed = False if module.check_mode else True if "Deleting" in r.stdout else False
+    r.changed = False if module.check_mode else "Deleting" in r.stdout
     r.msg = "Deleted packages."
     return r
 
@@ -320,6 +322,7 @@ def main() -> None:
                 "type": "str",
             },
         },
+        # required_one_of=[],
         supports_check_mode=True,
     )
 
