@@ -61,6 +61,8 @@ The table below outlines which DNS records are required (or suggested):
 | \_dmarc               | TXT   | 3600 | v=DMARC1;                         |
 |                       |       |      | p=reject;                         |
 |                       |       |      | pct=100;                          |
+|                       |       |      | adkim=s;                          |
+|                       |       |      | aspf=s;                           |
 |                       |       |      | rf=afrf;                          |
 |                       |       |      | rua=mailto:hostmaster@domain.tld; |
 |                       |       |      | ruf=mailto:hostmaster@domain.tld  |
