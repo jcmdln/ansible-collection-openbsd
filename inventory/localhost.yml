@@ -7,7 +7,7 @@ all:
     localhost:
       ansible_connection: local
   vars:
-    ansible_python_interpreter: "/usr/bin/env python3"
+    ansible_python_interpreter: /usr/local/bin/python3
 
 mail:
   hosts:
