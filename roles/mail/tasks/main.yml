@@ -118,6 +118,16 @@
     name: rspamd
     state: started
 
+- name: Enable redis
+  ansible.builtin.service:
+    name: rspamd
+    enabled: true
+
+- name: Start redis
+  ansible.builtin.service:
+    name: rspamd
+    state: started
+
 #
 # OpenSMTPD
 #
