@@ -108,183 +108,165 @@ EXAMPLES = r"""
 """
 
 
-class Result:
-    def __init__(
-        self,
-        changed: bool = False,
-        command: str = "",
-        msg: str = "no action required",
-        rc: int = 0,
-        stdout: str = "",
-        stderr: str = "",
-    ) -> None:
-        self.changed: bool = changed
-        self.command: str = command
-        self.msg: str = msg
-        self.rc: int = rc
-        self.stdout: str = stdout
-        self.stderr: str = stderr
+class Pkg:
+    # Results
+    changed: bool = False
+    command: str = ""
+    msg: str = "no action required"
+    rc: int = 0
+    stdout: str = ""
+    stderr: str = ""
 
+    def __init__(self, module: AnsibleModule) -> None:
+        self.module: AnsibleModule = module
 
-def pkg_add(
-    module: AnsibleModule,
-    *,
-    force: str,
-    name: list[str],
-    replace_existing: bool,
-    state: str,
-) -> Result:
-    r: Result = Result()
-    r.command = "/usr/sbin/pkg_add -I -v -x"
+    def add(self, *, force: str, name: list[str], replace_existing: bool, state: str) -> Pkg:
+        self.command = "/usr/sbin/pkg_add -I -v -x"
 
-    if force and force not in [
-        "allversions",
-        "arch",
-        "checksum",
-        "dontmerge",
-        "donttie",
-        "downgrade",
-        "installed",
-        "nonroot",
-        "repair",
-        "scripts",
-        "SIGNER",
-        "snap",
-        "snapshot",
-        "unsigned",
-    ]:
-        r.msg = f"'{force}' is invalid when adding packages"
-        r.rc = 1
-        return r
+        if force and force not in [
+            "allversions",
+            "arch",
+            "checksum",
+            "dontmerge",
+            "donttie",
+            "downgrade",
+            "installed",
+            "nonroot",
+            "repair",
+            "scripts",
+            "SIGNER",
+            "snap",
+            "snapshot",
+            "unsigned",
+        ]:
+            self.msg = f"'{force}' is invalid when adding packages"
+            self.rc = 1
+            return self
 
-    if "*" in name and state == "present":
-        r.msg = "Refusing to install all packages"
-        r.rc = 1
-        return r
+        if "*" in name and state == "present":
+            self.msg = "Refusing to install all packages"
+            self.rc = 1
+            return self
 
-    if module.check_mode:
-        r.command = f"{r.command} -s"
-    if force:
-        r.command = f"{r.command} -D {force}".format()
-    if replace_existing:
-        r.command = f"{r.command} -r"
+        if self.module.check_mode:
+            self.command = f"{self.command} -s"
+        if force:
+            self.command = f"{self.command} -D {force}".format()
+        if replace_existing:
+            self.command = f"{self.command} -r"
 
-    # When updating all packages, skip all other package semantics.
-    if "*" in name:
-        r.command = f"{r.command} -u"
-        r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-        r.changed = False if module.check_mode else "installing" in r.stdout
-        r.msg = "Updated packages."
-        return r
+        # When updating all packages, skip all other package semantics.
+        if "*" in name:
+            self.command = f"{self.command} -u"
+            self.rc, self.stdout, self.stderr = self.module.run_command(
+                self.command, check_rc=False
+            )
+            self.changed = False if self.module.check_mode else "installing" in self.stdout
+            self.msg = "Updated packages."
+            return self
 
-    # When ensuring packages are installed, skip all other package semantics.
-    if state == "present":
-        r.command = f"{r.command} {' '.join(name)}"
-        r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-        r.changed = False if module.check_mode else "installing" in r.stdout
-        r.msg = "Installed packages."
-        return r
+        # When ensuring packages are installed, skip all other package semantics.
+        if state == "present":
+            self.command = f"{self.command} {' '.join(name)}"
+            self.rc, self.stdout, self.stderr = self.module.run_command(
+                self.command, check_rc=False
+            )
+            self.changed = False if self.module.check_mode else "installing" in self.stdout
+            self.msg = "Installed packages."
+            return self
 
-    # Collect the dict of currently installed packages.
-    packages: dict = pkg_info(module)
+        # Collect the dict of currently installed packages.
+        packages: dict = self.info()
 
-    # Collect to_install packages, removing matches
-    to_install: dict[str, None] = {}
-    for pkg in [p for p in name if not packages.get(p)]:
-        to_install[pkg] = None
-        name = list(set(name) - {pkg})
+        # Collect to_install packages, removing matches
+        to_install: dict[str, None] = {}
+        for pkg in [p for p in name if not packages.get(p)]:
+            to_install[pkg] = None
+            name = list(set(name) - {pkg})
 
-    # Collect to_update packages, removing matches
-    to_update: dict[str, None] = {}
-    for pkg in name:
-        to_update[pkg] = None
-        name = list(set(name) - {pkg})
+        # Collect to_update packages, removing matches
+        to_update: dict[str, None] = {}
+        for pkg in name:
+            to_update[pkg] = None
+            name = list(set(name) - {pkg})
 
-    cmd_install: str = f"{r.command} {' '.join(to_install.keys())}"
-    print(cmd_install)
-    cmd_update: str = f"{r.command} -u {' '.join(to_update.keys())}"
-    print(cmd_update)
-    if to_install and to_update:
-        r.command = f"{cmd_update} && {cmd_install}"
-        r.msg = "Updated and installed packages."
-    elif to_install:
-        r.command = cmd_install
-        r.msg = "Installed packages."
-    elif to_update:
-        r.command = cmd_update
-        r.msg = "Updated packages."
+        cmd_install: str = f"{self.command} {' '.join(to_install.keys())}"
+        print(cmd_install)
+        cmd_update: str = f"{self.command} -u {' '.join(to_update.keys())}"
+        print(cmd_update)
+        if to_install and to_update:
+            self.command = f"{cmd_update} && {cmd_install}"
+            self.msg = "Updated and installed packages."
+        elif to_install:
+            self.command = cmd_install
+            self.msg = "Installed packages."
+        elif to_update:
+            self.command = cmd_update
+            self.msg = "Updated packages."
 
-    r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-    r.changed = "installing" in r.stdout
-    return r
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
+        self.changed = "installing" in self.stdout
+        return self
 
+    def delete(self, *, delete_unused: bool, force: str, name: list[str], state: str) -> Pkg:
+        self.command = "/usr/sbin/pkg_delete -I -v -x"
 
-def pkg_delete(
-    module: AnsibleModule,
-    *,
-    delete_unused: bool,
-    force: str,
-    name: list[str],
-    state: str,
-) -> Result:
-    r: Result = Result()
-    r.command = "/usr/sbin/pkg_delete -I -v -x"
+        if force and force not in ["baddepend", "checksum", "dependencies", "nonroot", "scripts"]:
+            self.command = ""
+            self.msg = f"'{force}' is invalid when deleting packages"
+            self.rc = 1
+            return self
+        if "*" in name and state == "present":
+            self.msg = "Refusing to delete all packages"
+            self.rc = 1
+            return self
 
-    if force and force not in ["baddepend", "checksum", "dependencies", "nonroot", "scripts"]:
-        r.command = ""
-        r.msg = f"'{force}' is invalid when deleting packages"
-        r.rc = 1
-        return r
-    if "*" in name and state == "present":
-        r.msg = "Refusing to delete all packages"
-        r.rc = 1
-        return r
+        if self.module.check_mode:
+            self.command = f"{self.command} -s"
+        if delete_unused:
+            self.command = f"{self.command} -a"
+        if force:
+            self.command = f"{self.command} -D {force}".format()
 
-    if module.check_mode:
-        r.command = f"{r.command} -s"
-    if delete_unused:
-        r.command = f"{r.command} -a"
-    if force:
-        r.command = f"{r.command} -D {force}".format()
+        # When deleting all unused packages, skip all other package semantics.
+        if not name and delete_unused:
+            self.rc, self.stdout, self.stderr = self.module.run_command(
+                self.command, check_rc=False
+            )
+            self.changed = False if self.module.check_mode else "Deleting" in self.stdout
+            self.msg = "Deleted packages."
+            return self
 
-    # When deleting all unused packages, skip all other package semantics.
-    if not name and delete_unused:
-        r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-        r.changed = False if module.check_mode else "Deleting" in r.stdout
-        r.msg = "Deleted packages."
-        return r
+        # Collect the dict of currently installed packages.
+        packages: dict = self.info()
 
-    # Collect the dict of currently installed packages.
-    packages: dict[str, dict] = pkg_info(module)
+        # Collect to_delete packages
+        to_delete: dict[str, None] = {}
+        for p in [p for p in packages if p in name or packages.get(p, {}).get("name") in name]:
+            to_delete[p] = None
+        if not to_delete:
+            return self
 
-    # Collect to_delete packages
-    to_delete: dict[str, None] = {}
-    for p in [p for p in packages if p in name or packages.get(p, {}).get("name") in name]:
-        to_delete[p] = None
-    if not to_delete:
-        return r
+        packages.values
 
-    packages.values
+        self.command = f"{self.command} {' '.join(to_delete.keys())}"
+        self.rc, self.stdout, self.stderr = self.module.run_command(self.command, check_rc=False)
+        self.changed = False if self.module.check_mode else "Deleting" in self.stdout
+        self.msg = "Deleted packages."
+        return self
 
-    r.command = f"{r.command} {' '.join(to_delete.keys())}"
-    r.rc, r.stdout, r.stderr = module.run_command(r.command, check_rc=False)
-    r.changed = False if module.check_mode else "Deleting" in r.stdout
-    r.msg = "Deleted packages."
-    return r
+    def info(self) -> dict:
+        """Gather the name and version of all installed packages."""
+        packages: dict = {}
+        stdout: str
 
+        _, stdout, _ = self.module.run_command("/usr/sbin/pkg_info -q", check_rc=False)
+        for pkg in [pkg for pkg in stdout.splitlines() if pkg]:
+            name = re.sub(r"-[0-9].*$", "", pkg)
+            version: str = v.group(1) if (v := re.search(r"-([\d.]+.*$)", pkg)) else ""
+            packages[pkg] = {"name": name, "version": f"{version}"}
 
-def pkg_info(module: AnsibleModule) -> dict:
-    """Gather the name and version of all installed packages."""
-    packages: dict = {}
-    stdout: str
-
-    _, stdout, _ = module.run_command("/usr/sbin/pkg_info -q", check_rc=False)
-    for pkg in [pkg for pkg in stdout.splitlines() if pkg]:
-        name = re.sub(r"-[0-9].*$", "", pkg)
-        version: str = v.group(1) if (v := re.search(r"-([\d.]+.*$)", pkg)) else ""
-        packages[pkg] = {"name": name, "version": f"{version}"}
-
-    return packages
+        return packages
 
 
 def main() -> None:
@@ -340,16 +322,15 @@ def main() -> None:
     state: str = module.params["state"]
 
     # Results
-    result: Result = Result()
+    pkg: Pkg = Pkg(module)
 
     # Determine which action(s) to perform
     if state == "absent":
         if replace_existing:
-            result.msg = f"cannot mix 'delete_unused' with 'state: {state}'"
-            result.rc = 1
+            pkg.msg = f"cannot mix 'delete_unused' with 'state: {state}'"
+            pkg.rc = 1
         else:
-            result = pkg_delete(
-                module,
+            pkg.delete(
                 delete_unused=delete_unused,
                 force=force,
                 name=name,
@@ -357,21 +338,29 @@ def main() -> None:
             )
     elif state in ["latest", "present"]:
         if delete_unused:
-            result.msg = f"cannot mix 'delete_unused' with 'state: {state}'"
-            result.rc = 1
+            pkg.msg = f"cannot mix 'delete_unused' with 'state: {state}'"
+            pkg.rc = 1
         else:
-            result = pkg_add(
-                module,
+            pkg.add(
                 force=force,
                 name=name,
                 replace_existing=replace_existing,
                 state=state,
             )
 
+    result: dict = {
+        "changed": pkg.changed,
+        "command": pkg.command,
+        "msg": pkg.msg,
+        "rc": pkg.rc,
+        "stdout": pkg.stdout,
+        "stderr": pkg.stderr,
+    }
+
     # Handle results
-    if result.rc != 0:
-        module.fail_json(**result.__dict__)
-    module.exit_json(**result.__dict__)
+    if pkg.rc != 0:
+        module.fail_json(**result)
+    module.exit_json(**result)
 
 
 if __name__ == "__main__":
