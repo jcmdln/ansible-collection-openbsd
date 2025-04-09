@@ -90,19 +90,7 @@ if exists "x-spam" {
 		fileinto :create "Junk";
 	}
 } elsif exists "list-id" {
-	if header :contains "list-id" "alpinelinux.org" {
-		if header :contains "list-id" "~alpine/announce" {
-			fileinto :create "alpine-announce";
-		} elsif header :contains "list-id" "~alpine/aports" {
-			fileinto :create "alpine-aports";
-		} elsif header :contains "list-id" "~alpine/devel" {
-			fileinto :create "alpine-devel";
-		}
-	} elsif header :contains "list-id" "freelists.org" {
-		if header :contains "list-id" "bootstrappable" {
-			fileinto :create "bootstrappable";
-		}
-	} elsif header :contains "list-id" "openbsd.org" {
+	if header :contains "list-id" "openbsd.org" {
 		if header :contains "list-id" "advocacy" {
 			fileinto :create "openbsd-advocacy";
 		} elsif header :contains "list-id" "announce" {
