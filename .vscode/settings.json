@@ -35,7 +35,7 @@
   // Extensions
   //
 
-  "ansible.python.interpreterPath": "",
+  "ansible.python.interpreterPath": "python",
 
   "evenBetterToml.formatter.columnWidth": 100,
   "evenBetterToml.formatter.reorderKeys": true,
