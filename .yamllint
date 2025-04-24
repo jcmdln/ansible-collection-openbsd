@@ -7,8 +7,10 @@ rules:
   brackets: enable
   colons: enable
   commas: enable
-  comments: { level: warning }
-  comments-indentation: { level: warning }
+  comments:
+    level: warning
+    min-spaces-from-content: 1
+  comments-indentation: false
   document-end: disable
   document-start: { level: warning }
   empty-lines: enable
@@ -23,7 +25,9 @@ rules:
     max: 100
   new-line-at-end-of-file: enable
   new-lines: enable
-  octal-values: disable
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
   quoted-strings: disable
   trailing-spaces: enable
   truthy:
@@ -31,6 +35,7 @@ rules:
     check-keys: false
 
 yaml-files:
+  - "*.yaml"
   - "*.yml"
   - ".ansible-lint"
   - ".yamllint"

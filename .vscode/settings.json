@@ -8,16 +8,16 @@
 
   "files.associations": {
     ".ansible-lint": "yaml",
-    "**/.github/workflows/galaxy.yml": "yaml",
-    "**/defaults/**/*.yml": "ansible",
-    "**/handlers/**/*.yml": "ansible",
-    "**/inventory/**/*.yml": "ansible",
-    "**/meta/**/*.yml": "ansible",
-    "**/tasks/**/*.yml": "ansible",
-    "**/vars/**/*.yml": "ansible",
+    "**/.github/workflows/galaxy.yaml": "yaml",
+    "**/defaults/**/*.yaml": "ansible",
+    "**/handlers/**/*.yaml": "ansible",
+    "**/inventory/**/*.yaml": "ansible",
+    "**/meta/**/*.yaml": "ansible",
+    "**/tasks/**/*.yaml": "ansible",
+    "**/vars/**/*.yaml": "ansible",
     "**/roles/*/templates/**/*.conf.j2": "jinja-properties",
     "galaxy.yml": "ansible",
-    "site-*.yml": "ansible"
+    "site-*.yaml": "ansible"
   },
   "files.exclude": {
     "**/__pycache__/**": true,

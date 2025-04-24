@@ -49,7 +49,7 @@
     state: directory
     owner: _dkimsign
     group: _dkimsign
-    mode: 0770
+    mode: "0770"
 
 - name: Generate RSA2048 dkim private key
   community.crypto.openssl_privatekey:
@@ -58,7 +58,7 @@
     type: RSA
     owner: _dkimsign
     group: _dkimsign
-    mode: 0600
+    mode: "0600"
 
 - name: Generate RSA2048 dkim public key
   community.crypto.openssl_publickey:
@@ -66,7 +66,7 @@
     privatekey_path: "/etc/mail/dkim/{{ mail_dkim_selector }}.private.key"
     owner: _dkimsign
     group: _dkimsign
-    mode: 0600
+    mode: "0600"
 
 #
 # Dovecot
@@ -83,7 +83,7 @@
     backup: true
     dest: /etc/dovecot/local.conf
     group: wheel
-    mode: 0644
+    mode: "0644"
     owner: root
     src: etc/dovecot/local.conf.j2
 
@@ -143,7 +143,7 @@
     backup: true
     dest: /etc/mail/smtpd.conf
     group: wheel
-    mode: 0644
+    mode: "0644"
     owner: root
     src: etc/mail/smtpd.conf.j2
 

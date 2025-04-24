@@ -8,33 +8,33 @@
 # Include directories
 !.github/
 !.github/workflows/
-!.github/workflows/*.yml
+!.github/workflows/*.yaml
 !.vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
 !inventory/
-!inventory/localhost.yml
+!inventory/localhost.yaml
 !meta/
-!meta/runtime.yml
+!meta/runtime.yaml
 !playbooks/
-!playbooks/*.yml
+!playbooks/*.yaml
 !plugins/
 !plugins/modules/
 !plugins/modules/*.py
 !roles/
 !roles/**/
 !roles/**/*.md
-!roles/**/*.yml
+!roles/**/*.yaml
 !roles/**/templates/**/*.j2
 
 # Include files
 !.ansible-lint
 !.editorconfig
 !.gitignore
-!.prettierrc.yml
+!.prettierrc.yaml
 !.yamllint
 !CHANGELOG.md
-!galaxy.yml
+!galaxy.yaml
 !LICENSE
 !pyproject.toml
 !README.md

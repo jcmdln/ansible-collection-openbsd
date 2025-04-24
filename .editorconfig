@@ -13,7 +13,7 @@ insert_final_newline = true
 max_line_length = 100
 trim_trailing_whitespace = true
 
-[*.{json{,c},yml}{,.j2}]
+[*.{json{,c},y{,a}ml}{,.j2}]
 indent_size = 2
 tab_width = 2
 
