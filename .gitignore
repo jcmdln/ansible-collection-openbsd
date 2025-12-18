@@ -15,7 +15,7 @@
 !inventory/
 !inventory/localhost.yaml
 !meta/
-!meta/runtime.yaml
+!meta/runtime.yml
 !playbooks/
 !playbooks/*.yaml
 !plugins/
