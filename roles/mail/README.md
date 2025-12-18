@@ -54,7 +54,6 @@ The table below outlines which DNS records are required (or suggested):
 | @                     | TXT   | 3600 | v=spf1 mx -all                    |
 | [rfc6376]             |
 | $SELECTOR.\_domainkey | TXT   | 3600 | v=DKIM1;                          |
-|                       |       |      | d=domain.tld;                     |
 |                       |       |      | k=rsa;                            |
 |                       |       |      | p=$RSA_PUBLIC_KEY                 |
 | [rfc7489]             |
@@ -101,6 +100,8 @@ if exists "x-spam" {
 			fileinto :create "openbsd-misc";
 		} elsif header :contains "list-id" "ports" {
 			fileinto :create "openbsd-ports";
+		} elsif header :contains "list-id" "source-changes" {
+			fileinto :create "openbsd-source-changes";
 		} elsif header :contains "list-id" "tech" {
 			fileinto :create "openbsd-tech";
 		}

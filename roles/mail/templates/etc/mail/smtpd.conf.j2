@@ -8,17 +8,15 @@ pki "{{ mail_domain }}" key "/etc/ssl/private/{{ mail_domain }}.key"
 
 filter "rspamd" proc-exec "filter-rspamd"
 
-listen on socket
-listen on lo0
 listen on egress port 25 tls pki "{{ mail_domain }}" auth-optional filter "rspamd"
-listen on egress port 465 smtps pki "{{ mail_domain }}" auth-optional filter "rspamd"
-listen on egress port 587 tls pki "{{ mail_domain }}" auth-optional filter "rspamd"
+listen on egress port 465 smtps pki "{{ mail_domain }}" auth filter "rspamd"
+listen on egress port 587 tls pki "{{ mail_domain }}" auth filter "rspamd"
 
 action "local_mail" maildir "~/Mail" alias <aliases>
 action "dovecot" lmtp "/var/dovecot/lmtp" alias <aliases>
 action "outbound" relay
 
 match from local for local action "local_mail"
-match from local for any action "outbound"
+match from local auth for any action "outbound"
 match from any for domain "{{ mail_domain }}" action "dovecot"
-match auth from any for any action "outbound"
+match from any auth for any action "outbound"

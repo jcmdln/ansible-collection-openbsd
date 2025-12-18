@@ -1,0 +1,15 @@
+enable = true;
+
+domain {
+	{{ mail_domain }} {
+		path = "/etc/mail/dkim/{{ mail_dkim_selector }}.{{ mail_domain }}.key";
+		selector = "{{ mail_dkim_selector }}";
+	}
+}
+
+allow_envfrom_empty = true;
+allow_hdrfrom_mismatch = false;
+allow_hdrfrom_multiple = true;
+allow_username_mismatch = true;
+sign_authenticated = true;
+sign_local = true;

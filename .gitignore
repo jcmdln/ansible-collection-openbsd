@@ -25,7 +25,7 @@
 !roles/**/
 !roles/**/*.md
 !roles/**/*.yaml
-!roles/**/templates/**/*.j2
+!roles/*/templates/**/*.j2
 
 # Include files
 !.ansible-lint
