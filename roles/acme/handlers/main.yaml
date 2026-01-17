@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Restart httpd
+  ansible.builtin.service:
+    name: httpd
+    state: restarted

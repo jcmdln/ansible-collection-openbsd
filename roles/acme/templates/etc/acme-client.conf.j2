@@ -1,0 +1,18 @@
+# {{ template_destpath }}
+# {{ ansible_managed }}
+
+authority letsencrypt {
+	api url "https://acme-v02.api.letsencrypt.org/directory"
+	account key "/etc/acme/letsencrypt-privkey.pem"
+}
+
+domain {{ acme_domain }} {
+	alternative names {
+{% for domain in acme_domain_alternatives %}
+		{{ domain }}
+{% endfor %}
+	}
+	domain key "/etc/ssl/private/{{ acme_domain }}.key"
+	domain full chain certificate "/etc/ssl/{{ acme_domain }}.fullchain.pem"
+	sign with letsencrypt
+}

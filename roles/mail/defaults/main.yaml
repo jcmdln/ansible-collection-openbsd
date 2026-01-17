@@ -16,12 +16,3 @@ mail_packages:
 mail_aliases_root: root
 mail_dkim_selector: domain
 mail_domain: domain.tld
-
-#
-# SSL
-#
-
-mail_csr_common_name: "{{ mail_domain }}"
-mail_csr_country_name: US
-mail_csr_email_address: "postmaster@{{ mail_domain }}"
-mail_csr_organization_name: "{{ mail_dkim_selector }}"

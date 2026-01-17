@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: ISC
+#
+# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
+---
+- name: Configure httpd
+  notify: [Restart httpd]
+  ansible.builtin.template:
+    src: etc/httpd.conf.j2
+    dest: /etc/httpd.conf
+    owner: root
+    group: wheel
+    mode: "0600"
+    backup: true
+
+- name: Configure acme-client
+  ansible.builtin.template:
+    src: etc/acme-client.conf.j2
+    dest: /etc/acme-client.conf
+    owner: root
+    group: wheel
+    mode: "0600"
+    backup: true
+
+- name: Configure /etc/daily.local
+  ansible.builtin.blockinfile:
+    path: /etc/daily.local
+    block: |
+      if acme-client {{ acme_domain }}; then
+          echo "acme-client: certificates renewed for {{ acme_domain }}"
+          rcctl reload httpd smtpd dovecot
+      fi
+    state: present
+    owner: root
+    group: wheel
+    mode: "0600"
+    create: true
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.acme: {{ acme_domain }}"

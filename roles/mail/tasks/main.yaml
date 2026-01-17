@@ -8,64 +8,34 @@
     state: present
 
 #
-# SSL
-#
-
-- name: Create SSL private key for {{ mail_domain }}
-  community.crypto.openssl_privatekey:
-    path: "/etc/ssl/private/{{ mail_domain }}.key"
-    type: RSA
-
-- name: Create Certificate Signing Request (CSR) for {{ mail_domain }}
-  community.crypto.openssl_csr:
-    path: "/etc/ssl/{{ mail_domain }}.csr"
-    privatekey_path: "/etc/ssl/private/{{ mail_domain }}.key"
-    common_name: "{{ mail_csr_common_name }}"
-    country_name: "{{ mail_csr_country_name }}"
-    email_address: "{{ mail_csr_email_address }}"
-    organization_name: "{{ mail_csr_organization_name }}"
-
-- name: Create self-signed certificate for {{ mail_domain }}
-  community.crypto.x509_certificate:
-    path: "/etc/ssl/{{ mail_domain }}.crt"
-    privatekey_path: "/etc/ssl/private/{{ mail_domain }}.key"
-    provider: selfsigned
-    csr_path: "/etc/ssl/{{ mail_domain }}.csr"
-
-#
 # DKIM
 #
-
-- name: Create _dkimsign system user account
-  ansible.builtin.user:
-    name: _dkimsign
-    state: present
-    system: true
-    create_home: false
 
 - name: Create /etc/mail/dkim directory
   ansible.builtin.file:
     path: /etc/mail/dkim
     state: directory
-    owner: _dkimsign
-    group: _dkimsign
-    mode: "0770"
+    owner: _rspamd
+    group: _rspamd
+    mode: "0700"
 
 - name: Generate RSA2048 dkim private key
   community.crypto.openssl_privatekey:
-    path: "/etc/mail/dkim/{{ mail_dkim_selector }}.private.key"
-    size: 2048
+    path: "/etc/mail/dkim/{{ mail_dkim_selector }}.{{ mail_domain }}.key"
+    state: present
     type: RSA
-    owner: _dkimsign
-    group: _dkimsign
+    size: 2048
+    owner: _rspamd
+    group: _rspamd
     mode: "0600"
 
 - name: Generate RSA2048 dkim public key
   community.crypto.openssl_publickey:
-    path: "/etc/mail/dkim/{{ mail_dkim_selector }}.public.key"
-    privatekey_path: "/etc/mail/dkim/{{ mail_dkim_selector }}.private.key"
-    owner: _dkimsign
-    group: _dkimsign
+    path: "/etc/mail/dkim/{{ mail_dkim_selector }}.{{ mail_domain }}.pub"
+    privatekey_path: "/etc/mail/dkim/{{ mail_dkim_selector }}.{{ mail_domain }}.key"
+    state: present
+    owner: _rspamd
+    group: _rspamd
     mode: "0600"
 
 #
@@ -80,12 +50,12 @@
 - name: Configure Dovecot
   notify: Restart dovecot
   ansible.builtin.template:
-    backup: true
+    src: etc/dovecot/local.conf.j2
     dest: /etc/dovecot/local.conf
+    owner: root
     group: wheel
     mode: "0644"
-    owner: root
-    src: etc/dovecot/local.conf.j2
+    backup: true
 
 - name: Comment out ssl_cert from /etc/dovecot/conf.d/10-ssl.conf
   ansible.builtin.replace:
@@ -120,12 +90,12 @@
 
 - name: Enable redis
   ansible.builtin.service:
-    name: rspamd
+    name: redis
     enabled: true
 
 - name: Start redis
   ansible.builtin.service:
-    name: rspamd
+    name: redis
     state: started
 
 #
@@ -140,34 +110,12 @@
 - name: Configure smtpd
   notify: Restart smtpd
   ansible.builtin.template:
-    backup: true
+    src: etc/mail/smtpd.conf.j2
     dest: /etc/mail/smtpd.conf
+    owner: root
     group: wheel
     mode: "0644"
-    owner: root
-    src: etc/mail/smtpd.conf.j2
-
-- name: Define well-known mail aliases for root@
-  when:
-    - mail_aliases_root is defined
-    - mail_aliases_root != "root"
-  ansible.builtin.blockinfile:
-    block: |
-      # Well-known aliases
-      contact: root
-      dumper: root
-      info: root
-      manager: root
-      privacy: root
-      root: {{ mail_aliases_root }}
-
-      # RFC 2142
-      abuse: root
-      hostmaster: root
-      security: root
-      webmaster: root
-    marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.mail"
-    path: "/etc/mail/aliases"
+    backup: true
 
 - name: Start smtpd
   ansible.builtin.service:

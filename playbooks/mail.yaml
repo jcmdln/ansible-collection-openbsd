@@ -9,4 +9,5 @@
   gather_facts: false
 
   roles:
+    - role: jcmdln.openbsd.acme
     - role: jcmdln.openbsd.mail

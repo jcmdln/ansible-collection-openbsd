@@ -5,10 +5,10 @@
   "recommendations": [
     "charliermarsh.ruff",
     "editorconfig.editorconfig",
-    "esbenp.prettier-vscode",
     "ms-python.mypy-type-checker",
     "ms-python.python",
     "ms-python.vscode-pylance",
+    "prettier.prettier-vscode",
     "redhat.ansible",
     "redhat.vscode-yaml",
     "samuelcolvin.jinjahtml",

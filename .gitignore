@@ -25,6 +25,7 @@
 !roles/**/
 !roles/**/*.md
 !roles/**/*.yaml
+!roles/*/files/**
 !roles/*/templates/**/*.j2
 
 # Include files

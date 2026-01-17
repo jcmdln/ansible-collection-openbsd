@@ -7,12 +7,17 @@
     name: dovecot
     state: restarted
 
+- name: Restart redis
+  ansible.builtin.service:
+    name: redis
+    state: restarted
+
+- name: Restart rspamd
+  ansible.builtin.service:
+    name: rspamd
+    state: restarted
+
 - name: Restart smtpd
   ansible.builtin.service:
     name: smtpd
-    state: restarted
-
-- name: Restart spamd
-  ansible.builtin.service:
-    name: spamd
     state: restarted

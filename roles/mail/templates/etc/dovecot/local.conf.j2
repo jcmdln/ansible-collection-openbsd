@@ -10,7 +10,7 @@ mail_max_userip_connections = 100
 postmaster_address = postmaster@{{ mail_domain }}
 protocols = imap lmtp
 ssl = required
-ssl_cert = </etc/ssl/{{ mail_domain }}.crt
+ssl_cert = </etc/ssl/{{ mail_domain }}.fullchain.pem
 ssl_key = </etc/ssl/private/{{ mail_domain }}.key
 ssl_prefer_server_ciphers = yes
 

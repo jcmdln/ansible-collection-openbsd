@@ -1,0 +1,12 @@
+server "{{ acme_domain }}" {
+	listen on * port 80
+
+{% for domain in acme_domain_alternatives %}
+	alias "{{ domain }}"
+{% endfor %}
+
+	location "/.well-known/acme-challenge/*" {
+		root "/acme"
+		request strip 2
+	}
+}
