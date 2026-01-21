@@ -5,6 +5,7 @@ mail_packages:
   - dovecot-pigeonhole--
   - opensmtpd-filter-rspamd
   - py3-cryptography
+  - redis
   - rspamd--hyperscan
 
 #

@@ -17,7 +17,7 @@ system resources as well as a mailbox to get work done.
 
 - Dovecot
   - https://www.dovecot.org
-  - https://www.rspamd.com/
+  - https://www.rspamd.com
 - OpenBSD
   - https://man.openbsd.org/acme-client.1
   - https://man.openbsd.org/openssl.1

@@ -1,3 +1,7 @@
+# SPDX-License-Identifier: ISC
 ---
-acme_domain: domain.tld
-acme_domain_alternatives: domain.tld
+# acme_domains:
+#   - domain: domain.tld
+#     alternatives:
+#       - www.domain.tld
+acme_domains: []

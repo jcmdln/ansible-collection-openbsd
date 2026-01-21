@@ -1,8 +1,9 @@
-server "{{ acme_domain }}" {
+{% for item in acme_domains %}
+server "{{ item.domain }}" {
 	listen on * port 80
 
-{% for domain in acme_domain_alternatives %}
-	alias "{{ domain }}"
+{% for alternative in item.alternatives %}
+	alias "{{ alternative }}"
 {% endfor %}
 
 	location "/.well-known/acme-challenge/*" {
@@ -10,3 +11,5 @@ server "{{ acme_domain }}" {
 		request strip 2
 	}
 }
+
+{% endfor %}

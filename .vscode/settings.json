@@ -34,6 +34,7 @@
   //
 
   "ansible.python.interpreterPath": "/bin/python",
+  "ansible.lightspeed.enabled": false,
 
   "evenBetterToml.formatter.columnWidth": 100,
   "evenBetterToml.formatter.reorderKeys": true,

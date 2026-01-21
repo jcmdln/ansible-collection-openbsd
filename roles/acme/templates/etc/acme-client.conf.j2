@@ -6,13 +6,16 @@ authority letsencrypt {
 	account key "/etc/acme/letsencrypt-privkey.pem"
 }
 
-domain {{ acme_domain }} {
+{% for item in acme_domains %}
+domain {{ item.domain }} {
 	alternative names {
-{% for domain in acme_domain_alternatives %}
-		{{ domain }}
+{% for alternative in item.alternatives %}
+		{{ alternative }}
 {% endfor %}
 	}
-	domain key "/etc/ssl/private/{{ acme_domain }}.key"
-	domain full chain certificate "/etc/ssl/{{ acme_domain }}.fullchain.pem"
+	domain key "/etc/ssl/private/{{ item.domain }}.key"
+	domain full chain certificate "/etc/ssl/{{ item.domain }}.fullchain.pem"
 	sign with letsencrypt
 }
+
+{% endfor%}

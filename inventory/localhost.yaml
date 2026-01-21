@@ -9,3 +9,13 @@ all:
 
 mail:
   hosts:
+    domain.tld:
+      acme_domains:
+        - domain: domain.tld
+          alternatives:
+            - imap.domain.tld
+            - smtp.domain.tld
+            - www.domain.tld
+      mail_aliases_root: root
+      mail_dkim_selector: domain
+      mail_domain: domain.tld

@@ -23,13 +23,16 @@
   ansible.builtin.blockinfile:
     path: /etc/daily.local
     block: |
-      if acme-client {{ acme_domain }}; then
-          echo "acme-client: certificates renewed for {{ acme_domain }}"
+      {% for item in acme_domains %}
+      if acme-client {{ item.domain }}; then
+          echo "acme-client: certificates renewed for {{ item.domain }}"
           rcctl reload httpd smtpd dovecot
       fi
+
+      {% endfor %}
     state: present
     owner: root
     group: wheel
     mode: "0600"
     create: true
-    marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.acme: {{ acme_domain }}"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: jcmdln.openbsd.acme"

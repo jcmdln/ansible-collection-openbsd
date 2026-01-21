@@ -76,24 +76,38 @@
 # Rspamd
 #
 
-- name: Enable rspamd
-  ansible.builtin.service:
-    name: rspamd
-    enabled: true
-
-- name: Start rspamd
-  ansible.builtin.service:
-    name: rspamd
-    state: started
-
 - name: Enable redis
   ansible.builtin.service:
     name: redis
     enabled: true
 
-- name: Start redis
+- name: Enable rspamd
+  ansible.builtin.service:
+    name: rspamd
+    enabled: true
+
+- name: Configure rspamd dkim_signing.conf
+  notify: Restart rspamd
+  loop:
+    - dkim_signing.conf
+    - dns.conf
+    - redis.conf
+  ansible.builtin.template:
+    src: etc/rspamd/local.d/{{ item }}.j2
+    dest: /etc/rspamd/local.d/{{ item }}
+    owner: root
+    group: wheel
+    mode: "0644"
+    backup: true
+
+- name: Start rspamd
   ansible.builtin.service:
     name: redis
+    state: started
+
+- name: Start rspamd
+  ansible.builtin.service:
+    name: rspamd
     state: started
 
 #
@@ -110,6 +124,18 @@
   ansible.builtin.template:
     src: etc/mail/smtpd.conf.j2
     dest: /etc/mail/smtpd.conf
+    owner: root
+    group: wheel
+    mode: "0644"
+    backup: true
+
+- name: Define well-known mail aliases for root@
+  when:
+    - mail_aliases_root is defined
+    - mail_aliases_root != "root"
+  ansible.builtin.template:
+    src: etc/mail/aliases.j2
+    dest: /etc/mail/aliases
     owner: root
     group: wheel
     mode: "0644"
