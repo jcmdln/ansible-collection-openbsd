@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: ISC
 #
-# Copyright (c) 2023 Johnathan C. Maudlin <jcmdln@gmail.com>
+# Copyright (c) 2023 Johnathan Craig Maudlin <john@maudlin.dev>
 
 
 from __future__ import absolute_import, annotations, division, print_function
@@ -17,7 +17,7 @@ module: pkg
 short_description: "Manage packages using pkg_* suite"
 version_added: "1.2.0"
 
-author: Johnathan Craig Maudlin (@jcmdln) <jcmdln@gmail.com>
+author: Johnathan Craig Maudlin (@jcmdln) <john@maudlin.dev>
 description:
     - Manage packages using pkg_* suite
 

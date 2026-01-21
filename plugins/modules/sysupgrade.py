@@ -1,6 +1,4 @@
 # SPDX-License-Identifier: ISC
-#
-# Copyright (c) 2024 Johnathan C. Maudlin <jcmdln@gmail.com>
 
 from __future__ import absolute_import, annotations, division, print_function
 
@@ -14,7 +12,7 @@ module: sysupgrade
 short_description: Update to the next release or snapshot with sysupgrade
 version_added: "1.2.0"
 
-author: Johnathan Craig Maudlin (@jcmdln) <jcmdln@gmail.com>
+author: Johnathan Craig Maudlin (@jcmdln) <john@maudlin.dev>
 description: []
 
 options:
